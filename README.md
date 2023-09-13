@@ -1,16 +1,12 @@
-# stock_market_app
+# Stocket
 
-A new Flutter project.
+This projet is called Stocket and it is a stock market mobile application.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To run the project on your device
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Make sure your phone is plugged in onto your computer and that both Flutter and Dark sdk are on your computer
+- Run `flutter devices` and make sure that the device you will use to play the app is listed
+- Position yourself at the root of the project and run `flutter run` to launch the project (add ` --release`to the
+  command if you want the app to stay on your phone)
