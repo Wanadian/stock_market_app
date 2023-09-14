@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/screens/wallet.dart';
 
-class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  State<SplashPage> createState() => _Splash();
+  State<SplashScreen> createState() => _Splash();
 }
 
-class _Splash extends State<SplashPage> {
+class _Splash extends State<SplashScreen> {
   _Splash() {
     pageSwapping();
   }

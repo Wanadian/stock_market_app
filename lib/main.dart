@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Stocket',
       debugShowCheckedModeBanner: false,
-      home: const SplashPage(),
+      home: const SplashScreen(),
     );
   }
 }
