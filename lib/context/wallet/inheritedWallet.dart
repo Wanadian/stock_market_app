@@ -4,7 +4,7 @@ import 'package:stock_market_app/screens/wallet.dart';
 class InheritedWallet extends InheritedWidget {
   final Wallet wallet;
   final Widget child;
-  // Exemple de méthode appelant Wallet
+  // TODO : Exemple de méthode appelant Wallet
   final VoidCallback saveWalletAmount;
 
   InheritedWallet({required this.wallet, required this.child, required this.saveWalletAmount})
