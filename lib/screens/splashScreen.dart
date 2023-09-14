@@ -35,7 +35,7 @@ class _Splash extends State<SplashScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Socket',
+              'Stocket',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
