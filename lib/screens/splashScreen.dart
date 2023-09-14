@@ -10,10 +10,10 @@ class SplashScreen extends StatefulWidget {
 
 class _Splash extends State<SplashScreen> {
   _Splash() {
-    pageSwapping();
+    screenChange();
   }
 
-  void pageSwapping() async {
+  void screenChange() async {
     await Future.delayed(const Duration(seconds: 3));
     Navigator.pushReplacement<void, void>(
       context,
