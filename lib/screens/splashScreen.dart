@@ -25,6 +25,9 @@ class _Splash extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -41,9 +44,9 @@ class _Splash extends State<SplashScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 15),
+              margin: EdgeInsets.only(top: screenHeight / 15),
               child: Image.asset('assets/stocket-logo.png',
-                  width: MediaQuery.of(context).size.width / 3.5),
+                  width: screenWidth / 3.5),
             ),
           ],
         ),
