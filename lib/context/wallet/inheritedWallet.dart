@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stock_market_app/screens/wallet.dart';
+import 'package:stock_market_app/classes/wallet.dart';
 
 class InheritedWallet extends InheritedWidget {
   final Wallet wallet;

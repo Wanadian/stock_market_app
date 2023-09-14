@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:stock_market_app/context/inheritedWallet.dart';
-import 'package:stock_market_app/screens/wallet.dart';
+import 'package:stock_market_app/context/wallet/inheritedWallet.dart';
+import 'package:stock_market_app/classes/wallet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 class RootWallet extends StatefulWidget {
   @override
@@ -26,7 +26,7 @@ class _RootWidgetState extends State<RootWallet> {
     setState(() {});
   }
 
-  // Exemple
+  // TODO : Exemple
   void saveWalletAmount() {
     prefs.setDouble('walletAmount', 28);
   }
