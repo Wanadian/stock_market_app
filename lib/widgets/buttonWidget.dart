@@ -1,30 +1,41 @@
 import 'package:flutter/material.dart';
 
 class ButtonWidget extends StatelessWidget {
-  String? label;
-  IconData? icon;
-  Function() onPressed;
-  double height;
-  double width;
-  Alignment alignment;
+  String? _label;
+  IconData? _icon;
+  Function() _onPressed;
+  double _height;
+  double _width;
+  Alignment _alignment;
 
   ButtonWidget.textButton(
-      {this.alignment = Alignment.center,
-      required this.label,
-      required this.onPressed,
-      required this.height,
-      required this.width});
+      {Alignment alignment = Alignment.center,
+      required String? label,
+      required dynamic Function() onPressed,
+      required double height,
+      required double width})
+      : _alignment = alignment,
+        _width = width,
+        _height = height,
+        _onPressed = onPressed,
+        _label = label;
 
   ButtonWidget.iconButton(
-      {this.alignment = Alignment.center,
-      required this.icon,
-      required this.onPressed,
-      required this.height,
-      required this.width});
+      {Alignment alignment = Alignment.center,
+      required IconData? icon,
+      required dynamic Function() onPressed,
+      required double height,
+      required double width})
+      : _alignment = alignment,
+        _width = width,
+        _height = height,
+        _onPressed = onPressed,
+        _icon = icon;
 
   @override
   Widget build(BuildContext context) {
-    if ((icon == null && label == null) || (icon != null && label != null)) {
+    if ((_icon == null && _label == null) ||
+        (_icon != null && _label != null)) {
       return Builder(builder: (BuildContext context) {
         throw Exception(
             "Error: 'icon' and 'label' can not be null at the same time, nor can they both contain a value that is not null");
@@ -32,7 +43,7 @@ class ButtonWidget extends StatelessWidget {
     }
 
     return Align(
-        alignment: alignment,
+        alignment: _alignment,
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
@@ -40,8 +51,8 @@ class ButtonWidget extends StatelessWidget {
                 backgroundColor: Colors.grey.shade600,
                 foregroundColor: Colors.white,
                 minimumSize: Size(0, 0),
-                fixedSize: Size(width, height)),
-            onPressed: () => onPressed,
-            child: icon != null ? Icon(icon) : Text(label!)));
+                fixedSize: Size(_width, _height)),
+            onPressed: () => _onPressed,
+            child: _icon != null ? Icon(_icon) : Text(_label!)));
   }
 }
