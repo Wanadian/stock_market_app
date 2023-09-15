@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
@@ -21,16 +20,10 @@ class ShareBannerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (false) {
-      return Builder(builder: (BuildContext context) {
-        throw Exception(
-            "Error: 'icon' and 'label' can not be null at the same time, nor can they both contain a value that is not null");
-      });
-    }
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    //TODO : determine the variation of the share's value byt comparing the value the day before to the actual date
     double shareValueVariation = 0;
 
     return Align(
