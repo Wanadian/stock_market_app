@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market_app/widgets/shareBannerWidget.dart';
 
 class Wallet extends StatefulWidget {
   const Wallet({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class _WalletState extends State<Wallet> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return Container();
+    return Container(
+      child: ShareBannerWidget(shareName: 'Share name test', onPressed: () {},),
+    );
   }
 }
