@@ -1,5 +1,5 @@
 name: stock_market_app
-description: p
+description: This project is called Stocket and it is a stock market mobile application.
 publish_to: 'none'
 version: 0.0.0
 environment:
