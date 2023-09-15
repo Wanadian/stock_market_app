@@ -48,8 +48,8 @@ class ButtonWidget extends StatelessWidget {
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 shadowColor: Colors.black,
-                backgroundColor: Colors.grey.shade600,
-                foregroundColor: Colors.white,
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
                 minimumSize: Size(0, 0),
                 fixedSize: Size(_width, _height)),
             onPressed: () => _onPressed,
