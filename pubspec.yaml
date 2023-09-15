@@ -1,5 +1,5 @@
 name: stock_market_app
-description: This projet is called Stocket and it is a stock market mobile application.
+description: This project is called Stocket and it is a stock market mobile application.
 publish_to: 'none'
 version: 0.0.0
 environment:
@@ -12,7 +12,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.9.2
+  flutter_launcher_icons: ^0.13.1
 flutter_icons:
   android: true
   ios: true
