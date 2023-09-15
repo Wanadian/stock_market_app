@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class ShareBannerWidget extends StatelessWidget {
-  String? _shareName;
+  double _shareValue;
+  String _shareName;
   Function() _onPressed;
 
   ShareBannerWidget({
-    Alignment alignment = Alignment.center,
-    required String? shareName,
+    required double shareValue,
+    required String shareName,
     required dynamic Function() onPressed,
-  })  : _onPressed = onPressed,
-        _shareName = shareName;
+  })  : _shareValue = shareValue,
+        _shareName = shareName,
+        _onPressed = onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +27,8 @@ class ShareBannerWidget extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
+    double shareValueVariation = 0;
 
     return Align(
         alignment: Alignment.center,
@@ -40,16 +47,49 @@ class ShareBannerWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: Row(children: [
-              Text(
-                _shareName!,
-                style: TextStyle(color: Colors.black, fontSize: 10),
-              ),
-              Container(width: screenWidth * 0.05),
-              TextButton(
-                  onPressed: _onPressed,
-                  child: Text('test')
-              )
-            ])));
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(children: [
+                    Container(width: 10),
+                    DefaultTextStyle(
+                        style: TextStyle(color: Colors.black, fontSize: 13),
+                        child: Text(_shareName))
+                  ]),
+                  Row(children: [
+                    TextButton(
+                        onPressed: _onPressed,
+                        child: Row(children: [
+                          shareValueVariation < 0
+                              ? Transform.rotate(
+                                  angle: 1.57,
+                                  child: Icon(
+                                    Icons.call_made,
+                                    color: Colors.red,
+                                  ))
+                              : Transform.rotate(
+                                  angle: 0,
+                                  child: Icon(
+                                    Icons.call_made,
+                                    color: Colors.green,
+                                  )),
+                          DefaultTextStyle(
+                              style: TextStyle(
+                                  color: shareValueVariation < 0
+                                      ? Colors.red
+                                      : Colors.green,
+                                  fontSize: 14),
+                              child: Text(
+                                  shareValueVariation.abs().toString() + '\%'))
+                        ])),
+                    DefaultTextStyle(
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14),
+                        child: Text('$_shareValue \$')),
+                    ButtonWidget.iconButton(icon: Icons.remove, onPressed: (){}, height: 25, width: 25),
+                    Container(width: 5)
+                  ])
+                ])));
   }
 }

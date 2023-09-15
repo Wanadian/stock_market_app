@@ -14,8 +14,11 @@ class _WalletState extends State<Wallet> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return Container(
-      child: ShareBannerWidget(shareName: 'Share name test', onPressed: () {},),
+    return Scaffold(
+      backgroundColor: Colors.grey.shade900,
+      body:  Container(
+        child: ShareBannerWidget(shareValue: 20,shareName: 'Axa IT department', onPressed: () {},),
+      ),
     );
   }
 }
