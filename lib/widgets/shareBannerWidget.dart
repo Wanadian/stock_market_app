@@ -7,14 +7,17 @@ class ShareBannerWidget extends StatelessWidget {
   double _shareValue;
   String _shareName;
   Function() _onPressed;
+  IconData _icon;
 
-  ShareBannerWidget({
-    required double shareValue,
-    required String shareName,
-    required dynamic Function() onPressed,
-  })  : _shareValue = shareValue,
+  ShareBannerWidget(
+      {required double shareValue,
+      required String shareName,
+      required dynamic Function() onPressed,
+      required IconData icon})
+      : _shareValue = shareValue,
         _shareName = shareName,
-        _onPressed = onPressed;
+        _onPressed = onPressed,
+        _icon = icon;
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +86,13 @@ class ShareBannerWidget extends StatelessWidget {
                                   shareValueVariation.abs().toString() + '\%'))
                         ])),
                     DefaultTextStyle(
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14),
+                        style: TextStyle(color: Colors.black, fontSize: 14),
                         child: Text('$_shareValue \$')),
-                    ButtonWidget.iconButton(icon: Icons.remove, onPressed: (){}, height: 25, width: 25),
+                    ButtonWidget.iconButton(
+                        icon: _icon,
+                        onPressed: () {},
+                        height: 25,
+                        width: 25),
                     Container(width: 5)
                   ])
                 ])));
