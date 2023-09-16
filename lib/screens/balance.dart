@@ -1,20 +1,21 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 
-class Wallet extends StatefulWidget {
-  const Wallet({Key? key}) : super(key: key);
+class Balance extends StatefulWidget {
+  const Balance({Key? key}) : super(key: key);
 
   @override
-  State<Wallet> createState() => _WalletState();
+  State<Balance> createState() => _BalanceState();
 }
 
-class _WalletState extends State<Wallet> {
-  bool _isWalletOpen = false;
+class _BalanceState extends State<Balance> {
+  bool _isSafeOpen = false;
   double _balance = 0;
+  double _gapHeight = 0;
 
-  void setIsWalletOpenToOpposite(bool isWalletOpen) {
+  void setIsSafeOpenToOpposite(bool isSafeOpen) {
     setState(() {
-      _isWalletOpen = !isWalletOpen;
+      _isSafeOpen = !isSafeOpen;
     });
   }
 
@@ -24,22 +25,28 @@ class _WalletState extends State<Wallet> {
     });
   }
 
+  void setGapHeight(double screenHeight) {
+    setState(() {
+      _isSafeOpen ? _gapHeight = 0 : _gapHeight = screenHeight * 0.1;
+    });
+  }
+
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     //TODO : create a shared balance that is accessible throughout the app and that is saved when the app is closed
-    double currentBalance = 156354267698.568;
+   _balance = 156354267698.568;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade700,
       body: Column(
         children: [
-          if (_isWalletOpen) ...[
+          if (_isSafeOpen) ...[
             Container(height: screenHeight * 0.3),
             AnimatedDigitWidget(
               duration: Duration(seconds: 1),
-              value: currentBalance,
+              value: _balance,
               enableSeparator: true,
               fractionDigits: 1,
               suffix: ' \$',
@@ -48,22 +55,23 @@ class _WalletState extends State<Wallet> {
                   fontWeight: FontWeight.bold,
                   fontSize: 23),
             ),
-            AnimatedContainer(
-              height: screenHeight * 0.1,
-              duration: Duration(seconds: 1),
-            )
           ] else ...[
             Container(height: screenHeight * 0.3)
           ],
+          AnimatedContainer(
+            height: _gapHeight,
+            duration: Duration(milliseconds: 500),
+          ),
           IconButton(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            icon: _isWalletOpen
-                ? Image.asset('assets/wallet-open.png')
-                : Image.asset('assets/wallet-closed.png'),
+            icon: _isSafeOpen
+                ? Image.asset('assets/open_safe.png', width: screenWidth * 0.6)
+                : Image.asset('assets/closed_safe.png', width: screenWidth * 0.5),
             iconSize: 300,
             onPressed: () {
-              setIsWalletOpenToOpposite(_isWalletOpen);
+              setGapHeight(screenHeight);
+              setIsSafeOpenToOpposite(_isSafeOpen);
             },
           )
         ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stock_market_app/screens/wallet.dart';
+import 'package:stock_market_app/screens/balance.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class _Splash extends State<SplashScreen> {
     Navigator.pushReplacement<void, void>(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const Wallet(),
+        builder: (BuildContext context) => const Balance(),
       ),
     );
   }
