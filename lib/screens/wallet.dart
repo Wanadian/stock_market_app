@@ -38,6 +38,7 @@ class _WalletState extends State<Wallet> {
           if (_isWalletOpen) ...[
             Container(height: screenHeight * 0.3),
             AnimatedDigitWidget(
+              duration: Duration(seconds: 1),
               value: currentBalance,
               enableSeparator: true,
               fractionDigits: 1,
@@ -47,9 +48,12 @@ class _WalletState extends State<Wallet> {
                   fontWeight: FontWeight.bold,
                   fontSize: 23),
             ),
-            Container(height: screenHeight * 0.1)
+            AnimatedContainer(
+              height: screenHeight * 0.1,
+              duration: Duration(seconds: 1),
+            )
           ] else ...[
-            Container(height: screenHeight * 0.33)
+            Container(height: screenHeight * 0.3)
           ],
           IconButton(
             splashColor: Colors.transparent,
