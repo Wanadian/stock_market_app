@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Stocket',
+      theme: ThemeData(scaffoldBackgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
     );
