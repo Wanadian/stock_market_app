@@ -18,7 +18,7 @@ class _Splash extends State<SplashScreen> {
     Navigator.pushReplacement<void, void>(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const Balance(),
+        builder: (BuildContext context) => Balance(),
       ),
     );
   }

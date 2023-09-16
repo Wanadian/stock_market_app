@@ -1,5 +1,6 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
+import 'package:stock_market_app/screens/sharesPurchased.dart';
 
 class Balance extends StatefulWidget {
   const Balance({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _BalanceState extends State<Balance> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     //TODO : create a shared balance that is accessible throughout the app and that is saved when the app is closed
-   _balance = 156354267698.568;
+    _balance = 156354267698.568;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade700,
@@ -67,7 +68,8 @@ class _BalanceState extends State<Balance> {
             highlightColor: Colors.transparent,
             icon: _isSafeOpen
                 ? Image.asset('assets/open_safe.png', width: screenWidth * 0.6)
-                : Image.asset('assets/closed_safe.png', width: screenWidth * 0.5),
+                : Image.asset('assets/closed_safe.png',
+                    width: screenWidth * 0.5),
             iconSize: 300,
             onPressed: () {
               setGapHeight(screenHeight);
@@ -75,6 +77,17 @@ class _BalanceState extends State<Balance> {
             },
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        label: Text('Stock market'),
+        icon: Icon(Icons.data_exploration_outlined),
+        onPressed: () {
+          setState(() {
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>SharesPurchased()));
+          });
+        },
       ),
     );
   }
