@@ -1,6 +1,8 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_market_app/screens/sharesPurchased.dart';
+import 'package:stock_market_app/screens/modifyBalance.dart';
+import 'package:stock_market_app/screens/purchasedShares.dart';
+import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class Balance extends StatefulWidget {
   const Balance({Key? key}) : super(key: key);
@@ -26,9 +28,9 @@ class _BalanceState extends State<Balance> {
     });
   }
 
-  void setGapHeight(double screenHeight) {
+  void setGapHeight(double gapHeight) {
     setState(() {
-      _isSafeOpen ? _gapHeight = 0 : _gapHeight = screenHeight * 0.1;
+      _isSafeOpen ? _gapHeight = 0 : _gapHeight = gapHeight;
     });
   }
 
@@ -40,11 +42,10 @@ class _BalanceState extends State<Balance> {
     _balance = 156354267698.568;
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade700,
       body: Column(
         children: [
           if (_isSafeOpen) ...[
-            Container(height: screenHeight * 0.3),
+            Container(height: screenHeight * 0.25),
             AnimatedDigitWidget(
               duration: Duration(seconds: 1),
               value: _balance,
@@ -56,6 +57,15 @@ class _BalanceState extends State<Balance> {
                   fontWeight: FontWeight.bold,
                   fontSize: 23),
             ),
+            Container(height: screenHeight * 0.02),
+            ButtonWidget.iconButton(
+                icon: Icons.add,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ModifyBalance()));
+                },
+                height: screenHeight * 0.04,
+                width: screenWidth * 0.15)
           ] else ...[
             Container(height: screenHeight * 0.3)
           ],
@@ -67,12 +77,13 @@ class _BalanceState extends State<Balance> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             icon: _isSafeOpen
+                //TODO: find new images
                 ? Image.asset('assets/open_safe.png', width: screenWidth * 0.6)
                 : Image.asset('assets/closed_safe.png',
                     width: screenWidth * 0.5),
             iconSize: 300,
             onPressed: () {
-              setGapHeight(screenHeight);
+              setGapHeight(screenHeight * 0.03);
               setIsSafeOpenToOpposite(_isSafeOpen);
             },
           )
@@ -84,9 +95,8 @@ class _BalanceState extends State<Balance> {
         label: Text('Stock market'),
         icon: Icon(Icons.data_exploration_outlined),
         onPressed: () {
-          setState(() {
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>SharesPurchased()));
-          });
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PurchasedShares()));
         },
       ),
     );

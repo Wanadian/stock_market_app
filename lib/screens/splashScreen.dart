@@ -51,7 +51,6 @@ class _Splash extends State<SplashScreen> {
           ],
         ),
       ),
-      backgroundColor: Colors.grey.shade800,
     );
   }
 }
