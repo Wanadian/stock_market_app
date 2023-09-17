@@ -52,7 +52,7 @@ class ButtonWidget extends StatelessWidget {
                 foregroundColor: Colors.black,
                 minimumSize: Size(0, 0),
                 fixedSize: Size(_width, _height)),
-            onPressed: () => _onPressed,
+            onPressed: _onPressed,
             child: _icon != null ? Icon(_icon) : Text(_label!)));
   }
 }
