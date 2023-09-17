@@ -18,6 +18,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
       floatingActionButton: FloatingActionButton.extended(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
+        // TODO : rename button when image is found
         label: Text('Return to my safe'),
         icon: Icon(Icons.attach_money),
         onPressed: () {
