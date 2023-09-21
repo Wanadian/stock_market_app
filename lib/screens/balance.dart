@@ -1,7 +1,7 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/screens/modifyBalance.dart';
-import 'package:stock_market_app/screens/purchasedShares.dart';
+import 'package:stock_market_app/screens/stock-market/stockMarketAppBar.dart';
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class Balance extends StatefulWidget {
@@ -39,7 +39,7 @@ class _BalanceState extends State<Balance> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     //TODO : create a shared balance that is accessible throughout the app and that is saved when the app is closed
-    _balance = 156354267698.568;
+    _balance = 1000000000000.9;
 
     return Scaffold(
       body: Column(
@@ -93,10 +93,10 @@ class _BalanceState extends State<Balance> {
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
         label: Text('Stock market'),
-        icon: Icon(Icons.data_exploration_outlined),
+        icon: Icon(Icons.attach_money),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PurchasedShares()));
+              MaterialPageRoute(builder: (context) => StockMarketAppBar(balance: _balance)));
         },
       ),
     );
