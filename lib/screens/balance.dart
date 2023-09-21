@@ -39,7 +39,7 @@ class _BalanceState extends State<Balance> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     //TODO : create a shared balance that is accessible throughout the app and that is saved when the app is closed
-    _balance = 156354267698.568;
+    _balance = 1000000000000.9;
 
     return Scaffold(
       body: Column(

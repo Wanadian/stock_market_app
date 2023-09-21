@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stock_market_app/context/rootWidget.dart';
 import 'package:stock_market_app/screens/splashScreen.dart';
 
@@ -11,6 +12,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'Stocket',
       theme: ThemeData(scaffoldBackgroundColor: Colors.grey.shade800),

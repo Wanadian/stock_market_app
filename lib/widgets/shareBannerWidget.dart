@@ -4,16 +4,19 @@ import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class ShareBannerWidget extends StatelessWidget {
   double _shareValue;
+  int? _numberOfShares;
   String _shareName;
   Function() _onPressed;
   IconData _icon;
 
   ShareBannerWidget(
       {required double shareValue,
+      int? numberOfShares,
       required String shareName,
       required dynamic Function() onPressed,
       required IconData icon})
       : _shareValue = shareValue,
+        _numberOfShares = numberOfShares,
         _shareName = shareName,
         _onPressed = onPressed,
         _icon = icon;
@@ -48,11 +51,26 @@ class ShareBannerWidget extends StatelessWidget {
                 children: [
                   Row(children: [
                     Container(width: 10),
-                    DefaultTextStyle(
-                        style: TextStyle(color: Colors.black, fontSize: 13),
-                        child: Text(_shareName))
+                    Container(
+                        constraints: BoxConstraints(
+                            minWidth: 0, maxWidth: screenWidth * 0.3),
+                        child: DefaultTextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: Colors.black, fontSize: 13),
+                            child: Text(_shareName))),
                   ]),
                   Row(children: [
+                    if (_numberOfShares != null) ...{
+                      Container(
+                          constraints: BoxConstraints(
+                              minWidth: 0, maxWidth: screenWidth * 0.05),
+                          child: DefaultTextStyle(
+                              overflow: TextOverflow.fade,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 13),
+                              child: Text('x' + _numberOfShares.toString())))
+                    },
+                    Container(width: 10),
                     TextButton(
                         onPressed: _onPressed,
                         child: Row(children: [
@@ -82,10 +100,7 @@ class ShareBannerWidget extends StatelessWidget {
                         style: TextStyle(color: Colors.black, fontSize: 14),
                         child: Text('$_shareValue \$')),
                     ButtonWidget.iconButton(
-                        icon: _icon,
-                        onPressed: () {},
-                        height: 25,
-                        width: 25),
+                        icon: _icon, onPressed: () {}, height: 25, width: 25),
                     Container(width: 5)
                   ])
                 ])));
