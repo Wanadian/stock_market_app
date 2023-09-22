@@ -26,7 +26,7 @@ class ShareBannerWidget extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    //TODO : determine the variation of the share's value byt comparing the value the day before to the actual date
+    //TODO : determine the variation of the share's value by comparing the value the day before to the current one
     double shareValueVariation = 0;
 
     return Align(

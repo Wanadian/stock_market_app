@@ -13,6 +13,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    // TODO : this should be replaced by a backend call
     List<Share> shares = [
       Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
       Share(shareValue: 20.0, numberOfShares: 2, shareName: 'Name'),
