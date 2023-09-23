@@ -1,8 +1,8 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/screens/balance.dart';
-import 'package:stock_market_app/screens/stock-market/screens/purchasedShares.dart';
-import 'package:stock_market_app/screens/stock-market/screens/stockMarket.dart';
+import 'package:stock_market_app/screens/stock-market/tabs/purchasedShares.dart';
+import 'package:stock_market_app/screens/stock-market/tabs/stockMarket.dart';
 
 class StockMarketAppBar extends StatefulWidget {
   double _balance;
