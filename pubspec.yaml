@@ -15,6 +15,7 @@ dependencies:
   firebase_auth: 4.10.0
   cloud_firestore: ^4.9.2
   intl: ^0.17.0
+  keyboard_dismisser: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
