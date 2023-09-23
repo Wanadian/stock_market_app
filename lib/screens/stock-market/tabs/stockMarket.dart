@@ -50,7 +50,7 @@ class _StockMarketState extends State<StockMarket> {
               shareValue: share.getShareValue(),
               shareName: share.getShareName(),
               onPressed: () {},
-              icon: Icons.remove)
+              icon: Icons.add)
         ],
         Container(height: screenHeight * 0.05),
       ],
