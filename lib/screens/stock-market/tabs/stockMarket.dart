@@ -48,6 +48,7 @@ class _StockMarketState extends State<StockMarket> {
           Container(height: screenHeight * 0.01),
           ShareBannerWidget(
               shareValue: share.getShareValue(),
+              numberOfShares: share.getNumberOfShare(),
               shareName: share.getShareName(),
               onPressed: () {},
               icon: Icons.add)

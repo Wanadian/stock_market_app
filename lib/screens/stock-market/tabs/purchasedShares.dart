@@ -21,7 +21,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
           shareValue: 30.0,
           numberOfShares: 3,
           shareName: 'Long Name to try a long name just to try'),
-      Share(shareValue: 20.0, numberOfShares: 2, shareName: 'Name'),
+      Share(shareValue: 20.0, numberOfShares: 9999999, shareName: 'Name'),
       Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
       Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
       Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),

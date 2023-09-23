@@ -63,12 +63,12 @@ class ShareBannerWidget extends StatelessWidget {
                     if (_numberOfShares != null) ...{
                       Container(
                           constraints: BoxConstraints(
-                              minWidth: 0, maxWidth: screenWidth * 0.05),
+                              minWidth: 0, maxWidth: screenWidth * 0.1),
                           child: DefaultTextStyle(
-                              overflow: TextOverflow.fade,
+                              overflow: TextOverflow.ellipsis,
                               style:
                                   TextStyle(color: Colors.black, fontSize: 13),
-                              child: Text('x' + _numberOfShares.toString())))
+                              child: Text('x ' + _numberOfShares.toString())))
                     },
                     Container(width: 10),
                     TextButton(
