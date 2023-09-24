@@ -1,44 +1,26 @@
-import 'dart:convert';
+import 'package:stock_market_app/repositories/symbolRepository.dart';
 
-import 'package:flutter/services.dart';
-
+// This class allows us to call the repository and avoid direct calls to the database
 class SymbolService {
-  Map<String, String> _symbolMap = {};
-
-  // Lets us read data form Json File
-  Future<List<dynamic>> _loadJsonData(String filePath) async {
-    String jsonString = await rootBundle.loadString(filePath);
-    dynamic jsonData = await json.decode(jsonString);
-    return jsonData;
-  }
-
-  // Initialises the map with the company names and their symbol
-  void init() async {
-    String filePath = 'lib/data/symbols.json';
-    dynamic dataList = await _loadJsonData(filePath);
-
-    for (var item in dataList) {
-      _symbolMap.putIfAbsent(item['symbol'], () => item['companyName']);
-    }
-  }
+  SymbolRepository symbolRepository = SymbolRepository();
 
   // Returns all the symbols
-  List<String> getAllSymbols() {
-    return _symbolMap.keys.toList();
+  Future<List<String>> getAllSymbols() async {
+    return await symbolRepository.getSymbols();
   }
 
   // Returns all the companies
-  List<String> getAllCompanyNames() {
-    return _symbolMap.values.toList();
+  Future<List<String>> getAllCompanyNames() async {
+    return await symbolRepository.getCompanyNames();
   }
 
   // Returns the symbol of a company
-  String? getSymbol(String companyName) {
-    return _symbolMap.keys.firstWhere((key) => _symbolMap[key] == companyName);
+  Future<String>? getSymbolByCompanyName(String companyName) async {
+    return await symbolRepository.getSymbolByCompanyName(companyName);
   }
 
-  // Retruns the campany name of a symbol
-  String? getCompanyName(String symbol) {
-    return _symbolMap[symbol];
+  // Returns the campany name of a symbol
+  Future<String>? getCompanyNameBySymbol(String symbol) async {
+    return await symbolRepository.getCompanyNameBySymbol(symbol);
   }
 }
