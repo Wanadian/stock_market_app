@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../classes/symbol.dart';
+import 'package:stock_market_app/errors/symbolError.dart';
+import 'package:stock_market_app/classes/symbol.dart';
 
 // This class is used to call the database
 class SymbolRepository {
@@ -17,7 +18,7 @@ class SymbolRepository {
         }
       });
     } catch (error) {
-      throw Exception(error);
+      throw SymbolError(error.toString());
     }
 
     return allSymbols;
@@ -34,7 +35,7 @@ class SymbolRepository {
         }
       });
     } catch (error) {
-      throw Exception(error);
+      throw SymbolError(error.toString());
     }
 
     return allCompanyNames;
@@ -54,7 +55,7 @@ class SymbolRepository {
         }
       });
     } catch (error) {
-      throw Exception(error);
+      throw SymbolError(error.toString());
     }
 
     return symbol;
@@ -74,7 +75,7 @@ class SymbolRepository {
         }
       });
     } catch (error) {
-      throw Exception(error);
+      throw SymbolError(error.toString());
     }
 
     return companyName;

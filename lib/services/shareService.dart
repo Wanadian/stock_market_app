@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:stock_market_app/repositories/shareRepository.dart';
-import '../classes/share.dart';
+import 'package:stock_market_app/classes/share.dart';
+import 'package:stock_market_app/errors/shareError.dart';
 
 // This class will contain all the API calls and calls the associated repository
 class ShareService {
@@ -22,8 +23,7 @@ class ShareService {
 
       share = Share.fromAPIJson(data['Global Quote']);
     } else {
-      throw Exception(
-          'Error: Could not fetch data from API ${response.reasonPhrase}');
+      throw ShareError('Error: Could not fetch data from API ${response.reasonPhrase}');
     }
 
     return share;
