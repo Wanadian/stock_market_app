@@ -3,12 +3,17 @@ import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class FormWidget extends StatefulWidget {
   FormWidget(
-      {super.key, required List<Widget> fields, required Function() onPressed})
+      {super.key,
+      required List<Widget> fields,
+      required Function() onPressed,
+      String buttonLabel = 'Validate'})
       : _fields = fields,
-        _onPressed = onPressed;
+        _onPressed = onPressed,
+        _buttonLabel = buttonLabel;
 
-  Function() _onPressed;
   List<Widget> _fields = [];
+  Function() _onPressed;
+  String _buttonLabel;
 
   @override
   State<FormWidget> createState() => _FormWidgetState();
@@ -34,11 +39,11 @@ class _FormWidgetState extends State<FormWidget> {
                 Container(height: screenHeight * 0.04),
               ],
               ButtonWidget.textButton(
-                  label: 'Validate',
+                  label: widget._buttonLabel,
                   onPressed: () => {
+                        widget._onPressed(),
                         if (_key.currentState!.validate())
-                          {
-                            _key.currentState?.save()
+                          {_key.currentState?.save()
                           }
                       },
                   height: screenHeight * 0.07,

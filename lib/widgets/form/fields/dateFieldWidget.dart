@@ -3,29 +3,34 @@ import 'package:intl/intl.dart';
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class DateFieldWidget extends StatefulWidget {
-  DateFieldWidget({Key? key, required this.label}) : super(key: key);
+  DateFieldWidget({Key? key, required String label})
+      : _label = label,
+        super(key: key);
 
-  final String label;
+  final String _label;
 
   @override
   State<DateFieldWidget> createState() => _DateFieldWidget();
 }
 
 class _DateFieldWidget extends State<DateFieldWidget> {
-  DateTime date = DateTime.now();
+  DateTime _date = DateTime.now();
+
+  DateTime getDate() {
+    return _date;
+  }
 
   Future<void> _selectDate(BuildContext context) async {
-     DateTime? picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
         initialDatePickerMode: DatePickerMode.day,
         context: context,
-        initialDate: date,
+        initialDate: _date,
         firstDate: DateTime(1900),
         lastDate: DateTime(3000));
-    if (picked != null && picked != date) {
+    if (picked != null && picked != _date) {
       setState(() {
-        date = picked;
+        _date = picked;
       });
-      print(date);
     }
   }
 
@@ -37,13 +42,12 @@ class _DateFieldWidget extends State<DateFieldWidget> {
     return Row(children: [
       Container(width: screenWidth * 0.03),
       Container(
-          constraints: BoxConstraints(
-              minWidth: 0, maxWidth: screenWidth * 0.4),
-          child: Text(widget.label,
+          constraints: BoxConstraints(minWidth: 0, maxWidth: screenWidth * 0.4),
+          child: Text(widget._label,
               style: TextStyle(color: Colors.white, fontSize: 16))),
       Container(width: screenWidth * 0.05),
       ButtonWidget.textButton(
-          label: '${DateFormat('yyyy-MM-dd').format(date)}',
+          label: '${DateFormat('yyyy-MM-dd').format(_date)}',
           onPressed: () {
             _selectDate(context);
           },
