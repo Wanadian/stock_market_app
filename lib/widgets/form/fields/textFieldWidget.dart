@@ -21,7 +21,7 @@ class TextFieldWidget extends FormField<String> {
                     hintStyle: TextStyle(color: Colors.grey.shade500),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(40.0),
+                      borderRadius: BorderRadius.circular(25.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,

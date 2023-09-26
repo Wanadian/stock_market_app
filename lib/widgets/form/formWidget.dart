@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market_app/widgets/buttonWidget.dart';
+import 'package:stock_market_app/widgets/form/fields/dateFieldWidget.dart';
 import 'package:stock_market_app/widgets/form/fields/numberFieldWidget.dart';
 import 'package:stock_market_app/widgets/form/fields/textFieldWidget.dart';
 
@@ -19,7 +21,8 @@ class _FormWidgetState extends State<FormWidget> {
 
     return Container(
         width: screenWidth * 0.8,
-        child: Form(
+        child: SingleChildScrollView(
+            child: Form(
           key: _key,
           child: Column(
             children: [
@@ -33,9 +36,31 @@ class _FormWidgetState extends State<FormWidget> {
                 validator: (value) => null,
                 onSaved: (value) => (),
                 label: 'Number',
-              )
+              ),
+              Container(height: screenHeight * 0.04),
+              DateFieldWidget(
+                label: 'Expiration date',
+              ),
+              Container(height: screenHeight * 0.06),
+              Align(
+                alignment: Alignment.center,
+                child: ButtonWidget.textButton(
+                    label: 'Validate',
+                    onPressed: () => {
+                          if (_key.currentState!.validate())
+                            {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Processing Data')),
+                              )
+                            }
+                        },
+                    height: screenHeight * 0.07,
+                    width: screenWidth * 0.5),
+              ),
+              Container(height: screenHeight * 0.04),
             ],
           ),
-        ));
+        )));
   }
 }

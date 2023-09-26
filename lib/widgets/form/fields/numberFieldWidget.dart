@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class NumberFieldWidget extends FormField<String> {
+class NumberFieldWidget extends FormField<int> {
   NumberFieldWidget(
-      {required FormFieldValidator<String> validator,
-      required FormFieldSetter<String> onSaved,
-      int? defaultValue,
+      {required FormFieldValidator<int> validator,
+      required FormFieldSetter<int> onSaved,
+      int defaultValue = -1,
       String label = ''})
       : super(
             onSaved: onSaved,
             validator: validator,
-            initialValue: defaultValue?.toString(),
-            builder: (FormFieldState<String> state) {
+            initialValue: defaultValue,
+            builder: (FormFieldState<int> state) {
               return TextFormField(
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
@@ -25,7 +25,7 @@ class NumberFieldWidget extends FormField<String> {
                   hintStyle: TextStyle(color: Colors.grey.shade500),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(40.0),
+                    borderRadius: BorderRadius.circular(25.0),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide.none,
