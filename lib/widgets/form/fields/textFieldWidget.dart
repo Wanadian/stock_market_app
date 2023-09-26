@@ -12,6 +12,8 @@ class TextFieldWidget extends FormField<String> {
             initialValue: defaultValue,
             builder: (FormFieldState<String> state) {
               return TextFormField(
+                  validator: validator,
+                  onSaved: onSaved,
                   keyboardType: TextInputType.text,
                   style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(

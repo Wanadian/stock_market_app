@@ -25,6 +25,7 @@ class _DateFieldWidget extends State<DateFieldWidget> {
       setState(() {
         date = picked;
       });
+      print(date);
     }
   }
 

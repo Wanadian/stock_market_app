@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/form/fields/dateFieldWidget.dart';
+import '../widgets/form/fields/numberFieldWidget.dart';
+import '../widgets/form/fields/textFieldWidget.dart';
 import '../widgets/form/formWidget.dart';
 import 'balance.dart';
 
@@ -33,7 +36,26 @@ class _ModifyBalanceState extends State<ModifyBalance> {
             },
           )),
       body: Column(
-        children: [Container(height: screenHeight * 0.3), FormWidget()],
+        children: [Container(height: screenHeight * 0.3), FormWidget(fields: [
+          TextFieldWidget(
+            validator: (value) {
+              if(value == '' || value == null) {
+                return 'Please enter a value';
+              }
+              return null;
+            },
+            onSaved: (value) => (print(value)),
+            label: 'Text',
+          ),
+          NumberFieldWidget(
+            validator: (value) => null,
+            onSaved: (value) => (print(value)),
+            label: 'Number',
+          ),
+          DateFieldWidget(
+            label: 'Expiration date',
+          )
+        ], onPressed: () {},)],
       ),
     );
   }
