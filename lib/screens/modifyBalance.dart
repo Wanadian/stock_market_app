@@ -150,7 +150,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                             validator: (value) {
                                               if (value == '' ||
                                                   value == null) {
-                                                return 'Please enter a value';
+                                                return "Please enter the card holder's name";
                                               }
                                               return null;
                                             },
@@ -167,8 +167,9 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                             key: Keys.cardNumberInput,
                                             validator: (value) {
                                               if (value == '' ||
-                                                  value == null) {
-                                                return 'Please enter a value';
+                                                  value == null ||
+                                                  int.parse(value) < 0) {
+                                                return 'Please enter a valid card number';
                                               }
                                               return null;
                                             },
@@ -186,8 +187,9 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                             key: Keys.cardSafeCodeInput,
                                             validator: (value) {
                                               if (value == '' ||
-                                                  value == null) {
-                                                return 'Please enter a value';
+                                                  value == null ||
+                                                  int.parse(value) < 0) {
+                                                return 'Please enter a valid card safe code';
                                               }
                                               return null;
                                             },
@@ -206,7 +208,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                             onChange: (DateTime date) {
                                               _cardExpirationDate = date;
                                             },
-                                            label: 'Card expiration date',
+                                            label: 'Expiration date',
                                           )
                                         ],
                                         onPressed: () {
