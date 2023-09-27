@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatefulWidget {
   TextFieldWidget({
-    Key? key,
+    required Key key,
     required FormFieldValidator<String> validator,
     required FormFieldSetter<String> onSaved,
     String value = '',
@@ -11,8 +11,9 @@ class TextFieldWidget extends StatefulWidget {
         _onSaved = onSaved,
         _value = value,
         _label = label,
-        super(key: key);
+        _key = key;
 
+  Key _key;
   FormFieldValidator<String> _validator;
   FormFieldSetter<String> _onSaved;
   String _value;
@@ -29,6 +30,7 @@ class _TextFieldWidget extends State<TextFieldWidget> {
 
   Widget build(BuildContext context) {
     return TextFormField(
+        key: widget._key,
         onChanged: (value) {
           setState(() {
             widget._value = value;

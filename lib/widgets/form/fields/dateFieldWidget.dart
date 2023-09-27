@@ -3,10 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class DateFieldWidget extends StatefulWidget {
-  DateFieldWidget({Key? key, required String label})
+  DateFieldWidget({required Key key, required String label})
       : _label = label,
-        super(key: key);
+        _key = key;
 
+  Key _key;
   final String _label;
 
   @override

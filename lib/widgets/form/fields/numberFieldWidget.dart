@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class NumberFieldWidget extends StatefulWidget {
   NumberFieldWidget({
-    Key? key,
+    required Key key,
     required FormFieldValidator<String> validator,
     required FormFieldSetter<String> onSaved,
     int value = -1,
@@ -12,8 +12,9 @@ class NumberFieldWidget extends StatefulWidget {
         _onSaved = onSaved,
         _value = value,
         _label = label,
-        super(key: key);
+        _key = key;
 
+  Key _key;
   FormFieldValidator<String> _validator;
   FormFieldSetter<String> _onSaved;
   int _value;
@@ -30,6 +31,7 @@ class _NumberFieldWidget extends State<NumberFieldWidget> {
 
   Widget build(BuildContext context) {
     return TextFormField(
+      key: widget._key,
       onChanged: (value) {
         setState(() {
           widget._value = int.parse(value);
