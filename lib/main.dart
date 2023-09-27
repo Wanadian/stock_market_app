@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:stock_market_app/context/rootWidget.dart';
 import 'package:stock_market_app/screens/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,11 +24,13 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MaterialApp(
-      title: 'Stocket',
-      theme: ThemeData(scaffoldBackgroundColor: Colors.grey.shade800),
-      debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
-    );
+    return KeyboardDismisser(
+        gestures: [GestureType.onTap, GestureType.onPanUpdateDownDirection],
+        child: MaterialApp(
+          title: 'Stocket',
+          theme: ThemeData(scaffoldBackgroundColor: Colors.grey.shade800),
+          debugShowCheckedModeBanner: false,
+          home: const SplashScreen(),
+        ));
   }
 }

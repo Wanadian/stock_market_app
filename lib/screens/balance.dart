@@ -13,7 +13,8 @@ class Balance extends StatefulWidget {
 
 class _BalanceState extends State<Balance> {
   bool _isSafeOpen = false;
-  double _balance = 0;
+  //TODO : create a shared balance that is accessible throughout the app and that is saved when the app is closed
+  double _balance = 1000000000000.9;
   double _gapHeight = 0;
 
   void setIsSafeOpenToOpposite(bool isSafeOpen) {
@@ -37,9 +38,6 @@ class _BalanceState extends State<Balance> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
-    //TODO : create a shared balance that is accessible throughout the app and that is saved when the app is closed
-    _balance = 1000000000000.9;
 
     return Scaffold(
       body: Column(
