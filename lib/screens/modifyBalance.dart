@@ -76,7 +76,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                         validator: (value) {
                           if (value == '' ||
                               value == null ||
-                              int.parse(value) > 0) {
+                              int.parse(value) <= 0) {
                             return 'Please enter a value greater than 0';
                           }
                           return null;
@@ -143,7 +143,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                         )
                                       ],
                                       onPressed: () {
-                                        print('test');
+                                        print('Validated');
                                       },
                                     ),
                                   ])));
