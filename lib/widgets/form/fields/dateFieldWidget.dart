@@ -3,11 +3,14 @@ import 'package:intl/intl.dart';
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class DateFieldWidget extends StatefulWidget {
-  DateFieldWidget({required Key key, required String label})
-      : _label = label,
+  DateFieldWidget(
+      {required Key key, required Function(DateTime date) onChange, required String label})
+      : _onChange = onChange,
+        _label = label,
         _key = key;
 
   Key _key;
+  Function(DateTime date) _onChange;
   final String _label;
 
   @override
@@ -31,6 +34,7 @@ class _DateFieldWidget extends State<DateFieldWidget> {
     if (picked != null && picked != _date) {
       setState(() {
         _date = picked;
+        widget._onChange(_date);
       });
     }
   }

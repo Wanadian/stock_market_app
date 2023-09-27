@@ -1,5 +1,6 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 import '../widgets/form/fields/dateFieldWidget.dart';
@@ -9,11 +10,37 @@ import '../widgets/form/formWidget.dart';
 import 'balance.dart';
 
 class Keys {
-  static final cardDetailsForm = GlobalObjectKey<FormState>('card-details-form');
-  static final valueToPayInput = GlobalObjectKey<FormFieldState>('value-to-pay-input');
-  static final textInput = GlobalObjectKey<FormFieldState>('text-input');
-  static final numberInput = GlobalObjectKey<FormFieldState>('number-input');
-  static final dateInput = GlobalObjectKey<FormFieldState>('date-input');
+  static final cardDetailsForm =
+      GlobalObjectKey<FormState>('card-details-form');
+  static final valueToPayInput =
+      GlobalObjectKey<FormFieldState>('value-to-pay-input');
+  static final cardHolderNameInput =
+      GlobalObjectKey<FormFieldState>('card-holder-name-input');
+  static final cardNumberInput =
+      GlobalObjectKey<FormFieldState>('card-number-input');
+  static final cardSafeCodeInput =
+      GlobalObjectKey<FormFieldState>('card-safe-code-input');
+  static final cardExpirationDateInput =
+      GlobalObjectKey<FormFieldState>('card-expiration-date-input');
+}
+
+class PaymentDetails {
+  int valuePaid = -1;
+  String cardHolderName = '';
+  int cardNumber = -1;
+  int cardSafeCode = -1;
+  String cardExpirationDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  PaymentDetails(
+      {required this.valuePaid,
+      required this.cardHolderName,
+      required this.cardNumber,
+      required this.cardSafeCode,
+      required this.cardExpirationDate});
+
+  String returnDetailsInString() {
+    return ('{valuePaid: $valuePaid, cardHolderName: $cardHolderName, cardNumber: $cardNumber, cardSafeCode: $cardSafeCode, cardExpirationDate: $cardExpirationDate}');
+  }
 }
 
 class ModifyBalance extends StatefulWidget {
@@ -27,6 +54,10 @@ class _ModifyBalanceState extends State<ModifyBalance> {
   //TODO : create a shared balance that is accessible throughout the app and that is saved when the app is closed
   double _balance = 1754156451452465;
   int _valueToPay = -1;
+  String _cardHolderName = '';
+  int _cardNumber = -1;
+  int _cardSafeCode = -1;
+  DateTime _cardExpirationDate = DateTime.now();
 
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -82,7 +113,6 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                           return null;
                         },
                         onSaved: (value) {
-                          print(value);
                           setState(() {
                             _valueToPay = int.parse(value!);
                           });
@@ -94,61 +124,109 @@ class _ModifyBalanceState extends State<ModifyBalance> {
               ButtonWidget.textButton(
                   label: 'Pay',
                   onPressed: () {
-                    if (Keys.valueToPayInput.currentState!.validate())
-                    {Keys.valueToPayInput.currentState?.save();
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                              shadowColor: Colors.grey.shade800,
-                              surfaceTintColor: Colors.black,
-                              backgroundColor: Colors.transparent,
-                              elevation: 10.0,
-                              scrollable: true,
-                              title: Text('Enter your card details',
-                                  style: TextStyle(color: Colors.white),
-                                  textAlign: TextAlign.center),
-                              content: Padding(
-                                  padding: const EdgeInsets.all(0.8),
-                                  child: Column(children: [
-                                    Container(height: screenHeight * 0.05),
-                                    FormWidget(
-                                      key: Keys.cardDetailsForm,
-                                      fields: [
-                                        TextFieldWidget(
-                                          key: Keys.textInput,
-                                          validator: (value) {
-                                            if (value == '' || value == null) {
-                                              return 'Please enter a value';
-                                            }
-                                            return null;
-                                          },
-                                          onSaved: (value) => (print(value)),
-                                          label: 'Text',
-                                        ),
-                                        NumberFieldWidget(
-                                          key: Keys.numberInput,
-                                          validator: (value) {
-                                            if (value == '' || value == null) {
-                                              return 'Please enter a value';
-                                            }
-                                            return null;
-                                          },
-                                          onSaved: (value) => (print(value)),
-                                          label: 'Number',
-                                        ),
-                                        DateFieldWidget(
-                                          key: Keys.dateInput,
-                                          label: 'Expiration date',
-                                        )
-                                      ],
-                                      onPressed: () {
-                                        print('Validated');
-                                      },
-                                    ),
-                                  ])));
-                        });
-                  }},
+                    if (Keys.valueToPayInput.currentState!.validate()) {
+                      Keys.valueToPayInput.currentState?.save();
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                                shadowColor: Colors.grey.shade800,
+                                surfaceTintColor: Colors.black,
+                                backgroundColor: Colors.transparent,
+                                elevation: 10.0,
+                                scrollable: true,
+                                title: Text('Enter your card details',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center),
+                                content: Padding(
+                                    padding: const EdgeInsets.all(0.8),
+                                    child: Column(children: [
+                                      Container(height: screenHeight * 0.05),
+                                      FormWidget(
+                                        key: Keys.cardDetailsForm,
+                                        fields: [
+                                          TextFieldWidget(
+                                            key: Keys.cardHolderNameInput,
+                                            validator: (value) {
+                                              if (value == '' ||
+                                                  value == null) {
+                                                return 'Please enter a value';
+                                              }
+                                              return null;
+                                            },
+                                            onSaved: (value) {
+                                              setState(() {
+                                                if (value != null) {
+                                                  _cardHolderName = value;
+                                                }
+                                              });
+                                            },
+                                            label: 'Card holder name',
+                                          ),
+                                          NumberFieldWidget(
+                                            key: Keys.cardNumberInput,
+                                            validator: (value) {
+                                              if (value == '' ||
+                                                  value == null) {
+                                                return 'Please enter a value';
+                                              }
+                                              return null;
+                                            },
+                                            onSaved: (value) {
+                                              setState(() {
+                                                if (value != null) {
+                                                  _cardNumber =
+                                                      int.parse(value);
+                                                }
+                                              });
+                                            },
+                                            label: 'Card number',
+                                          ),
+                                          NumberFieldWidget(
+                                            key: Keys.cardSafeCodeInput,
+                                            validator: (value) {
+                                              if (value == '' ||
+                                                  value == null) {
+                                                return 'Please enter a value';
+                                              }
+                                              return null;
+                                            },
+                                            onSaved: (value) {
+                                              setState(() {
+                                                if (value != null) {
+                                                  _cardSafeCode =
+                                                      int.parse(value);
+                                                }
+                                              });
+                                            },
+                                            label: 'Card safe code',
+                                          ),
+                                          DateFieldWidget(
+                                            key: Keys.cardExpirationDateInput,
+                                            onChange: (DateTime date) {
+                                              _cardExpirationDate = date;
+                                            },
+                                            label: 'Card expiration date',
+                                          )
+                                        ],
+                                        onPressed: () {
+                                          print(PaymentDetails(
+                                                  valuePaid: _valueToPay,
+                                                  cardHolderName:
+                                                      _cardHolderName,
+                                                  cardNumber: _cardNumber,
+                                                  cardSafeCode: _cardSafeCode,
+                                                  cardExpirationDate: DateFormat(
+                                                          'yyyy-MM-dd')
+                                                      .format(
+                                                          _cardExpirationDate))
+                                              .returnDetailsInString());
+                                        },
+                                      ),
+                                    ])));
+                          });
+                    }
+                  },
                   height: screenHeight * 0.07,
                   width: screenWidth * 0.5),
             ],
