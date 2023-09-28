@@ -4,6 +4,7 @@ import 'package:stock_market_app/context/inheritedServices.dart';
 import 'package:stock_market_app/main.dart';
 import 'package:stock_market_app/services/shareService.dart';
 import 'package:stock_market_app/services/symbolService.dart';
+import 'package:stock_market_app/services/userSharesService.dart';
 import 'package:intl/intl.dart';
 
 // This Widget is the parent widget, where we can store services and all useful information
@@ -15,6 +16,7 @@ class RootWidget extends StatefulWidget {
 class _RootWidgetState extends State<RootWidget> {
   SymbolService symbolService = SymbolService();
   ShareService shareService = ShareService();
+  UserSharesService userSharesService = UserSharesService();
   late SharedPreferences prefs;
 
   @override
@@ -61,6 +63,7 @@ class _RootWidgetState extends State<RootWidget> {
     return InheritedServices(
       symbolService: symbolService,
       shareService: shareService,
+      userSharesService: userSharesService,
       child: MyApp(),
     );
   }
