@@ -5,11 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:stock_market_app/repositories/shareRepository.dart';
 import 'package:stock_market_app/entities/share.dart';
 import 'package:stock_market_app/errors/shareError.dart';
+import 'package:stock_market_app/services/symbolService.dart';
 
 // This class will contain all the API calls and calls the associated repository
 class ShareService {
   static const String APIKEY = '4V1HEZEB2M5V7LW9';
   ShareRepository shareRepository = ShareRepository();
+  SymbolService symbolService = SymbolService();
 
   // Gets a share from the API
   Future<Share?> getShareFromAPI(String symbol) async {
@@ -39,18 +41,28 @@ class ShareService {
   }
 
   // Refreshes all shares from API to the database
-  void addSharesFromAPIToDB(List<String> symbols) {
+  void addSharesFromAPIToDB() async {
+    List<String>? symbols = await symbolService.getAllSymbols();
+
+    if(symbols != null) {
     final symbolsStream = convertListToStream(symbols);
 
     StreamSubscription? subscription;
 
     subscription = symbolsStream.listen((symbol) async {
-      Share share = await getShareFromAPI(symbol);
+        Share? share = await getShareFromAPI(symbol);
+
+        if(share != null) {
       shareRepository.addShare(share);
+        }
     }, onDone: () {
       // Cancel the subscription when needed to stop listening to the stream
       subscription?.cancel();
     });
+  }
+    else {
+      throw ShareError('Cannot retrieve symbols from database');
+    }
   }
 
   // Returns all the shares

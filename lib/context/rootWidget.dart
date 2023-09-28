@@ -49,8 +49,9 @@ class _RootWidgetState extends State<RootWidget> {
     DateTime? refreshDate =
         _getNextRefreshDate() ?? await shareService.getLatestRefreshDate();
 
-    if((refreshDate == null) || (DateTime.now().isAfter(refreshDate.add(Duration(days: 1))))) {
-      shareService.addSharesFromAPIToDB(await symbolService.getAllSymbols());
+    if ((refreshDate == null) ||
+        (DateTime.now().isAfter(refreshDate.add(Duration(days: 1))))) {
+      shareService.addSharesFromAPIToDB();
       _saveNextRefreshDate(DateTime.now());
     }
   }
