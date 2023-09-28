@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stock_market_app/errors/symbolError.dart';
-import 'package:stock_market_app/classes/symbol.dart';
+import 'package:stock_market_app/entities/symbol.dart';
 
 // This class is used to call the database
 class SymbolRepository {

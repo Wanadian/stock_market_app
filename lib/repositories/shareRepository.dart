@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:stock_market_app/classes/share.dart';
+import 'package:stock_market_app/entities/share.dart';
 import 'package:stock_market_app/errors/shareError.dart';
 
 // This class is used to call the database

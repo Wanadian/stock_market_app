@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:stock_market_app/repositories/shareRepository.dart';
-import 'package:stock_market_app/classes/share.dart';
+import 'package:stock_market_app/entities/share.dart';
 import 'package:stock_market_app/errors/shareError.dart';
 
 // This class will contain all the API calls and calls the associated repository

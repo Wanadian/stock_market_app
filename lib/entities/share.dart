@@ -30,10 +30,10 @@ class Share {
   factory Share.fromDBJson(Map<String, dynamic> json) {
     return Share(
         json['symbol'],
-        double.parse(json['price']),
-        DateTime.parse(json['latestTradingDay']),
-        int.parse(json['nbShares']),
-        DateTime.parse(json['latestRefreshDay']));
+        json['price'],
+        json['latestTradingDay'].toDate(),
+        json['nbShares'],
+        json['latestRefreshDay'].toDate());
   }
 
   Map<String, dynamic> toJson() {
@@ -68,5 +68,11 @@ class Share {
 
   set nbShares(int newNbShares) {
     _nbShares = newNbShares;
+  }
+
+  DateTime get latestRefreshDay => _latestRefreshDay;
+
+  set latestRefreshDay(DateTime newLatestRefreshDay) {
+    _latestRefreshDay = newLatestRefreshDay;
   }
 }
