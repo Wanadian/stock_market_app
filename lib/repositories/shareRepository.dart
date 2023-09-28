@@ -25,6 +25,27 @@ class ShareRepository {
     return allShares.length > 0 ? allShares : null;
   }
 
+  // Returns the lastest shares for all symbol
+  Future<List<Share>?> getLatestShares(List<String> symbols) async {
+    List<Share>? latestShares;
+
+    try {
+      QuerySnapshot snapshot = await collection
+          .orderBy('latestRefreshDay', descending: true)
+          .limit(symbols.length)
+          .get();
+
+      latestShares = [];
+      for (QueryDocumentSnapshot doc in snapshot.docs) {
+        latestShares.add(Share.fromDBJson(doc.data() as Map<String, dynamic>));
+      }
+    } catch (error) {
+      throw ShareError(error.toString());
+    }
+
+    return latestShares;
+  }
+
   // Adds a share in the database
   Future<DocumentReference> addShare(Share share) {
     return collection.add(share.toJson());
