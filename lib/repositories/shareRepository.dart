@@ -8,7 +8,7 @@ class ShareRepository {
       FirebaseFirestore.instance.collection('shares');
 
   // Returns all the shares from the database
-  Future<List<Share>> getShares() async {
+  Future<List<Share>?> getShares() async {
     List<Share> allShares = [];
 
     try {
@@ -22,7 +22,7 @@ class ShareRepository {
       throw ShareError(error.toString());
     }
 
-    return allShares;
+    return allShares.length > 0 ? allShares : null;
   }
 
   // Adds a share in the database
@@ -40,7 +40,8 @@ class ShareRepository {
         .get();
 
     if (querySnapshot.docs.isNotEmpty) {
-      Timestamp latestRefreshDay = querySnapshot.docs.first.get('latestRefreshDay');
+      Timestamp latestRefreshDay =
+          querySnapshot.docs.first.get('latestRefreshDay');
       return latestRefreshDay.toDate();
     }
 

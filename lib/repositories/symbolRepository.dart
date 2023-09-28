@@ -42,8 +42,8 @@ class SymbolRepository {
   }
 
   // Returns the symbol of a company from database
-  Future<String> getSymbolByCompanyName(String companyName) async {
-    String symbol = '';
+  Future<String?> getSymbolByCompanyName(String companyName) async {
+    String? symbol;
 
     try {
       await collection
@@ -62,8 +62,8 @@ class SymbolRepository {
   }
 
   // Returns the campany name of a symbol from database
-  Future<String> getCompanyNameBySymbol(String symbol) async {
-    String companyName = '';
+  Future<String?> getCompanyNameBySymbol(String symbol) async {
+    String? companyName;
 
     try {
       await collection

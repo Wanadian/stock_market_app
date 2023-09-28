@@ -12,7 +12,7 @@ class ShareService {
   ShareRepository shareRepository = ShareRepository();
 
   // Gets a share from the API
-  Future<Share> getShareFromAPI(String symbol) async {
+  Future<Share?> getShareFromAPI(String symbol) async {
     final response = await http.get(Uri.parse(
         'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$APIKEY'));
 
@@ -29,7 +29,7 @@ class ShareService {
     return share;
   }
 
-  // Method to convert our list of String to a Stream that emits a value each 13s
+  // Converts our list of String to a Stream that emits a value each 13s
   // because the API is limited to 5 calls per minutes (13s and not 12s to be sure)
   Stream<String> convertListToStream(List<String> stringList) async* {
     for (final item in stringList) {
@@ -54,7 +54,7 @@ class ShareService {
   }
 
   // Returns all the shares
-  Future<List<Share>> getAllShares() async {
+  Future<List<Share>?> getAllShares() async {
     return await shareRepository.getShares();
   }
 

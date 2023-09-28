@@ -46,7 +46,8 @@ class _RootWidgetState extends State<RootWidget> {
   // will be called each time the app is launched
   void _refreshIfNeeded() async {
     prefs = await SharedPreferences.getInstance();
-    DateTime? refreshDate = _getNextRefreshDate() ?? await shareService.getLatestRefreshDate();
+    DateTime? refreshDate =
+        _getNextRefreshDate() ?? await shareService.getLatestRefreshDate();
 
     if((refreshDate == null) || (DateTime.now().isAfter(refreshDate.add(Duration(days: 1))))) {
       shareService.addSharesFromAPIToDB(await symbolService.getAllSymbols());
