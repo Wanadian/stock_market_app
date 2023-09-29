@@ -1,49 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stock_market_app/errors/symbolError.dart';
-import 'package:stock_market_app/classes/symbol.dart';
+import 'package:stock_market_app/entities/symbol.dart';
 
 // This class is used to call the database
 class SymbolRepository {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection('symbols');
 
-  // Returns all the symbols from the database
-  Future<List<String>> getSymbols() async {
-    List<String> allSymbols = [];
+  // Returns all the shares from the database
+  Future<List<Symbol>?> getAllSymbols() async {
+    List<Symbol> allSymbols = [];
 
     try {
       await collection.get().then((querySnapshot) {
         for (var result in querySnapshot.docs) {
-          allSymbols.add(result.get('symbol'));
+          allSymbols
+              .add(Symbol.fromDBJson(result.data() as Map<String, dynamic>));
         }
       });
     } catch (error) {
       throw SymbolError(error.toString());
     }
 
-    return allSymbols;
-  }
-
-  // Returns all the companies from the database
-  Future<List<String>> getCompanyNames() async {
-    List<String> allCompanyNames = [];
-
-    try {
-      await collection.get().then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          allCompanyNames.add(result.get('companyName'));
-        }
-      });
-    } catch (error) {
-      throw SymbolError(error.toString());
-    }
-
-    return allCompanyNames;
+    return allSymbols.length > 0 ? allSymbols : null;
   }
 
   // Returns the symbol of a company from database
-  Future<String> getSymbolByCompanyName(String companyName) async {
-    String symbol = '';
+  Future<String?> getSymbolByCompanyName(String companyName) async {
+    String? symbol;
 
     try {
       await collection
@@ -62,8 +46,8 @@ class SymbolRepository {
   }
 
   // Returns the campany name of a symbol from database
-  Future<String> getCompanyNameBySymbol(String symbol) async {
-    String companyName = '';
+  Future<String?> getCompanyNameBySymbol(String symbol) async {
+    String? companyName;
 
     try {
       await collection

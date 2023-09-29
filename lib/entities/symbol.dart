@@ -10,7 +10,7 @@ class Symbol {
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Symbol object from the database
   factory Symbol.fromDBJson(Map<String, dynamic> json) {
-    return Symbol(json['symbol'] as String, json['companyName'] as String);
+    return Symbol(json['symbol'], json['companyName']);
   }
 
   // This methods converts a Symbol object to a Json object
