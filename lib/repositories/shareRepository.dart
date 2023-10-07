@@ -68,4 +68,12 @@ class ShareRepository {
 
     return null;
   }
+  
+  Future<bool> emptyDBShares() async {
+    return await collection.get().then((snapshot) => {
+      for (DocumentSnapshot ds in snapshot.docs){
+          ds.reference.delete()
+      }
+    }).then((value) => true);
+  }
 }

@@ -14,21 +14,23 @@ class ShareService {
   SymbolService symbolService = SymbolService();
 
   // Gets a share from the API
-  Future<Share?> getShareFromAPI(String symbol) async {
+  Future<List<Share>?> getShareFromAPI(String symbol) async {
     final response = await http.get(Uri.parse(
-        'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$APIKEY'));
+        'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=$symbol&apikey=$APIKEY'));
 
-    Share share;
+    List<Share>? shares;
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      Map<String, dynamic> timeSeries = data['Time Series (Daily)'];
 
-      share = Share.fromAPIJson(data['Global Quote']);
+      shares = [];
+      timeSeries.forEach((key, value) => shares?.add(Share.fromAPIJson(symbol, DateTime.parse(key), value)));
     } else {
       throw ShareError('Error: Could not fetch data from API ${response.reasonPhrase}');
     }
 
-    return share;
+    return shares;
   }
 
   // Converts our list of String to a Stream that emits a value each 13s
@@ -45,19 +47,32 @@ class ShareService {
     List<String>? symbols = await symbolService.getAllSymbols();
 
     if(symbols != null) {
-      final symbolsStream = convertListToStream(symbols);
+      List<Share> sharesToAdd = [];
 
+      final symbolsStream = convertListToStream(symbols);
       StreamSubscription? subscription;
 
       subscription = symbolsStream.listen((symbol) async {
-        Share? share = await getShareFromAPI(symbol);
+        List<Share>? shares = await getShareFromAPI(symbol);
 
-        if(share != null) {
-          shareRepository.addShare(share);
+        if(shares != null) {
+          for (Share share in shares) {
+            sharesToAdd.add(share);
+          }
         }
-      }, onDone: () {
+        else {
+          throw ShareError('No shares found for symbol $symbol');
+        }
+      }, onDone: () async {
         // Cancel the subscription when needed to stop listening to the stream
         subscription?.cancel();
+
+        // if there is any shares to add then we clean the DB and add the new shares
+        if (sharesToAdd.isNotEmpty && await emptyDBShares()) {
+          for (Share share in sharesToAdd) {
+            shareRepository.addShare(share);
+          }
+        }
       });
     }
     else {
@@ -128,5 +143,9 @@ class ShareService {
   // Returns the share's number (of a symbol)
   Future<int?> getNbShares(String symbol) async {
     return (await getLatestShare(symbol))?.nbShares;
+  }
+
+  Future<bool> emptyDBShares() async {
+    return await shareRepository.emptyDBShares();
   }
 }
