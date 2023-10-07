@@ -22,7 +22,7 @@ class Share {
         double.parse(json['4. close']),
         lastRefreshed,
         int.parse(json['5. volume']),
-        DateTime.parse('$currentDateFormatted 17:00:00'));
+        DateTime.parse('$currentDateFormatted 00:00:00'));
   }
 
   // The factory return type allows us to return an object mapped from json

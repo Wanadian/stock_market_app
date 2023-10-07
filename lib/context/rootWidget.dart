@@ -27,10 +27,10 @@ class _RootWidgetState extends State<RootWidget> {
 
   // Saves the date at which the next refresh will occur
   void _saveNextRefreshDate(DateTime currentDate) {
-    String currentDateFormatted = DateFormat('yyyy-MM-dd').format(currentDate);
+    String currentDateFormatted = DateFormat('yyyy-MM-dd hh:mm:ss').format(currentDate.add(Duration(days: 1)));
     // We add 24h because the method DateTime.parse() undestands overflow
-    // so, we set the next refresh date which is at 5pm the next day
-    prefs.setString('nextRefreshDate', '$currentDateFormatted 41:00:00');
+    // so, we set the next refresh date which is at midnight the next day
+    prefs.setString('nextRefreshDate', currentDateFormatted);
   }
 
   // Gets the date for the next refresh
@@ -44,7 +44,7 @@ class _RootWidgetState extends State<RootWidget> {
     return null;
   }
 
-  // Updates the shares list at 5pm each day if needed,
+  // Updates the shares list at midnight each day,
   // will be called each time the app is launched
   void _refreshIfNeeded() async {
     prefs = await SharedPreferences.getInstance();
