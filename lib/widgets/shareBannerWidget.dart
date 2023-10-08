@@ -33,7 +33,7 @@ class ShareBannerWidget extends StatelessWidget {
         alignment: Alignment.center,
         child: Container(
             width: screenWidth * 0.9,
-            height: screenHeight * 0.05,
+            height: screenHeight * 0.1,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -50,12 +50,12 @@ class ShareBannerWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(children: [
-                    Container(width: 10),
+                    Container(width: screenWidth * 0.04),
                     Container(
                         constraints: BoxConstraints(
                             minWidth: 0, maxWidth: screenWidth * 0.3),
                         child: DefaultTextStyle(
-                            overflow: TextOverflow.ellipsis,
+                            overflow: TextOverflow.fade,
                             style: TextStyle(color: Colors.black, fontSize: 13),
                             child: Text(_shareName))),
                   ]),
@@ -63,42 +63,52 @@ class ShareBannerWidget extends StatelessWidget {
                     if (_numberOfShares != null) ...{
                       Container(
                           constraints: BoxConstraints(
-                              minWidth: 0, maxWidth: screenWidth * 0.1),
+                              minWidth: 0, maxWidth: screenWidth * 0.13),
                           child: DefaultTextStyle(
                               overflow: TextOverflow.ellipsis,
                               style:
                                   TextStyle(color: Colors.black, fontSize: 13),
                               child: Text('x ' + _numberOfShares.toString())))
                     },
-                    Container(width: 10),
-                    TextButton(
-                        onPressed: _onPressed,
-                        child: Row(children: [
-                          shareValueVariation < 0
-                              ? Transform.rotate(
-                                  angle: 1.57,
-                                  child: Icon(
-                                    Icons.call_made,
-                                    color: Colors.red,
-                                  ))
-                              : Transform.rotate(
-                                  angle: 0,
-                                  child: Icon(
-                                    Icons.call_made,
-                                    color: Colors.green,
-                                  )),
-                          DefaultTextStyle(
-                              style: TextStyle(
-                                  color: shareValueVariation < 0
-                                      ? Colors.red
-                                      : Colors.green,
-                                  fontSize: 14),
-                              child: Text(
-                                  shareValueVariation.abs().toString() + '\%'))
-                        ])),
-                    DefaultTextStyle(
-                        style: TextStyle(color: Colors.black, fontSize: 14),
-                        child: Text('$_shareValue \$')),
+                    Container(width: screenWidth * 0.03),
+                    Column(
+                      children: [
+                        TextButton(
+                            onPressed: _onPressed,
+                            child: Row(children: [
+                              shareValueVariation < 0
+                                  ? Transform.rotate(
+                                      angle: 1.57,
+                                      child: Icon(
+                                        Icons.call_made,
+                                        color: Colors.red,
+                                      ))
+                                  : Transform.rotate(
+                                      angle: 0,
+                                      child: Icon(
+                                        Icons.call_made,
+                                        color: Colors.green,
+                                      )),
+                              DefaultTextStyle(
+                                  style: TextStyle(
+                                      color: shareValueVariation < 0
+                                          ? Colors.red
+                                          : Colors.green,
+                                      fontSize: 14),
+                                  child: Text(
+                                      shareValueVariation.abs().toString() +
+                                          '\%'))
+                            ])),
+                        Container(
+                          constraints: BoxConstraints(
+                              minWidth: 0, maxWidth: screenWidth * 0.2),
+                          child: DefaultTextStyle(
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14),
+                              child: Text('$_shareValue \$')),
+                        )
+                      ],
+                    ),
                     ButtonWidget.iconButton(
                         icon: _icon, onPressed: () {}, height: 25, width: 25),
                     Container(width: 5)
