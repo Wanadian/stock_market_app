@@ -13,16 +13,16 @@ class Share {
 
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Share object from the API
-  factory Share.fromAPIJson(Map<String, dynamic> json) {
+  factory Share.fromAPIJson(String symbol, DateTime lastRefreshed, Map<String, dynamic> json) {
     String currentDateFormatted =
-        DateFormat('yyyy-MM-dd').format(DateTime.now());
+    DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     return Share(
-        json['01. symbol'],
-        double.parse(json['05. price']),
-        DateTime.parse(json['07. latest trading day']),
-        int.parse(json['06. volume']),
-        DateTime.parse('$currentDateFormatted 17:00:00'));
+        symbol,
+        double.parse(json['4. close']),
+        lastRefreshed,
+        int.parse(json['5. volume']),
+        DateTime.parse('$currentDateFormatted 00:00:00'));
   }
 
   // The factory return type allows us to return an object mapped from json
