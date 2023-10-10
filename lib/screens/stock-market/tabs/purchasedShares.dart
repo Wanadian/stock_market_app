@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market_app/screens/graph.dart';
 import 'package:stock_market_app/widgets/shareBannerWidget.dart';
 
 class PurchasedShares extends StatefulWidget {
@@ -15,28 +16,102 @@ class _PurchasedSharesState extends State<PurchasedShares> {
 
     // TODO : this should be replaced by a backend call
     List<Share> shares = [
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 20.0, numberOfShares: 2, shareName: 'Name'),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 20.0,
+          numberOfShares: 2,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
       Share(
           shareValue: 30.0,
           numberOfShares: 3,
-          shareName: 'Long Name to try a long name just to try'),
-      Share(shareValue: 20.0, numberOfShares: 9999999, shareName: 'Nameeeeeeddddddvdlmxcgf g uguiggu  griuagf uazuf izf uzag fgza'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 1009890889.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
-      Share(shareValue: 10.0, numberOfShares: 1, shareName: 'Name'),
+          shareName: 'Long Name to try a long name just to try',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 20.0,
+          numberOfShares: 9999999,
+          shareName:
+              'Nameeeeeeddddddvdlmxcgf g uguiggu  griuagf uazuf izf uzag fgza',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 1009890889.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
+      Share(
+          shareValue: 10.0,
+          numberOfShares: 1,
+          shareName: 'Name',
+          shareSymbol: "APPLE"),
     ];
 
     return Scaffold(
@@ -49,7 +124,13 @@ class _PurchasedSharesState extends State<PurchasedShares> {
               shareValue: share.getShareValue(),
               numberOfShares: share.getNumberOfShare(),
               shareName: share.getShareName(),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Graph(symbol: share.getShareSymbol())));
+              },
               icon: Icons.remove)
         ],
         Container(height: screenHeight * 0.05),
@@ -63,6 +144,7 @@ class Share {
   double _shareValue;
   int _numberOfShares;
   String _shareName;
+  String _shareSymbol;
 
   double getShareValue() {
     return _shareValue;
@@ -76,8 +158,13 @@ class Share {
     return _shareName;
   }
 
-  Share({shareValue, numberOfShares, shareName})
+  String getShareSymbol() {
+    return _shareSymbol;
+  }
+
+  Share({shareValue, numberOfShares, shareName, shareSymbol})
       : this._shareValue = shareValue,
         this._numberOfShares = numberOfShares,
-        this._shareName = shareName;
+        this._shareName = shareName,
+        this._shareSymbol = shareSymbol;
 }
