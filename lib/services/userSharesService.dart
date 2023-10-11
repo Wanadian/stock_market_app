@@ -1,4 +1,4 @@
-import 'package:stock_market_app/entities/userShares.dart';
+import 'package:stock_market_app/entities/userSharesEntity.dart';
 import 'package:stock_market_app/errors/userShareError.dart';
 import 'package:stock_market_app/repositories/userSharesRepository.dart';
 import 'package:stock_market_app/services/shareService.dart';
@@ -9,18 +9,18 @@ class UserSharesService {
   ShareService shareService = ShareService();
 
   // Returns all the user's shares
-  Future<List<UserShares>?> getAllUserShares() async {
+  Future<List<UserSharesEntity>?> getAllUserShares() async {
     return await userSharesRepository.getAllUserShares();
   }
 
   // Returns a user's shares by symbol
-  Future<UserShares?> getUserShares(String symbol) async {
+  Future<UserSharesEntity?> getUserShares(String symbol) async {
     return await userSharesRepository.getUserShares(symbol);
   }
 
   // Adds user's shares by symbol
   Future<void> addUserShares(String symbol, int nbSharesToAdd) async {
-    UserShares? userShare = await this.getUserShares(symbol);
+    UserSharesEntity? userShare = await this.getUserShares(symbol);
 
     if (userShare != null && userShare.id != null) {
       userSharesRepository.incrementUserShares(
@@ -34,7 +34,7 @@ class UserSharesService {
 
   // Removes user's shares by symbol
   Future<void> removeUserShares(String symbol, int nbSharesToAdd) async {
-    UserShares? userShare = await this.getUserShares(symbol);
+    UserSharesEntity? userShare = await this.getUserShares(symbol);
 
     if (userShare != null && userShare.id != null) {
       int newNbShares = userShare.nbShares - nbSharesToAdd;
@@ -60,7 +60,7 @@ class UserSharesService {
   Future<double> getUserSharesBalance(Map<String, double> sharesPrices) async {
     double balance = 0;
 
-    List<UserShares>? allUserShares =
+    List<UserSharesEntity>? allUserShares =
         await userSharesRepository.getAllUserShares();
 
     if (allUserShares != null) {

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:stock_market_app/entities/share.dart';
+import 'package:stock_market_app/entities/shareEntity.dart';
 import 'package:stock_market_app/errors/shareError.dart';
 
 // This class is used to call the database
@@ -8,14 +8,14 @@ class ShareRepository {
       FirebaseFirestore.instance.collection('shares');
 
   // Returns all the shares from the database
-  Future<List<Share>?> getAllShares() async {
-    List<Share> allShares = [];
+  Future<List<ShareEntity>?> getAllShares() async {
+    List<ShareEntity> allShares = [];
 
     try {
       await collection.get().then((querySnapshot) {
         for (var result in querySnapshot.docs) {
           allShares
-              .add(Share.fromDBJson(result.data() as Map<String, dynamic>, result.id));
+              .add(ShareEntity.fromDBJson(result.data() as Map<String, dynamic>, result.id));
         }
       });
     } catch (error) {
@@ -26,8 +26,8 @@ class ShareRepository {
   }
 
   // Returns all the shares price for an unique symbol from the database
-  Future<List<Share>?> getSymbolSharesPrices(String symbol) async {
-    List<Share> allShares = [];
+  Future<List<ShareEntity>?> getSymbolSharesPrices(String symbol) async {
+    List<ShareEntity> allShares = [];
 
     try {
       await collection
@@ -36,7 +36,7 @@ class ShareRepository {
           .then((querySnapshot) {
         for (var result in querySnapshot.docs) {
           allShares
-              .add(Share.fromDBJson(result.data() as Map<String, dynamic>, result.id));
+              .add(ShareEntity.fromDBJson(result.data() as Map<String, dynamic>, result.id));
         }
       });
     } catch (error) {
@@ -47,8 +47,8 @@ class ShareRepository {
   }
 
   // Returns the latest shares for all symbol
-  Future<List<Share>?> getLatestShares(List<String> symbols) async {
-    List<Share>? latestShares;
+  Future<List<ShareEntity>?> getLatestShares(List<String> symbols) async {
+    List<ShareEntity>? latestShares;
 
     try {
       latestShares = [];
@@ -61,7 +61,7 @@ class ShareRepository {
             .get()
             .then((snapshot) =>
               snapshot.docs
-                  .map((doc) => Share.fromDBJson(doc.data() as Map<String, dynamic>, doc.id))
+                  .map((doc) => ShareEntity.fromDBJson(doc.data() as Map<String, dynamic>, doc.id))
                   .first
             );
 
@@ -75,8 +75,8 @@ class ShareRepository {
   }
 
   // Returns the latest share for a symbol
-  Future<Share?> getLatestShare(String symbol) async {
-    Share? latestShare;
+  Future<ShareEntity?> getLatestShare(String symbol) async {
+    ShareEntity? latestShare;
 
     try {
       latestShare = await collection
@@ -86,7 +86,7 @@ class ShareRepository {
           .get()
           .then((snapshot) =>
             snapshot.docs
-            .map((doc) => Share.fromDBJson(doc.data() as Map<String, dynamic>, doc.id))
+            .map((doc) => ShareEntity.fromDBJson(doc.data() as Map<String, dynamic>, doc.id))
             .first
           );
     } catch (error) {
@@ -98,7 +98,7 @@ class ShareRepository {
 
   // Returns the variation in percent of the price between the two latest shares
   Future<double?> getPriceDifference(String symbol) async {
-    List<Share> shares = [];
+    List<ShareEntity> shares = [];
 
     try {
       return await collection
@@ -108,7 +108,7 @@ class ShareRepository {
           .get()
           .then((snapshot) => {
             for (var result in snapshot.docs) {
-              shares.add(Share.fromDBJson((result.data() as Map<String, dynamic>), result.id))
+              shares.add(ShareEntity.fromDBJson((result.data() as Map<String, dynamic>), result.id))
             }
           }).then((_) =>
             shares.length == 2 ? (((shares[0].price * 100) / shares[1].price) - 100) : null
@@ -119,7 +119,7 @@ class ShareRepository {
   }
 
   // Adds a share in the database
-  Future<DocumentReference> addShare(Share share) {
+  Future<DocumentReference> addShare(ShareEntity share) {
     return collection.add(share.toJson());
   }
 

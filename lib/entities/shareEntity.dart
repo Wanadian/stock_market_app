@@ -1,7 +1,7 @@
 // This class represents a share
 import 'package:intl/intl.dart';
 
-class Share {
+class ShareEntity {
   String? id;
   String _symbol;
   double _price;
@@ -9,16 +9,16 @@ class Share {
   int _nbShares;
   DateTime _latestRefreshDay;
 
-  Share(this._symbol, this._price, this._latestTradingDay, this._nbShares,
+  ShareEntity(this._symbol, this._price, this._latestTradingDay, this._nbShares,
       this._latestRefreshDay, {this.id});
 
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Share object from the API
-  factory Share.fromAPIJson(String symbol, DateTime lastRefreshed, Map<String, dynamic> json) {
+  factory ShareEntity.fromAPIJson(String symbol, DateTime lastRefreshed, Map<String, dynamic> json) {
     String currentDateFormatted =
     DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-    return Share(
+    return ShareEntity(
         symbol,
         double.parse(json['4. close']),
         lastRefreshed,
@@ -27,14 +27,14 @@ class Share {
   }
 
   // Makes a copy of a share
-  factory Share.copy(Share baseShare) {
-    return Share(baseShare.symbol, baseShare.price, baseShare.latestTradingDay, baseShare.nbShares, baseShare.latestRefreshDay);
+  factory ShareEntity.copy(ShareEntity baseShare) {
+    return ShareEntity(baseShare.symbol, baseShare.price, baseShare.latestTradingDay, baseShare.nbShares, baseShare.latestRefreshDay);
   }
 
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Share object from the database
-  factory Share.fromDBJson(Map<String, dynamic> json, String documentId) {
-    return Share(
+  factory ShareEntity.fromDBJson(Map<String, dynamic> json, String documentId) {
+    return ShareEntity(
         json['symbol'],
         json['price'],
         json['latestTradingDay'].toDate(),

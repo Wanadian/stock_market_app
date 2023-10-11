@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:stock_market_app/repositories/shareRepository.dart';
-import 'package:stock_market_app/entities/share.dart';
+import 'package:stock_market_app/entities/shareEntity.dart';
 import 'package:stock_market_app/errors/shareError.dart';
 import 'package:stock_market_app/services/symbolService.dart';
 
@@ -14,18 +14,18 @@ class ShareService {
   SymbolService symbolService = SymbolService();
 
   // Gets a share from the API
-  Future<List<Share>?> getShareFromAPI(String symbol) async {
+  Future<List<ShareEntity>?> getShareFromAPI(String symbol) async {
     final response = await http.get(Uri.parse(
         'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=$symbol&apikey=$APIKEY'));
 
-    List<Share>? shares;
+    List<ShareEntity>? shares;
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       Map<String, dynamic> timeSeries = data['Time Series (Daily)'];
 
       shares = [];
-      timeSeries.forEach((key, value) => shares?.add(Share.fromAPIJson(symbol, DateTime.parse(key), value)));
+      timeSeries.forEach((key, value) => shares?.add(ShareEntity.fromAPIJson(symbol, DateTime.parse(key), value)));
     } else {
       throw ShareError('Error: Could not fetch data from API ${response.reasonPhrase}');
     }
@@ -47,20 +47,20 @@ class ShareService {
     List<String>? symbols = await symbolService.getAllSymbols();
 
     if(symbols != null) {
-      List<Share> sharesToAdd = [];
+      List<ShareEntity> sharesToAdd = [];
 
       final symbolsStream = convertListToStream(symbols);
       StreamSubscription? subscription;
 
       subscription = symbolsStream.listen((symbol) async {
-        List<Share>? shares = await getShareFromAPI(symbol);
+        List<ShareEntity>? shares = await getShareFromAPI(symbol);
 
         if(shares != null) {
           for (int i = 0; i < shares.length; i++) {
-            Share shareTemp = Share.copy(shares[i]);
+            ShareEntity shareTemp = ShareEntity.copy(shares[i]);
 
             do {
-              sharesToAdd.add(Share.copy(shareTemp));
+              sharesToAdd.add(ShareEntity.copy(shareTemp));
               shareTemp.latestTradingDay = shareTemp.latestTradingDay.add(Duration(days: -1));
             } while((i < shares.length - 1) && (shareTemp.latestTradingDay.isAfter(shares[i+1].latestTradingDay)));
           }
@@ -74,7 +74,7 @@ class ShareService {
 
         // if there is any shares to add then we clean the DB and add the new shares
         if (sharesToAdd.isNotEmpty && await emptyDBShares()) {
-          for (Share share in sharesToAdd) {
+          for (ShareEntity share in sharesToAdd) {
             shareRepository.addShare(share);
           }
         }
@@ -86,20 +86,20 @@ class ShareService {
   }
 
   // Returns all the shares
-  Future<List<Share>?> getAllShares() async {
+  Future<List<ShareEntity>?> getAllShares() async {
     return await shareRepository.getAllShares();
   }
 
   // Returns the latest shares for all symbol
-  Future<List<Share>?> getLatestShares() async {
+  Future<List<ShareEntity>?> getLatestShares() async {
     List<String>? symbols = await symbolService.getAllSymbols();
-    List<Share>? latestShare;
+    List<ShareEntity>? latestShare;
 
     if(symbols != null) {
       latestShare = [];
 
       for (var symbol in symbols) {
-        Share? share = await getLatestShare(symbol);
+        ShareEntity? share = await getLatestShare(symbol);
         if (share != null) {
           latestShare.add(share);
         }
@@ -113,7 +113,7 @@ class ShareService {
   Future<Map<String, double>?> getSharesPrices() async {
     Map<String, double>? sharesPrice;
 
-    List<Share>? shares = await getLatestShares();
+    List<ShareEntity>? shares = await getLatestShares();
 
     if(shares != null) {
       sharesPrice = {};
@@ -129,7 +129,7 @@ class ShareService {
   Future<Map<DateTime, double>?> getSymbolSharesPricesHistory(String symbol) async {
     Map<DateTime, double>? sharesPricesHistory;
 
-    List<Share>? shares = await shareRepository.getSymbolSharesPrices(symbol);
+    List<ShareEntity>? shares = await shareRepository.getSymbolSharesPrices(symbol);
 
     if(shares != null) {
       sharesPricesHistory = {};
@@ -185,7 +185,7 @@ class ShareService {
   }
 
   // Returns the latest share by symbol
-  Future<Share?> getLatestShare(String symbol) async {
+  Future<ShareEntity?> getLatestShare(String symbol) async {
     return await shareRepository.getLatestShare(symbol);
   }
 
@@ -196,7 +196,7 @@ class ShareService {
 
   // Adds shares by symbol
   Future<void> addNbShares(String symbol, int nbSharesToAdd) async {
-    Share? share = await getLatestShare(symbol);
+    ShareEntity? share = await getLatestShare(symbol);
 
     if(share != null && share.id != null) {
       shareRepository.incrementNbShares(share.nbShares + nbSharesToAdd, share.id ?? '');
@@ -208,7 +208,7 @@ class ShareService {
 
   // Removes user's shares by symbol
   Future<void> removeNbShares(String symbol, int nbSharesToAdd) async {
-    Share? share = await getLatestShare(symbol);
+    ShareEntity? share = await getLatestShare(symbol);
 
     if(share != null && share.id != null) {
       int newNbShare = share.nbShares - nbSharesToAdd;

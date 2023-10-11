@@ -1,15 +1,15 @@
 // This class represents shares owned by the user
-class UserShares {
+class UserSharesEntity {
   String? id;
   String _symbol;
   int _nbShares;
 
-  UserShares(this._symbol, this._nbShares, {this.id});
+  UserSharesEntity(this._symbol, this._nbShares, {this.id});
 
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Json object from the database to the UserShares object
-  factory UserShares.fromDBJson(Map<String, dynamic> json, String documentId) {
-    return UserShares(json['symbol'], json['nbShares'], id: documentId);
+  factory UserSharesEntity.fromDBJson(Map<String, dynamic> json, String documentId) {
+    return UserSharesEntity(json['symbol'], json['nbShares'], id: documentId);
   }
 
   // This methods converts a UserShares object to a Json object
