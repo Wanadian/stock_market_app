@@ -189,6 +189,11 @@ class ShareService {
     return await shareRepository.getLatestShare(symbol);
   }
 
+  // Returns the variation in percent of the price between the two latest shares
+  Future<double?> getPriceDifference(String symbol) async {
+    return await shareRepository.getPriceDifference(symbol);
+  }
+
   // Adds shares by symbol
   Future<void> addNbShares(String symbol, int nbSharesToAdd) async {
     Share? share = await getLatestShare(symbol);

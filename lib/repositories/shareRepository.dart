@@ -96,6 +96,28 @@ class ShareRepository {
     return latestShare;
   }
 
+  // Returns the variation in percent of the price between the two latest shares
+  Future<double?> getPriceDifference(String symbol) async {
+    List<Share> shares = [];
+
+    try {
+      return await collection
+          .where('symbol', isEqualTo: symbol)
+          .orderBy('latestTradingDay', descending: true)
+          .limit(2)
+          .get()
+          .then((snapshot) => {
+            for (var result in snapshot.docs) {
+              shares.add(Share.fromDBJson((result.data() as Map<String, dynamic>), result.id))
+            }
+          }).then((_) =>
+            shares.length == 2 ? (((shares[0].price * 100) / shares[1].price) - 100) : null
+          );
+    } catch (error) {
+      throw ShareError(error.toString());
+    }
+  }
+
   // Adds a share in the database
   Future<DocumentReference> addShare(Share share) {
     return collection.add(share.toJson());
