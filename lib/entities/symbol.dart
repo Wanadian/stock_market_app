@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 // This class represents the symbol of a company
 class Symbol {
   String _symbol;

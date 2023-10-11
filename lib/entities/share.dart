@@ -2,6 +2,7 @@
 import 'package:intl/intl.dart';
 
 class Share {
+  String? id;
   String _symbol;
   double _price;
   DateTime _latestTradingDay;
@@ -9,7 +10,7 @@ class Share {
   DateTime _latestRefreshDay;
 
   Share(this._symbol, this._price, this._latestTradingDay, this._nbShares,
-      this._latestRefreshDay);
+      this._latestRefreshDay, {this.id});
 
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Share object from the API
@@ -27,13 +28,14 @@ class Share {
 
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Share object from the database
-  factory Share.fromDBJson(Map<String, dynamic> json) {
+  factory Share.fromDBJson(Map<String, dynamic> json, String documentId) {
     return Share(
         json['symbol'],
         json['price'],
         json['latestTradingDay'].toDate(),
         json['nbShares'],
-        json['latestRefreshDay'].toDate());
+        json['latestRefreshDay'].toDate(),
+        id: documentId);
   }
 
   Map<String, dynamic> toJson() {

@@ -82,10 +82,10 @@ class ShareService {
 
   // Returns all the shares
   Future<List<Share>?> getAllShares() async {
-    return await shareRepository.getShares();
+    return await shareRepository.getAllShares();
   }
 
-  // Returns the lastest shares for all symbol
+  // Returns the latest shares for all symbol
   Future<List<Share>?> getLatestShares() async {
     List<String>? symbols = await symbolService.getAllSymbols();
 
@@ -96,7 +96,7 @@ class ShareService {
     return null;
   }
 
-  // Returns the lastest share's prices (for each symbol)
+  // Returns the latest share's prices (for each symbol)
   Future<Map<String, double>?> getSharesPrices() async {
     Map<String, double>? sharesPrice;
 
