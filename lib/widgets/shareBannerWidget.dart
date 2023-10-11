@@ -1,30 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market_app/services/userSharesService.dart';
 
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
-class ShareBannerWidget extends StatelessWidget {
+import '../context/inheritedServices.dart';
+import '../screens/graph.dart';
+
+class ShareBannerWidget extends StatefulWidget {
   double _shareValue;
-  int? _numberOfShares;
+  int _numberOfShares;
   String _shareName;
-  Function() _onPressed;
-  IconData _icon;
+  String _shareSymbol;
+  bool _isAcquire;
 
   ShareBannerWidget(
       {required double shareValue,
-      int? numberOfShares,
+      required int numberOfShares,
       required String shareName,
-      required dynamic Function() onPressed,
-      required IconData icon})
+      required String shareSymbol,
+      required bool isAcquire})
       : _shareValue = shareValue,
         _numberOfShares = numberOfShares,
         _shareName = shareName,
-        _onPressed = onPressed,
-        _icon = icon;
+        _shareSymbol = shareSymbol,
+        _isAcquire = isAcquire;
+
+  @override
+  State<ShareBannerWidget> createState() => _ShareBannerWidgetState();
+}
+
+class _ShareBannerWidgetState extends State<ShareBannerWidget> {
+  void _addShare(UserSharesService userSharesService) async {
+    await userSharesService.addUserShares(widget._shareSymbol, 1);
+  }
+
+  void _removeShare(UserSharesService userSharesService) async {
+    await userSharesService.removeUserShares(widget._shareSymbol, 1);
+  }
+
+  void _decrementNumberOfShares() {
+    setState(() {
+      widget._numberOfShares--;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
+    var inheritedServices = InheritedServices.of(context);
 
     //TODO : determine the variation of the share's value by comparing the value the day before to the current one
     double shareValueVariation = 0;
@@ -57,24 +82,29 @@ class ShareBannerWidget extends StatelessWidget {
                         child: DefaultTextStyle(
                             overflow: TextOverflow.fade,
                             style: TextStyle(color: Colors.black, fontSize: 13),
-                            child: Text(_shareName))),
+                            child: Text(widget._shareName))),
                   ]),
                   Row(children: [
-                    if (_numberOfShares != null) ...{
-                      Container(
-                          constraints: BoxConstraints(
-                              minWidth: 0, maxWidth: screenWidth * 0.13),
-                          child: DefaultTextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 13),
-                              child: Text('x ' + _numberOfShares.toString())))
-                    },
+                    Container(
+                        constraints: BoxConstraints(
+                            minWidth: 0, maxWidth: screenWidth * 0.13),
+                        child: DefaultTextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: Colors.black, fontSize: 13),
+                            child: Text(
+                                'x ' + widget._numberOfShares.toString()))),
                     Container(width: screenWidth * 0.03),
                     Column(
                       children: [
                         TextButton(
-                            onPressed: _onPressed,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Graph(
+                                            symbol: widget._shareSymbol,
+                                          )));
+                            },
                             child: Row(children: [
                               shareValueVariation < 0
                                   ? Transform.rotate(
@@ -105,12 +135,21 @@ class ShareBannerWidget extends StatelessWidget {
                           child: DefaultTextStyle(
                               style:
                                   TextStyle(color: Colors.black, fontSize: 14),
-                              child: Text('$_shareValue \$')),
+                              child: Text('${widget._shareValue} \$')),
                         )
                       ],
                     ),
                     ButtonWidget.iconButton(
-                        icon: _icon, onPressed: () {}, height: 25, width: 25),
+                        icon: widget._isAcquire ? Icons.remove : Icons.add,
+                        onPressed: () {
+                          _decrementNumberOfShares();
+                          widget._isAcquire
+                              ? _removeShare(
+                                  inheritedServices.userSharesService)
+                              : _addShare(inheritedServices.userSharesService);
+                        },
+                        height: 25,
+                        width: 25),
                     Container(width: 5)
                   ])
                 ])));
