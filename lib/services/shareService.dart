@@ -125,6 +125,60 @@ class ShareService {
     return sharesPrice;
   }
 
+  // Returns the shares prices history (for a symbol)
+  Future<Map<DateTime, double>?> getSymbolSharesPricesHistory(String symbol) async {
+    Map<DateTime, double>? sharesPricesHistory;
+
+    List<Share>? shares = await shareRepository.getSymbolSharesPrices(symbol);
+
+    if(shares != null) {
+      sharesPricesHistory = {};
+      for (var share in shares) {
+        sharesPricesHistory[share.latestTradingDay] = share.price;
+      }
+
+      // Sort the keys (dates) in ascending order
+      var sortedKeys = sharesPricesHistory.keys.toList()..sort();
+
+      // Create a new map with sorted keys
+      sharesPricesHistory = Map<DateTime, double>.fromIterable(
+        sortedKeys,
+        key: (key) => key,
+        value: (key) => sharesPricesHistory![key]!,
+      );
+
+      return sharesPricesHistory;
+    }
+
+    return null;
+  }
+
+  // Returns the shares prices history after a special start time (for a symbol)
+  Future<Map<DateTime, double>?> getSymbolSharesPricesHistoryWithDate(String symbol, DateTime startTime) async {
+    Map<DateTime, double>? symbolSharesPricesHistory = await getSymbolSharesPricesHistory(symbol);
+    Map<DateTime, double>? symbolSharesPricesHistoryAfterStartDate;
+
+    if(symbolSharesPricesHistory != null) {
+      symbolSharesPricesHistoryAfterStartDate = {};
+
+      DateTime timeTemp = startTime.add(Duration(days: -1));
+      while(symbolSharesPricesHistory.entries.first.key.isAfter(timeTemp)) {
+        timeTemp = timeTemp.add(Duration(days: 1));
+        symbolSharesPricesHistoryAfterStartDate[timeTemp] = -1;
+      }
+
+      symbolSharesPricesHistory.forEach((key, value) {
+        if(key.isAfter(startTime.add(Duration(days: -1)))) {
+          symbolSharesPricesHistoryAfterStartDate?[key] = value;
+        }
+      });
+
+      return symbolSharesPricesHistoryAfterStartDate;
+    }
+
+    return null;
+  }
+
   // Returns the latest refresh day from the database
   Future<DateTime?> getLatestRefreshDate() async {
     return await shareRepository.getLatestRefreshDate();

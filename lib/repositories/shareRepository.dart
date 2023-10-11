@@ -25,6 +25,27 @@ class ShareRepository {
     return allShares.length > 0 ? allShares : null;
   }
 
+  // Returns all the shares price for an unique symbol from the database
+  Future<List<Share>?> getSymbolSharesPrices(String symbol) async {
+    List<Share> allShares = [];
+
+    try {
+      await collection
+          .where('symbol', isEqualTo: symbol)
+          .get()
+          .then((querySnapshot) {
+        for (var result in querySnapshot.docs) {
+          allShares
+              .add(Share.fromDBJson(result.data() as Map<String, dynamic>, result.id));
+        }
+      });
+    } catch (error) {
+      throw ShareError(error.toString());
+    }
+
+    return allShares.length > 0 ? allShares : null;
+  }
+
   // Returns the latest shares for all symbol
   Future<List<Share>?> getLatestShares(List<String> symbols) async {
     List<Share>? latestShares;
