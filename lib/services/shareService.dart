@@ -56,8 +56,13 @@ class ShareService {
         List<Share>? shares = await getShareFromAPI(symbol);
 
         if(shares != null) {
-          for (Share share in shares) {
-            sharesToAdd.add(share);
+          for (int i = 0; i < shares.length; i++) {
+            Share shareTemp = Share.copy(shares[i]);
+
+            do {
+              sharesToAdd.add(Share.copy(shareTemp));
+              shareTemp.latestTradingDay = shareTemp.latestTradingDay.add(Duration(days: -1));
+            } while((i < shares.length - 1) && (shareTemp.latestTradingDay.isAfter(shares[i+1].latestTradingDay)));
           }
         }
         else {
@@ -88,12 +93,20 @@ class ShareService {
   // Returns the latest shares for all symbol
   Future<List<Share>?> getLatestShares() async {
     List<String>? symbols = await symbolService.getAllSymbols();
+    List<Share>? latestShare;
 
     if(symbols != null) {
-      return await shareRepository.getLatestShares(symbols);
+      latestShare = [];
+
+      for (var symbol in symbols) {
+        Share? share = await getLatestShare(symbol);
+        if (share != null) {
+          latestShare.add(share);
+        }
+      }
     }
 
-    return null;
+    return latestShare;
   }
 
   // Returns the latest share's prices (for each symbol)
@@ -119,6 +132,9 @@ class ShareService {
 
   // Returns the latest share by symbol
   Future<Share?> getLatestShare(String symbol) async {
+    return await shareRepository.getLatestShare(symbol);
+  }
+
   // Adds shares by symbol
   Future<void> addNbShares(String symbol, int nbSharesToAdd) async {
     Share? share = await getLatestShare(symbol);

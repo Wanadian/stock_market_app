@@ -53,6 +53,28 @@ class ShareRepository {
     return latestShares;
   }
 
+  // Returns the latest share for a symbol
+  Future<Share?> getLatestShare(String symbol) async {
+    Share? latestShare;
+
+    try {
+      latestShare = await collection
+          .where('symbol', isEqualTo: symbol)
+          .orderBy('latestTradingDay', descending: true)
+          .limit(1)
+          .get()
+          .then((snapshot) =>
+            snapshot.docs
+            .map((doc) => Share.fromDBJson(doc.data() as Map<String, dynamic>, doc.id))
+            .first
+          );
+    } catch (error) {
+      throw ShareError(error.toString());
+    }
+
+    return latestShare;
+  }
+
   // Adds a share in the database
   Future<DocumentReference> addShare(Share share) {
     return collection.add(share.toJson());

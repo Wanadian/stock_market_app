@@ -26,6 +26,11 @@ class Share {
         DateTime.parse('$currentDateFormatted 00:00:00'));
   }
 
+  // Makes a copy of a share
+  factory Share.copy(Share baseShare) {
+    return Share(baseShare.symbol, baseShare.price, baseShare.latestTradingDay, baseShare.nbShares, baseShare.latestRefreshDay);
+  }
+
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Share object from the database
   factory Share.fromDBJson(Map<String, dynamic> json, String documentId) {
