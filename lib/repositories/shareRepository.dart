@@ -78,4 +78,22 @@ class ShareRepository {
       }
     }).then((value) => true);
   }
+
+  // Adds number shares by symbol in the database
+  Future<void> incrementNbShares(int newNbShares, String id) async {
+    try {
+      await collection.doc(id).update({'nbShares': newNbShares});
+    } catch (error) {
+      throw ShareError(error.toString());
+    }
+  }
+
+  // Removes shares by symbol in the database
+  Future<void> decrementNbShares(int newNbShares, String id) async {
+    try {
+      await collection.doc(id).update({'nbShares': newNbShares});
+    } catch (error) {
+      throw ShareError(error.toString());
+    }
+  }
 }

@@ -119,20 +119,36 @@ class ShareService {
 
   // Returns the latest share by symbol
   Future<Share?> getLatestShare(String symbol) async {
-    List<String>? symbols = await symbolService.getAllSymbols();
+  // Adds shares by symbol
+  Future<void> addNbShares(String symbol, int nbSharesToAdd) async {
+    Share? share = await getLatestShare(symbol);
 
-
-    if(symbols != null) {
-      List<Share>? shares = await shareRepository.getLatestShares(symbols);
-
-      for (var s in shares!) {
-        if (s.symbol == symbol) {
-          return s;
-        }
-      }
+    if(share != null && share.id != null) {
+      shareRepository.incrementNbShares(share.nbShares + nbSharesToAdd, share.id ?? '');
     }
+    else {
+      throw ShareError('Share\'s number of $symbol not found');
+    }
+  }
 
-    return null;
+  // Removes user's shares by symbol
+  Future<void> removeNbShares(String symbol, int nbSharesToAdd) async {
+    Share? share = await getLatestShare(symbol);
+
+    if(share != null && share.id != null) {
+      int newNbShare = share.nbShares - nbSharesToAdd;
+
+      if(newNbShare < 0) {
+        shareRepository.decrementNbShares(0, share.id ?? '');
+      }
+      else {
+        shareRepository.decrementNbShares(newNbShare, share.id ?? '');
+      }
+
+    }
+    else {
+      throw ShareError('Share\'s number of $symbol not found');
+    }
   }
 
   // Returns the share's price (of a symbol)
