@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stock_market_app/errors/symbolError.dart';
-import 'package:stock_market_app/entities/symbol.dart';
+import 'package:stock_market_app/entities/symbolEntity.dart';
 
 // This class is used to call the database
 class SymbolRepository {
@@ -8,14 +8,14 @@ class SymbolRepository {
       FirebaseFirestore.instance.collection('symbols');
 
   // Returns all the shares from the database
-  Future<List<Symbol>?> getAllSymbols() async {
-    List<Symbol> allSymbols = [];
+  Future<List<SymbolEntity>?> getAllSymbols() async {
+    List<SymbolEntity> allSymbols = [];
 
     try {
       await collection.get().then((querySnapshot) {
         for (var result in querySnapshot.docs) {
           allSymbols
-              .add(Symbol.fromDBJson(result.data() as Map<String, dynamic>));
+              .add(SymbolEntity.fromDBJson(result.data() as Map<String, dynamic>));
         }
       });
     } catch (error) {
@@ -66,7 +66,7 @@ class SymbolRepository {
   }
 
   // Adds a symbol in the database
-  Future<DocumentReference> addSymbol(Symbol symbol) {
+  Future<DocumentReference> addSymbol(SymbolEntity symbol) {
     return collection.add(symbol.toJson());
   }
 }

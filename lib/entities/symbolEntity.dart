@@ -1,16 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 // This class represents the symbol of a company
-class Symbol {
+class SymbolEntity {
   String _symbol;
   String _companyName;
 
-  Symbol(this._symbol, this._companyName);
+  SymbolEntity(this._symbol, this._companyName);
 
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Symbol object from the database
-  factory Symbol.fromDBJson(Map<String, dynamic> json) {
-    return Symbol(json['symbol'], json['companyName']);
+  factory SymbolEntity.fromDBJson(Map<String, dynamic> json) {
+    return SymbolEntity(json['symbol'], json['companyName']);
   }
 
   // This methods converts a Symbol object to a Json object

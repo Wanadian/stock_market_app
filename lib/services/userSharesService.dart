@@ -1,24 +1,26 @@
-import 'package:stock_market_app/entities/userShares.dart';
+import 'package:stock_market_app/entities/userSharesEntity.dart';
 import 'package:stock_market_app/errors/userShareError.dart';
 import 'package:stock_market_app/repositories/userSharesRepository.dart';
+import 'package:stock_market_app/services/shareService.dart';
 
-// This class allows us to call the repository and avoid direct calls to the database
+// This class allows us to call the repository and a Future<dynamic> direct calls to the database
 class UserSharesService {
   UserSharesRepository userSharesRepository = UserSharesRepository();
+  ShareService shareService = ShareService();
 
   // Returns all the user's shares
-  Future<List<UserShares>?> getAllUserShares() async {
+  Future<List<UserSharesEntity>?> getAllUserShares() async {
     return await userSharesRepository.getAllUserShares();
   }
 
   // Returns a user's shares by symbol
-  Future<UserShares?> getUserShares(String symbol) async {
+  Future<UserSharesEntity?> getUserShares(String symbol) async {
     return await userSharesRepository.getUserShares(symbol);
   }
 
   // Adds user's shares by symbol
-  void addUserShares(String symbol, int nbSharesToAdd) async {
-    UserShares? userShare = await this.getUserShares(symbol);
+  Future<void> addUserShares(String symbol, int nbSharesToAdd) async {
+    UserSharesEntity? userShare = await this.getUserShares(symbol);
 
     if (userShare != null && userShare.id != null) {
       userSharesRepository.incrementUserShares(
@@ -26,11 +28,13 @@ class UserSharesService {
     } else {
       userSharesRepository.addUserShares(symbol, nbSharesToAdd);
     }
+
+    await shareService.removeNbShares(symbol, nbSharesToAdd);
   }
 
   // Removes user's shares by symbol
-  void removeUserShares(String symbol, int nbSharesToAdd) async {
-    UserShares? userShare = await this.getUserShares(symbol);
+  Future<void> removeUserShares(String symbol, int nbSharesToAdd) async {
+    UserSharesEntity? userShare = await this.getUserShares(symbol);
 
     if (userShare != null && userShare.id != null) {
       int newNbShares = userShare.nbShares - nbSharesToAdd;
@@ -43,6 +47,8 @@ class UserSharesService {
     } else {
       throw UserSharesError('No share with the symbol $symbol in the wallet');
     }
+
+    await shareService.addNbShares(symbol, nbSharesToAdd);
   }
 
   // Gets the number of user's shares (of a symbol)
@@ -54,7 +60,7 @@ class UserSharesService {
   Future<double> getUserSharesBalance(Map<String, double> sharesPrices) async {
     double balance = 0;
 
-    List<UserShares>? allUserShares =
+    List<UserSharesEntity>? allUserShares =
         await userSharesRepository.getAllUserShares();
 
     if (allUserShares != null) {
