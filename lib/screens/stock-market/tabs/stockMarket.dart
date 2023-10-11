@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:stock_market_app/services/symbolService.dart';
 
 import '../../../context/inheritedServices.dart';
 import '../../../dto/shareDto.dart';
 import '../../../entities/share.dart';
 import '../../../services/shareService.dart';
+import '../../../services/symbolService.dart';
 import '../../../widgets/shareBannerWidget.dart';
-import '../../graph.dart';
 
 class StockMarket extends StatefulWidget {
   const StockMarket({Key? key}) : super(key: key);
@@ -52,19 +51,24 @@ class _StockMarketState extends State<StockMarket> {
                       shareValue: share.getShareValue(),
                       numberOfShares: share.getNumberOfShare(),
                       shareName: share.getShareName(),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Graph(
-                                      symbol: share.getShareSymbol(),
-                                    )));
-                      },
-                      icon: Icons.add)
+                      shareSymbol: share.getShareSymbol(),
+                      isAcquire: false)
                 ],
                 Container(height: screenHeight * 0.05),
               ],
             )));
+          } else if (shareList.data == null) {
+            return Scaffold(
+                body: Column(children: [
+                  Container(
+                    height: screenHeight * 0.35,
+                  ),
+                  Container(
+                      width: screenWidth * 0.9,
+                      child: Text("It seems like you don't have any share in your wallet",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.orange, fontSize: 20)))
+                ]));
           } else if (shareList.hasError) {
             return Scaffold(
                 body: Column(children: [

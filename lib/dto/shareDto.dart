@@ -20,6 +20,10 @@ class ShareDto {
     return _shareSymbol;
   }
 
+  void setNumberOfShare(int numberOfShares) {
+    _numberOfShares = numberOfShares;
+  }
+
   ShareDto({shareValue, numberOfShares, shareName, shareSymbol})
       : this._shareValue = shareValue,
         this._numberOfShares = numberOfShares,

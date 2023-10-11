@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:stock_market_app/screens/graph.dart';
-import 'package:stock_market_app/services/shareService.dart';
-import 'package:stock_market_app/services/userSharesService.dart';
-import 'package:stock_market_app/widgets/shareBannerWidget.dart';
 
 import '../../../context/inheritedServices.dart';
 import '../../../dto/shareDto.dart';
 import '../../../entities/userShares.dart';
+import '../../../services/shareService.dart';
 import '../../../services/symbolService.dart';
+import '../../../services/userSharesService.dart';
+import '../../../widgets/shareBannerWidget.dart';
 
 class PurchasedShares extends StatefulWidget {
   const PurchasedShares({Key? key}) : super(key: key);
@@ -56,14 +55,8 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                       shareValue: share.getShareValue(),
                       numberOfShares: share.getNumberOfShare(),
                       shareName: share.getShareName(),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Graph(symbol: share.getShareSymbol())));
-                      },
-                      icon: Icons.remove)
+                      shareSymbol: share.getShareSymbol(),
+                      isAcquire: true)
                 ],
                 Container(height: screenHeight * 0.05),
               ],
