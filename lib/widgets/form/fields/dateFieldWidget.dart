@@ -4,9 +4,9 @@ import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class DateFieldWidget extends StatefulWidget {
   DateFieldWidget(
-      {required Key key, required Function(DateTime date) onChange, required String label})
+      {required Key key, required Function(DateTime date) onChange, String? label})
       : _onChange = onChange,
-        _label = label,
+        _label = label != null ? label : '',
         _key = key;
 
   Key _key;
