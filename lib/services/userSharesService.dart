@@ -38,7 +38,7 @@ class UserSharesService {
 
     if (userShare != null && userShare.id != null) {
       int newNbShares = userShare.nbShares - nbSharesToAdd;
-      if (newNbShares >= 0) {
+      if (newNbShares > 0) {
         userSharesRepository.decrementUserShares(
             userShare.nbShares - nbSharesToAdd, userShare.id ?? '');
       } else {
