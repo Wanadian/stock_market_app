@@ -54,7 +54,9 @@ class _ShareBannerWidgetState extends State<ShareBannerWidget> {
     //TODO : determine the variation of the share's value by comparing the value the day before to the current one
     double shareValueVariation = 0;
 
-    return Align(
+    return Visibility(
+      visible: widget._numberOfShares <= 0 ? false : true,
+        child: Align(
         alignment: Alignment.center,
         child: Container(
             width: screenWidth * 0.9,
@@ -152,6 +154,6 @@ class _ShareBannerWidgetState extends State<ShareBannerWidget> {
                         width: 25),
                     Container(width: 5)
                   ])
-                ])));
+                ]))));
   }
 }
