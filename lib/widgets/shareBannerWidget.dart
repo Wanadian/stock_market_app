@@ -34,7 +34,7 @@ class _ShareBannerWidgetState extends State<ShareBannerWidget> {
     await userSharesService.addUserShares(widget._shareSymbol, 1);
   }
 
-  void _removeShare(UserSharesService userSharesService) async {
+  _removeShare(UserSharesService userSharesService) async {
     await userSharesService.removeUserShares(widget._shareSymbol, 1);
   }
 
