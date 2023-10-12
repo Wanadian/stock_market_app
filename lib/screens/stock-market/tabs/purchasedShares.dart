@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../context/inheritedServices.dart';
 import '../../../dto/shareDto.dart';
-import '../../../entities/userShares.dart';
+import '../../../entities/userSharesEntity.dart';
 import '../../../services/shareService.dart';
 import '../../../services/symbolService.dart';
 import '../../../services/userSharesService.dart';
@@ -18,10 +18,10 @@ class PurchasedShares extends StatefulWidget {
 class _PurchasedSharesState extends State<PurchasedShares> {
   Future<List<ShareDto>?> _shareListRequest(UserSharesService userSharesService,
       ShareService shareService, SymbolService symbolService) async {
-    List<UserShares>? shareListResponse =
+    List<UserSharesEntity>? shareListResponse =
         await userSharesService.getAllUserShares();
     List<ShareDto> shareList = [];
-    for (UserShares share in shareListResponse!) {
+    for (UserSharesEntity share in shareListResponse!) {
       shareList.add(ShareDto(
           shareValue: await shareService.getPrice(share.symbol),
           numberOfShares: share.nbShares,
@@ -61,18 +61,6 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                 Container(height: screenHeight * 0.05),
               ],
             )));
-          } else if (shareList.data == null) {
-            return Scaffold(
-                body: Column(children: [
-                  Container(
-                    height: screenHeight * 0.35,
-                  ),
-                  Container(
-                      width: screenWidth * 0.9,
-                      child: Text("It seems like you don't have any share in your wallet",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.orange, fontSize: 20)))
-                ]));
           } else if (shareList.hasError) {
             return Scaffold(
                 body: Column(children: [
