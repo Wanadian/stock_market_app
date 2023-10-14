@@ -22,7 +22,7 @@ class UserSharesRepository {
       throw UserSharesError(error.toString());
     }
 
-    return userShares.length > 0 ? userShares : null;
+    return userShares;
   }
 
   // Returns the user's shares by the symbol from database
@@ -47,7 +47,7 @@ class UserSharesRepository {
   }
 
   // Adds user's shares by symbol in the database
-  void incrementUserShares(int newNbShares, String id) async {
+  Future<void> incrementUserShares(int newNbShares, String id) async {
     try {
       await collection.doc(id).update({'nbShares': newNbShares});
     } catch (error) {
@@ -56,7 +56,7 @@ class UserSharesRepository {
   }
 
   // Creates user's shares by symbol in the database
-  Future<DocumentReference> addUserShares(String symbol, int nbShares) {
+  Future<void> addUserShares(String symbol, int nbShares) {
     try {
       UserSharesEntity userShares = UserSharesEntity(symbol, nbShares);
       return collection.add(userShares.toJson());
@@ -66,7 +66,7 @@ class UserSharesRepository {
   }
 
   // Removes user's shares by symbol in the database
-  void decrementUserShares(int newNbShares, String id) async {
+  Future<void> decrementUserShares(int newNbShares, String id) async {
     try {
       await collection.doc(id).update({'nbShares': newNbShares});
     } catch (error) {
@@ -75,7 +75,7 @@ class UserSharesRepository {
   }
 
   // Deletes user's shares by symbol in the database
-  void deleteUserShares(String id) async {
+  Future<void> deleteUserShares(String id) async {
     try {
       await collection.doc(id).delete();
     } catch (error) {

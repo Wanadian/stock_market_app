@@ -22,7 +22,7 @@ class ShareRepository {
       throw ShareError(error.toString());
     }
 
-    return allShares.length > 0 ? allShares : null;
+    return allShares;
   }
 
   // Returns all the shares price for an unique symbol from the database
@@ -43,7 +43,7 @@ class ShareRepository {
       throw ShareError(error.toString());
     }
 
-    return allShares.length > 0 ? allShares : null;
+    return allShares;
   }
 
   // Returns the latest shares for all symbol
@@ -119,7 +119,7 @@ class ShareRepository {
   }
 
   // Adds a share in the database
-  Future<DocumentReference> addShare(ShareEntity share) {
+  Future<void> addShare(ShareEntity share) {
     return collection.add(share.toJson());
   }
 
@@ -131,7 +131,7 @@ class ShareRepository {
         // Limit to the first (latest) element
         .limit(1)
         .get()
-        .then((querySnapshot) => querySnapshot.docs.first.get('latestRefreshDay'));
+        .then((querySnapshot) => querySnapshot.docs.isNotEmpty ? querySnapshot.docs.first.get('latestRefreshDay') : null);
 
     return latestRefreshDay?.toDate();
   }

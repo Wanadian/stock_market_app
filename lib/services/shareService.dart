@@ -75,7 +75,7 @@ class ShareService {
         // if there is any shares to add then we clean the DB and add the new shares
         if (sharesToAdd.isNotEmpty && await emptyDBShares()) {
           for (ShareEntity share in sharesToAdd) {
-            shareRepository.addShare(share);
+            await shareRepository.addShare(share);
           }
         }
       });
@@ -199,7 +199,7 @@ class ShareService {
     ShareEntity? share = await getLatestShare(symbol);
 
     if(share != null && share.id != null) {
-      shareRepository.incrementNbShares(share.nbShares + nbSharesToAdd, share.id ?? '');
+      await shareRepository.incrementNbShares(share.nbShares + nbSharesToAdd, share.id ?? '');
     }
     else {
       throw ShareError('Share\'s number of $symbol not found');
@@ -214,10 +214,10 @@ class ShareService {
       int newNbShare = share.nbShares - nbSharesToAdd;
 
       if(newNbShare < 0) {
-        shareRepository.decrementNbShares(0, share.id ?? '');
+        await shareRepository.decrementNbShares(0, share.id ?? '');
       }
       else {
-        shareRepository.decrementNbShares(newNbShare, share.id ?? '');
+        await shareRepository.decrementNbShares(newNbShare, share.id ?? '');
       }
 
     }

@@ -3,7 +3,7 @@ import 'package:stock_market_app/errors/userShareError.dart';
 import 'package:stock_market_app/repositories/userSharesRepository.dart';
 import 'package:stock_market_app/services/shareService.dart';
 
-// This class allows us to call the repository and a Future<dynamic> direct calls to the database
+// This class allows us to call the repository and avoid direct calls to the database
 class UserSharesService {
   UserSharesRepository userSharesRepository = UserSharesRepository();
   ShareService shareService = ShareService();
@@ -23,10 +23,10 @@ class UserSharesService {
     UserSharesEntity? userShare = await this.getUserShares(symbol);
 
     if (userShare != null && userShare.id != null) {
-      userSharesRepository.incrementUserShares(
+        await userSharesRepository.incrementUserShares(
           userShare.nbShares + nbSharesToAdd, userShare.id ?? '');
     } else {
-      userSharesRepository.addUserShares(symbol, nbSharesToAdd);
+        await userSharesRepository.addUserShares(symbol, nbSharesToAdd);
     }
 
     await shareService.removeNbShares(symbol, nbSharesToAdd);
@@ -39,10 +39,10 @@ class UserSharesService {
     if (userShare != null && userShare.id != null) {
       int newNbShares = userShare.nbShares - nbSharesToAdd;
       if (newNbShares > 0) {
-        userSharesRepository.decrementUserShares(
-            userShare.nbShares - nbSharesToAdd, userShare.id ?? '');
+          await userSharesRepository.decrementUserShares(
+              userShare.nbShares - nbSharesToRemove, userShare.id ?? '');
       } else {
-        userSharesRepository.deleteUserShares(userShare.id ?? '');
+          await userSharesRepository.deleteUserShares(userShare.id ?? '');
       }
     } else {
       throw UserSharesError('No share with the symbol $symbol in the wallet');
@@ -56,8 +56,8 @@ class UserSharesService {
     return (await userSharesRepository.getUserShares(symbol))?.nbShares;
   }
 
-  // Returns the balance of the global user's shares (with all the symbols and shares)
-  Future<double> getUserSharesBalance(Map<String, double> sharesPrices) async {
+  // Returns the balance's estimation of the global user's shares (with all the symbols and shares)
+  Future<double> getUserSharesBalanceEstimation(Map<String, double> sharesPrices) async {
     double balance = 0;
 
     List<UserSharesEntity>? allUserShares =
