@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_market_app/context/inheritedServices.dart';
 import 'package:stock_market_app/main.dart';
+import 'package:stock_market_app/services/cardService.dart';
 import 'package:stock_market_app/services/shareService.dart';
 import 'package:stock_market_app/services/symbolService.dart';
 import 'package:stock_market_app/services/userSharesService.dart';
+import 'package:stock_market_app/services/walletService.dart';
 import 'package:intl/intl.dart';
 
 // This Widget is the parent widget, where we can store services and all useful information
@@ -17,6 +19,8 @@ class _RootWidgetState extends State<RootWidget> {
   SymbolService symbolService = SymbolService();
   ShareService shareService = ShareService();
   UserSharesService userSharesService = UserSharesService();
+  WalletService walletService = WalletService();
+  CardService cardService = CardService();
   late SharedPreferences prefs;
 
   @override
@@ -64,6 +68,8 @@ class _RootWidgetState extends State<RootWidget> {
       symbolService: symbolService,
       shareService: shareService,
       userSharesService: userSharesService,
+      walletService: walletService,
+      cardService: cardService,
       child: MyApp(),
     );
   }
