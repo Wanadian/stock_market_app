@@ -1,12 +1,17 @@
+import 'package:stock_market_app/entities/shareEntity.dart';
 import 'package:stock_market_app/entities/userSharesEntity.dart';
+import 'package:stock_market_app/errors/shareError.dart';
 import 'package:stock_market_app/errors/userShareError.dart';
+import 'package:stock_market_app/errors/walletError.dart';
 import 'package:stock_market_app/repositories/userSharesRepository.dart';
 import 'package:stock_market_app/services/shareService.dart';
+import 'package:stock_market_app/services/walletService.dart';
 
 // This class allows us to call the repository and avoid direct calls to the database
 class UserSharesService {
   UserSharesRepository userSharesRepository = UserSharesRepository();
   ShareService shareService = ShareService();
+  WalletService walletService = WalletService();
 
   // Returns all the user's shares
   Future<List<UserSharesEntity>?> getAllUserShares() async {
@@ -18,37 +23,67 @@ class UserSharesService {
     return await userSharesRepository.getUserShares(symbol);
   }
 
-  // Adds user's shares by symbol
-  Future<void> addUserShares(String symbol, int nbSharesToAdd) async {
-    UserSharesEntity? userShare = await this.getUserShares(symbol);
+  // Adds user's shares by symbol, returns true if we can add the share
+  Future<bool> addUserShares(String symbol, int nbSharesToAdd) async {
+    if(nbSharesToAdd > 0) {
 
-    if (userShare != null && userShare.id != null) {
+      UserSharesEntity? userShare = await this.getUserShares(symbol);
+      ShareEntity? share = await shareService.getLatestShare(symbol);
+      double? balance = await walletService.getWalletBalance();
+
+      if (share == null) {
+        throw ShareError('Share not found');
+      }
+
+      if (balance == null) {
+        throw WalletError('Wallet balance not found');
+      }
+
+      if ((balance - share.price * nbSharesToAdd) < 0) {
+        return false;
+      }
+
+      if (userShare != null && userShare.id != null) {
         await userSharesRepository.incrementUserShares(
-          userShare.nbShares + nbSharesToAdd, userShare.id ?? '');
-    } else {
+            userShare.nbShares + nbSharesToAdd, userShare.id ?? '');
+      } else {
         await userSharesRepository.addUserShares(symbol, nbSharesToAdd);
+      }
+
+      await shareService.removeNbShares(symbol, nbSharesToAdd);
+      await walletService.debitWalletBalance(share.price * nbSharesToAdd);
+      return true;
     }
 
-    await shareService.removeNbShares(symbol, nbSharesToAdd);
+    return false;
   }
 
   // Removes user's shares by symbol
-  Future<void> removeUserShares(String symbol, int nbSharesToAdd) async {
-    UserSharesEntity? userShare = await this.getUserShares(symbol);
+  Future<void> removeUserShares(String symbol, int nbSharesToRemove) async {
+    if(nbSharesToRemove > 0) {
 
-    if (userShare != null && userShare.id != null) {
-      int newNbShares = userShare.nbShares - nbSharesToAdd;
-      if (newNbShares > 0) {
+      UserSharesEntity? userShare = await this.getUserShares(symbol);
+      ShareEntity? share = await shareService.getLatestShare(symbol);
+
+      if (share == null) {
+        throw ShareError('Share not found');
+      }
+
+      if (userShare != null && userShare.id != null) {
+        int newNbShares = userShare.nbShares - nbSharesToRemove;
+        if (newNbShares > 0) {
           await userSharesRepository.decrementUserShares(
               userShare.nbShares - nbSharesToRemove, userShare.id ?? '');
-      } else {
+        } else {
           await userSharesRepository.deleteUserShares(userShare.id ?? '');
+        }
+      } else {
+        throw UserSharesError('No share with the symbol $symbol in the wallet');
       }
-    } else {
-      throw UserSharesError('No share with the symbol $symbol in the wallet');
-    }
 
-    await shareService.addNbShares(symbol, nbSharesToAdd);
+      await shareService.addNbShares(symbol, nbSharesToRemove);
+      await walletService.creditWalletBalance(share.price * nbSharesToRemove);
+    }
   }
 
   // Gets the number of user's shares (of a symbol)
