@@ -1,3 +1,4 @@
+// This class manages the Share Exception
 class ShareError implements Exception {
   final String message;
 

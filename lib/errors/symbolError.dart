@@ -1,3 +1,4 @@
+// This class manages the Symbol Exception
 class SymbolError implements Exception {
   final String message;
 
