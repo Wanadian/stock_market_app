@@ -112,54 +112,62 @@ class _ShareBannerWidgetState extends State<ShareBannerWidget> {
                                 Container(width: screenWidth * 0.03),
                                 Column(
                                   children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => Graph(
-                                                        symbol:
-                                                            widget._shareSymbol,
-                                                      )));
-                                        },
-                                        child: Row(children: [
-                                          shareValueVariation.data! < 0
-                                              ? Transform.rotate(
-                                                  angle: 1.57,
-                                                  child: Icon(
-                                                    Icons.call_made,
-                                                    color: Colors.red,
-                                                  ))
-                                              : Transform.rotate(
-                                                  angle: 0,
-                                                  child: Icon(
-                                                    Icons.call_made,
-                                                    color: Colors.green,
-                                                  )),
-                                          DefaultTextStyle(
-                                              style: TextStyle(
-                                                  color: shareValueVariation
-                                                              .data! <
-                                                          0
-                                                      ? Colors.red
-                                                      : Colors.green,
-                                                  fontSize: 14),
-                                              child: Text(shareValueVariation
-                                                      .data!
-                                                      .abs()
-                                                      .toStringAsPrecision(2) +
-                                                  '\%'))
-                                        ])),
                                     Container(
+                                        height: screenHeight * 0.05,
+                                        child: TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Graph(
+                                                            symbol: widget
+                                                                ._shareSymbol,
+                                                          )));
+                                            },
+                                            child: Row(children: [
+                                              shareValueVariation.data! < 0
+                                                  ? Transform.rotate(
+                                                      angle: 1.57,
+                                                      child: Icon(
+                                                        Icons.call_made,
+                                                        color: Colors.red,
+                                                      ))
+                                                  : Transform.rotate(
+                                                      angle: 0,
+                                                      child: Icon(
+                                                        Icons.call_made,
+                                                        color: Colors.green,
+                                                      )),
+                                              DefaultTextStyle(
+                                                  style: TextStyle(
+                                                      color: shareValueVariation
+                                                                  .data! <
+                                                              0
+                                                          ? Colors.red
+                                                          : Colors.green,
+                                                      fontSize: 14),
+                                                  child: Text(shareValueVariation
+                                                          .data!
+                                                          .abs()
+                                                          .toStringAsPrecision(
+                                                              2) +
+                                                      '\%'))
+                                            ]))),
+                                    Container(
+                                      height: screenHeight * 0.05,
+                                      alignment: Alignment.center,
                                       constraints: BoxConstraints(
                                           minWidth: 0,
                                           maxWidth: screenWidth * 0.2),
                                       child: DefaultTextStyle(
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 14),
-                                          child:
-                                              Text('${widget._shareValue} \$')),
+                                          child: Text(
+                                            '${widget._shareValue} \$',
+                                          )),
                                     )
                                   ],
                                 ),
