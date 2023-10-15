@@ -22,7 +22,7 @@ class SymbolRepository {
       throw SymbolError(error.toString());
     }
 
-    return allSymbols.length > 0 ? allSymbols : null;
+    return allSymbols;
   }
 
   // Returns the symbol of a company from database
@@ -66,7 +66,7 @@ class SymbolRepository {
   }
 
   // Adds a symbol in the database
-  Future<DocumentReference> addSymbol(SymbolEntity symbol) {
+  Future<void> addSymbol(SymbolEntity symbol) {
     return collection.add(symbol.toJson());
   }
 }

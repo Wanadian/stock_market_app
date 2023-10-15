@@ -1,3 +1,4 @@
+// This class manages the UserShare Exception
 class UserSharesError implements Exception {
   final String message;
 
