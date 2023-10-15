@@ -12,17 +12,17 @@ import '../widgets/form/formWidget.dart';
 import 'balance.dart';
 
 class Keys {
-  static final cardDetailsForm =
+  static final _cardDetailsForm =
       GlobalObjectKey<FormState>('card-details-form');
-  static final valueToPayInput =
+  static final _valueToPayInput =
       GlobalObjectKey<FormFieldState>('value-to-pay-input');
-  static final cardHolderNameInput =
+  static final _cardHolderNameInput =
       GlobalObjectKey<FormFieldState>('card-holder-name-input');
-  static final cardNumberInput =
+  static final _cardNumberInput =
       GlobalObjectKey<FormFieldState>('card-number-input');
-  static final cardSafeCodeInput =
+  static final _cardSafeCodeInput =
       GlobalObjectKey<FormFieldState>('card-safe-code-input');
-  static final cardExpirationDateInput =
+  static final _cardExpirationDateInput =
       GlobalObjectKey<FormFieldState>('card-expiration-date-input');
 }
 
