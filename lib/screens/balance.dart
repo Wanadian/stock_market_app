@@ -102,7 +102,7 @@ class _BalanceState extends State<Balance> {
                   ),
                   Container(
                       width: screenWidth * 0.9,
-                      child: Text('Something went wrong ${balance.error}',
+                      child: Text('Something went wrong',
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.red, fontSize: 20)))
                 ] else ...[
