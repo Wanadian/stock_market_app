@@ -12,18 +12,13 @@ import '../widgets/form/formWidget.dart';
 import 'balance.dart';
 
 class Keys {
-  static final _cardDetailsForm =
-      GlobalObjectKey<FormState>('card-details-form');
-  static final _valueToPayInput =
-      GlobalObjectKey<FormFieldState>('value-to-pay-input');
-  static final _cardHolderNameInput =
-      GlobalObjectKey<FormFieldState>('card-holder-name-input');
-  static final _cardNumberInput =
-      GlobalObjectKey<FormFieldState>('card-number-input');
-  static final _cardSafeCodeInput =
-      GlobalObjectKey<FormFieldState>('card-safe-code-input');
-  static final _cardExpirationDateInput =
-      GlobalObjectKey<FormFieldState>('card-expiration-date-input');
+  GlobalKey<FormState> _cardDetailsForm = GlobalKey<FormState>();
+  GlobalKey<FormFieldState> _valueToPayInput = GlobalKey<FormFieldState>();
+  GlobalKey<FormFieldState> _cardHolderNameInput = GlobalKey<FormFieldState>();
+  GlobalKey<FormFieldState> _cardNumberInput = GlobalKey<FormFieldState>();
+  GlobalKey<FormFieldState> _cardSafeCodeInput = GlobalKey<FormFieldState>();
+  GlobalKey<FormFieldState> _cardExpirationDateInput =
+      GlobalKey<FormFieldState>();
 }
 
 class PaymentDetails {
@@ -70,6 +65,8 @@ class _ModifyBalanceState extends State<ModifyBalance> {
     var inheritedServices = InheritedServices.of(context);
     Future<String?> _balance =
         _getBalanceRequest(inheritedServices.walletService);
+
+    Keys keys = new Keys();
 
     return FutureBuilder<String?>(
         future: _balance,
@@ -123,7 +120,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                           constraints: BoxConstraints(
                               minWidth: 0, maxWidth: screenWidth * 0.8),
                           child: NumberFieldWidget(
-                              key: Keys.valueToPayInput,
+                              key: keys._valueToPayInput,
                               value: -1,
                               validator: (value) {
                                 if (value == '' ||
@@ -146,8 +143,8 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                     ButtonWidget.textButton(
                         label: 'Pay',
                         onPressed: () {
-                          if (Keys.valueToPayInput.currentState!.validate()) {
-                            Keys.valueToPayInput.currentState?.save();
+                          if (keys._valueToPayInput.currentState!.validate()) {
+                            keys._valueToPayInput.currentState?.save();
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -166,10 +163,10 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                             Container(
                                                 height: screenHeight * 0.05),
                                             FormWidget(
-                                              key: Keys.cardDetailsForm,
+                                              key: keys._cardDetailsForm,
                                               fields: [
                                                 TextFieldWidget(
-                                                  key: Keys.cardHolderNameInput,
+                                                  key: keys._cardHolderNameInput,
                                                   validator: (value) {
                                                     if (value == '' ||
                                                         value == null) {
@@ -187,7 +184,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                                   label: 'Card holder name',
                                                 ),
                                                 NumberFieldWidget(
-                                                  key: Keys.cardNumberInput,
+                                                  key: keys._cardNumberInput,
                                                   validator: (value) {
                                                     if (value == '' ||
                                                         value == null ||
@@ -207,7 +204,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                                   label: 'Card number',
                                                 ),
                                                 NumberFieldWidget(
-                                                  key: Keys.cardSafeCodeInput,
+                                                  key: keys._cardSafeCodeInput,
                                                   validator: (value) {
                                                     if (value == '' ||
                                                         value == null ||
@@ -227,8 +224,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                                   label: 'Card safe code',
                                                 ),
                                                 DateFieldWidget(
-                                                  key: Keys
-                                                      .cardExpirationDateInput,
+                                                  key: keys._cardExpirationDateInput,
                                                   onChange: (DateTime date) {
                                                     _cardExpirationDate = date;
                                                   },
