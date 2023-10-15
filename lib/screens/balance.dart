@@ -38,11 +38,11 @@ class _BalanceState extends State<Balance> {
   String _getMoneyImage(double amount) {
     if (amount <= 1000) {
       return 'assets/coins.png';
-    } else if (amount > 1000 && amount <= 10000) {
-      return 'assets/money.png';
-    } else {
-      return 'assets/money-bag.png';
     }
+    if (amount > 1000 && amount <= 10000) {
+      return 'assets/money.png';
+    }
+    return 'assets/money-bag.png';
   }
 
   Widget build(BuildContext context) {
@@ -68,7 +68,10 @@ class _BalanceState extends State<Balance> {
             ] else ...[
               Container(height: screenHeight * 0.3),
               Text('Click to display your balance',
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold))
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold))
             ],
             AnimatedContainer(
               height: _gapHeight,
