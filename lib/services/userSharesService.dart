@@ -29,7 +29,7 @@ class UserSharesService {
 
       UserSharesEntity? userShare = await this.getUserShares(symbol);
       ShareEntity? share = await shareService.getLatestShare(symbol);
-      double? balance = await walletService.getWalletBalance();
+      String? balance = await walletService.getWalletBalanceAsString();
 
       if (share == null) {
         throw ShareError('Share not found');
@@ -39,7 +39,7 @@ class UserSharesService {
         throw WalletError('Wallet balance not found');
       }
 
-      if ((balance - share.price * nbSharesToAdd) < 0) {
+      if (((double.parse(balance) - share.price * nbSharesToAdd) < 0) || share.nbShares - nbSharesToAdd < 0) {
         return false;
       }
 
@@ -71,18 +71,20 @@ class UserSharesService {
 
       if (userShare != null && userShare.id != null) {
         int newNbShares = userShare.nbShares - nbSharesToRemove;
+
         if (newNbShares > 0) {
-          await userSharesRepository.decrementUserShares(
-              userShare.nbShares - nbSharesToRemove, userShare.id ?? '');
+          await userSharesRepository.decrementUserShares(userShare.nbShares - nbSharesToRemove, userShare.id ?? '');
+          await shareService.addNbShares(symbol, nbSharesToRemove);
+          await walletService.creditWalletBalance(share.price * nbSharesToRemove);
         } else {
           await userSharesRepository.deleteUserShares(userShare.id ?? '');
+          await shareService.addNbShares(symbol, userShare.nbShares);
+          await walletService.creditWalletBalance(share.price * userShare.nbShares);
         }
+
       } else {
         throw UserSharesError('No share with the symbol $symbol in the wallet');
       }
-
-      await shareService.addNbShares(symbol, nbSharesToRemove);
-      await walletService.creditWalletBalance(share.price * nbSharesToRemove);
     }
   }
 

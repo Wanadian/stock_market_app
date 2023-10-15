@@ -24,14 +24,14 @@ class WalletRepository {
   }
 
   // Gets the wallet balance value
-  Future<double?> getWalletBalance() async {
-    double? balance;
+  Future<String?> getWalletBalance() async {
+    String? balance;
 
     try {
       balance = await collection
           .limit(1)
           .get()
-          .then((querySnapshot) => querySnapshot.docs.first.get('balance'));
+          .then((querySnapshot) => (querySnapshot.docs.first.get('balance')).toStringAsFixed(2));
     } catch (error) {
       throw WalletError(error.toString());
     }
