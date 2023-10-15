@@ -6,8 +6,8 @@ import 'package:stock_market_app/repositories/walletRepository.dart';
 class WalletService {
   WalletRepository walletRepository = WalletRepository();
 
-  // Gets the wallet balance value
-  Future<double?> getWalletBalance() async {
+  // Gets the wallet balance value in string format
+  Future<String?> getWalletBalanceAsString() async {
     return await walletRepository.getWalletBalance();
   }
 
