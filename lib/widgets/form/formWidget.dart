@@ -3,7 +3,7 @@ import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class FormWidget extends StatefulWidget {
   FormWidget(
-      {required GlobalObjectKey<FormState> key,
+      {required GlobalKey<FormState> key,
       required List<Widget> fields,
       required Function() onPressed,
       String buttonLabel = 'Validate'})
@@ -12,7 +12,7 @@ class FormWidget extends StatefulWidget {
         _buttonLabel = buttonLabel,
         _key = key;
 
-  GlobalObjectKey<FormState> _key;
+  GlobalKey<FormState> _key;
   List<Widget> _fields = [];
   Function() _onPressed;
   String _buttonLabel;
