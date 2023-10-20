@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/entities/cardEntity.dart';
 import 'package:stock_market_app/screens/modifyBalance.dart';
-import 'package:stock_market_app/screens/paymentMethode.dart';
+import 'package:stock_market_app/screens/paymentMethod.dart';
 import 'package:stock_market_app/services/cardService.dart';
 
 import '../context/inheritedServices.dart';
@@ -76,7 +76,7 @@ class _NewCreditCardState extends State<NewCreditCard> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PaymentMethode(amount: widget._amount)));
+                            builder: (context) => PaymentMethod(amount: widget._amount)));
                   })),
           Container(height: screenHeight * 0.05),
           Text('New card', style: TextStyle(color: Colors.white, fontSize: 20)),

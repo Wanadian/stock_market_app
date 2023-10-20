@@ -8,18 +8,18 @@ import 'package:stock_market_app/widgets/buttonWidget.dart';
 import '../context/inheritedServices.dart';
 import '../entities/cardEntity.dart';
 
-class PaymentMethode extends StatefulWidget {
-  PaymentMethode({Key? key, required int amount})
+class PaymentMethod extends StatefulWidget {
+  PaymentMethod({Key? key, required int amount})
       : _amount = amount,
         super(key: key);
 
   int _amount;
 
   @override
-  State<PaymentMethode> createState() => _PaymentMethodeState();
+  State<PaymentMethod> createState() => _PaymentMethodState();
 }
 
-class _PaymentMethodeState extends State<PaymentMethode> {
+class _PaymentMethodState extends State<PaymentMethod> {
   Future<List<CardEntity>?>? _cardList;
 
   Future<List<CardEntity>?> _getAllCards(CardService cardService) async {
@@ -27,15 +27,18 @@ class _PaymentMethodeState extends State<PaymentMethode> {
   }
 
   Function()? _getSavedCardsOnPressed(List<CardEntity>? cardList) {
-    return cardList != [] && cardList != null
-        ? () {
+    if (_cardList == null) {
+      return null;
+    }
+    return cardList!.isEmpty
+        ? null
+        : () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
                         SavedCreditCards(amount: widget._amount)));
-          }
-        : null;
+          };
   }
 
   Widget build(BuildContext context) {
@@ -65,7 +68,7 @@ class _PaymentMethodeState extends State<PaymentMethode> {
                           MaterialPageRoute(
                               builder: (context) => ModifyBalance()));
                     })),
-                    Container(height: screenHeight * 0.23),
+            Container(height: screenHeight * 0.23),
             if (cardList.hasData) ...[
               Column(children: [
                 ButtonWidget.textButton(
