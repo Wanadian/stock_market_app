@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stock_market_app/entities/cardEntity.dart';
 import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/services/cardService.dart';
+import 'package:stock_market_app/widgets/form/dropdownInputWidget.dart';
 
 import '../context/inheritedServices.dart';
 import '../services/walletService.dart';
@@ -10,18 +11,18 @@ import '../widgets/form/fields/numberFieldWidget.dart';
 import '../widgets/form/fields/textFieldWidget.dart';
 import '../widgets/form/formWidget.dart';
 
-class CreditCard extends StatefulWidget {
-  CreditCard({Key? key, required int amount})
+class NewCreditCard extends StatefulWidget {
+  NewCreditCard({Key? key, required int amount})
       : _amount = amount,
         super(key: key);
 
   int _amount;
 
   @override
-  State<CreditCard> createState() => _CreditCardState();
+  State<NewCreditCard> createState() => _NewCreditCardState();
 }
 
-class _CreditCardState extends State<CreditCard> {
+class _NewCreditCardState extends State<NewCreditCard> {
   String _cardLabel = '';
   String _cardHolderName = '';
   int _cardNumber = -1;
@@ -157,9 +158,6 @@ class _CreditCardState extends State<CreditCard> {
                 },
                 label: 'Expiration date',
               ),
-              Text('Your cards',
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
-              //TODO insert selector for existing card
             ],
             onPressed: () {
               _creditAccount(inheritedServices.walletService);

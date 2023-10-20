@@ -1,7 +1,8 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:stock_market_app/screens/creditCard.dart';
+import 'package:stock_market_app/screens/newCreditCard.dart';
+import 'package:stock_market_app/screens/paymentMethode.dart';
 
 import '../context/inheritedServices.dart';
 import '../services/walletService.dart';
@@ -134,7 +135,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          CreditCard(amount: _amount)));
+                                          PaymentMethode(amount: _amount)));
                             }
                           })),
                   Container(width: screenWidth * 0.02),
