@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ButtonWidget extends StatelessWidget {
   String? _label;
   IconData? _icon;
-  Function() _onPressed;
+  Function()? _onPressed;
   double _height;
   double _width;
   Alignment _alignment;
@@ -11,7 +11,7 @@ class ButtonWidget extends StatelessWidget {
   ButtonWidget.textButton(
       {Alignment alignment = Alignment.center,
       required String? label,
-      required dynamic Function() onPressed,
+      required dynamic Function()? onPressed,
       required double height,
       required double width})
       : _alignment = alignment,
@@ -23,7 +23,7 @@ class ButtonWidget extends StatelessWidget {
   ButtonWidget.iconButton(
       {Alignment alignment = Alignment.center,
       required IconData? icon,
-      required dynamic Function() onPressed,
+      required dynamic Function()? onPressed,
       required double height,
       required double width})
       : _alignment = alignment,
@@ -48,7 +48,7 @@ class ButtonWidget extends StatelessWidget {
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 shadowColor: Colors.black,
-                backgroundColor: Colors.white,
+                backgroundColor: _onPressed != null ? Colors.white : Colors.grey,
                 foregroundColor: Colors.black,
                 minimumSize: Size(0, 0),
                 fixedSize: Size(_width, _height)),
