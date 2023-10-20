@@ -11,8 +11,20 @@ class WalletService {
     return await walletRepository.getWalletBalance();
   }
 
-  // Credits wallet balance value
-  Future<void> creditWalletBalance(double sumToCredit) async {
+  // Credits wallet balance with a double value
+  Future<void> creditWalletBalanceWithDouble(double sumToCredit) async {
+    WalletEntity? wallet = await walletRepository.getWallet();
+
+    if (wallet != null && wallet.id != null) {
+      await walletRepository.updateWalletBalance(
+          wallet.balance + sumToCredit, wallet.id ?? '');
+    } else {
+      throw WalletError('Wallet not found');
+    }
+  }
+
+  // Credits wallet balance with an int value
+  Future<void> creditWalletBalanceWithInt(int sumToCredit) async {
     WalletEntity? wallet = await walletRepository.getWallet();
 
     if (wallet != null && wallet.id != null) {
