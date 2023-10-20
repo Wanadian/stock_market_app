@@ -1,7 +1,6 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:stock_market_app/screens/newCreditCard.dart';
 import 'package:stock_market_app/screens/paymentMethode.dart';
 
 import '../context/inheritedServices.dart';
@@ -75,10 +74,10 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                               MaterialPageRoute(
                                   builder: (context) => Balance()));
                         })),
-                Container(height: screenHeight * 0.1),
+                Container(height: screenHeight * 0.15),
                 Text('Current balance',
                     style: TextStyle(color: Colors.white, fontSize: 20)),
-                Container(height: screenHeight * 0.05),
+                Container(height: screenHeight * 0.03),
                 if (balance.hasData) ...[
                   AnimatedDigitWidget(
                     duration: Duration(seconds: 1),
@@ -95,7 +94,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                 ] else ...[
                   const CircularProgressIndicator()
                 ],
-                Container(height: screenHeight * 0.08),
+                Container(height: screenHeight * 0.05),
                 Text('How much do you want to add ?',
                     style: TextStyle(color: Colors.white, fontSize: 20)),
                 Container(height: screenHeight * 0.05),

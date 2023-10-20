@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/screens/modifyBalance.dart';
+import 'package:stock_market_app/screens/paymentMethode.dart';
 import 'package:stock_market_app/services/cardService.dart';
-import 'package:stock_market_app/widgets/form/dropdownInputWidget.dart';
+import 'package:stock_market_app/widgets/form/fields/dropdownInputWidget.dart';
 
 import '../context/inheritedServices.dart';
 import '../entities/cardEntity.dart';
@@ -25,7 +26,7 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
   GlobalKey<FormState> _cardDetailsForm = GlobalKey<FormState>();
 
   _creditAccount(WalletService walletService) async {
-    await walletService.creditWalletBalance(0.0);
+    await walletService.creditWalletBalanceWithInt(widget._amount);
   }
 
   Future<List<String>?> _getAllCards(CardService cardService) async {
@@ -62,7 +63,7 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ModifyBalance()));
+                              builder: (context) => PaymentMethode(amount: widget._amount)));
                     })),
                     Container(height: screenHeight * 0.23),
             if (cardList.hasData) ...[

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/entities/cardEntity.dart';
 import 'package:stock_market_app/screens/modifyBalance.dart';
+import 'package:stock_market_app/screens/paymentMethode.dart';
 import 'package:stock_market_app/services/cardService.dart';
-import 'package:stock_market_app/widgets/form/dropdownInputWidget.dart';
 
 import '../context/inheritedServices.dart';
 import '../services/walletService.dart';
@@ -37,7 +37,7 @@ class _NewCreditCardState extends State<NewCreditCard> {
   TextEditingController _cardSafeCodeController = TextEditingController();
 
   _creditAccount(WalletService walletService) async {
-    await walletService.creditWalletBalance(0.0);
+    await walletService.creditWalletBalanceWithInt(widget._amount);
   }
 
   _saveCardIfNew(CardService cardService) async {
@@ -76,10 +76,10 @@ class _NewCreditCardState extends State<NewCreditCard> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ModifyBalance()));
+                            builder: (context) => PaymentMethode(amount: widget._amount)));
                   })),
-          Text('New card',
-              style: TextStyle(color: Colors.white, fontSize: 20)),
+          Container(height: screenHeight * 0.05),
+          Text('New card', style: TextStyle(color: Colors.white, fontSize: 20)),
           Container(height: screenHeight * 0.05),
           FormWidget(
             key: _cardDetailsForm,
