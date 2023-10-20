@@ -1,7 +1,7 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:stock_market_app/screens/paymentMethode.dart';
+import 'package:stock_market_app/screens/paymentMethod.dart';
 
 import '../context/inheritedServices.dart';
 import '../services/walletService.dart';
@@ -134,7 +134,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          PaymentMethode(amount: _amount)));
+                                          PaymentMethod(amount: _amount)));
                             }
                           })),
                   Container(width: screenWidth * 0.02),
