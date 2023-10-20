@@ -75,11 +75,11 @@ class UserSharesService {
         if (newNbShares > 0) {
           await userSharesRepository.decrementUserShares(userShare.nbShares - nbSharesToRemove, userShare.id ?? '');
           await shareService.addNbShares(symbol, nbSharesToRemove);
-          await walletService.creditWalletBalance(share.price * nbSharesToRemove);
+          await walletService.creditWalletBalanceWithDouble(share.price * nbSharesToRemove);
         } else {
           await userSharesRepository.deleteUserShares(userShare.id ?? '');
           await shareService.addNbShares(symbol, userShare.nbShares);
-          await walletService.creditWalletBalance(share.price * userShare.nbShares);
+          await walletService.creditWalletBalanceWithDouble(share.price * userShare.nbShares);
         }
 
       } else {
