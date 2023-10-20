@@ -8,7 +8,7 @@ class WalletEntity {
   // The factory return type allows us to return an object mapped from json
   // Here we want to convert a Json object from the database to the Wallet object
   factory WalletEntity.fromDBJson(Map<String, dynamic> json, String documentId) {
-    return WalletEntity(json['balance'], id: documentId);
+    return WalletEntity(json['balance'].toDouble(), id: documentId);
   }
 
   // This methods converts a Wallet object to a Json object
