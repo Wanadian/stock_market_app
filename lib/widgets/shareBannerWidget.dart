@@ -12,19 +12,22 @@ class ShareBannerWidget extends StatefulWidget {
   int _numberOfShares;
   String _shareName;
   String _shareSymbol;
-  bool _isAcquire;
+  IconData _icon;
+  Function() _onPressed;
 
   ShareBannerWidget(
       {required double shareValue,
       required int numberOfShares,
       required String shareName,
       required String shareSymbol,
-      required bool isAcquire})
+      required Function() onPressed,
+      required IconData icon})
       : _shareValue = shareValue,
         _numberOfShares = numberOfShares,
         _shareName = shareName,
         _shareSymbol = shareSymbol,
-        _isAcquire = isAcquire;
+        _onPressed = onPressed,
+        _icon = icon;
 
   @override
   State<ShareBannerWidget> createState() => _ShareBannerWidgetState();
@@ -35,20 +38,6 @@ class _ShareBannerWidgetState extends State<ShareBannerWidget> {
 
   Future<double?> _getVariation(ShareService shareService) async {
     return await shareService.getPriceDifference(widget._shareSymbol);
-  }
-
-  void _addShare(UserSharesService userSharesService) async {
-    await userSharesService.addUserShares(widget._shareSymbol, 1);
-  }
-
-  _removeShare(UserSharesService userSharesService) async {
-    await userSharesService.removeUserShares(widget._shareSymbol, 1);
-  }
-
-  void _decrementNumberOfShares() {
-    setState(() {
-      widget._numberOfShares--;
-    });
   }
 
   @override
@@ -172,17 +161,8 @@ class _ShareBannerWidgetState extends State<ShareBannerWidget> {
                                   ],
                                 ),
                                 ButtonWidget.iconButton(
-                                    icon: widget._isAcquire
-                                        ? Icons.remove
-                                        : Icons.add,
-                                    onPressed: () {
-                                      _decrementNumberOfShares();
-                                      widget._isAcquire
-                                          ? _removeShare(inheritedServices
-                                              .userSharesService)
-                                          : _addShare(inheritedServices
-                                              .userSharesService);
-                                    },
+                                    icon: widget._icon,
+                                    onPressed: widget._onPressed,
                                     height: 25,
                                     width: 25),
                                 Container(width: 5)

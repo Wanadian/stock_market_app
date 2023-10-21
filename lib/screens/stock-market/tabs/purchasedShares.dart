@@ -31,6 +31,10 @@ class _PurchasedSharesState extends State<PurchasedShares> {
     return shareList;
   }
 
+  _sellShare(UserSharesService userSharesService, String symbol) async {
+    await userSharesService.removeUserShares(symbol, 1);
+  }
+
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -56,7 +60,15 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                       numberOfShares: share.getNumberOfShare(),
                       shareName: share.getShareName(),
                       shareSymbol: share.getShareSymbol(),
-                      isAcquire: true)
+                      icon: Icons.remove,
+                      onPressed: () => {
+                            _sellShare(inheritedServices.userSharesService,
+                                share.getShareSymbol()),
+                            setState(() {
+                              share.setNumberOfShare(
+                                  share.getNumberOfShare() - 1);
+                            })
+                          })
                 ],
                 Container(height: screenHeight * 0.05),
               ],

@@ -5,6 +5,7 @@ import '../../../dto/shareDto.dart';
 import '../../../entities/shareEntity.dart';
 import '../../../services/shareService.dart';
 import '../../../services/symbolService.dart';
+import '../../../services/userSharesService.dart';
 import '../../../widgets/shareBannerWidget.dart';
 
 class StockMarket extends StatefulWidget {
@@ -27,6 +28,11 @@ class _StockMarketState extends State<StockMarket> {
           shareSymbol: share.symbol));
     }
     return shareList;
+  }
+
+  Future<bool> _purchaseShare(
+      UserSharesService userSharesService, String symbol) async {
+    return await userSharesService.addUserShares(symbol, 1);
   }
 
   Widget build(BuildContext context) {
@@ -52,7 +58,18 @@ class _StockMarketState extends State<StockMarket> {
                       numberOfShares: share.getNumberOfShare(),
                       shareName: share.getShareName(),
                       shareSymbol: share.getShareSymbol(),
-                      isAcquire: false)
+                      icon: Icons.add,
+                      onPressed: () async => {
+                            if (!await _purchaseShare(
+                                inheritedServices.userSharesService,
+                                share.getShareSymbol()))
+                              {
+                                setState(() {
+                                  share.setNumberOfShare(
+                                      share.getNumberOfShare() - 1);
+                                })
+                              }
+                          })
                 ],
                 Container(height: screenHeight * 0.05),
               ],
