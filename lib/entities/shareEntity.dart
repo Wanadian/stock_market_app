@@ -36,7 +36,7 @@ class ShareEntity {
   factory ShareEntity.fromDBJson(Map<String, dynamic> json, String documentId) {
     return ShareEntity(
         json['symbol'],
-        json['price'],
+        json['price'].toDouble(),
         json['latestTradingDay'].toDate(),
         json['nbShares'],
         json['latestRefreshDay'].toDate(),
