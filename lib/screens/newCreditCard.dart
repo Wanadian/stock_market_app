@@ -75,7 +75,7 @@ class _NewCreditCardState extends State<NewCreditCard> {
                             builder: (context) =>
                                 PaymentMethod(amount: widget._amount)));
                   })),
-          Container(height: screenHeight * 0.05),
+          Container(height: screenHeight * 0.01),
           Text('New card', style: TextStyle(color: Colors.white, fontSize: 20)),
           Container(height: screenHeight * 0.05),
           FormWidget(
@@ -153,7 +153,14 @@ class _NewCreditCardState extends State<NewCreditCard> {
                 onChange: (DateTime date) {
                   _cardExpirationDate = date;
                 },
+                validator: (DateTime date) {
+                  if(date.compareTo(DateTime.now()) >= 0){
+                    return true;
+                  }
+                  return false;
+                },
                 label: 'Expiration date',
+                errorLabel: 'The date has to be after the current one',
               ),
             ],
             onPressed: () {

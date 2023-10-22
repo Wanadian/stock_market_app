@@ -73,12 +73,20 @@ class _GraphState extends State<Graph> {
                               Navigator.pop(context);
                             })),
                     if (shareHistory.hasData) ...[
-                      Container(width: screenWidth * 0.45),
+                      Container(width: screenWidth * 0.17),
                       DateFieldWidget(
                         key: Key('request-beginning'),
                         onChange: (DateTime date) {
                           _setDate(date);
                         },
+                        validator: (DateTime date) {
+                          if(date.compareTo(DateTime.now()) <= 0){
+                            return true;
+                          }
+                          return false;
+                        },
+                        label: 'Select a date : ',
+                        errorLabel: 'Select a date before the current one',
                       )
                     ]
                   ]),
