@@ -6,6 +6,8 @@ import '../../../entities/shareEntity.dart';
 import '../../../services/shareService.dart';
 import '../../../services/symbolService.dart';
 import '../../../services/userSharesService.dart';
+import '../../../widgets/form/fields/numberFieldWidget.dart';
+import '../../../widgets/form/formWidget.dart';
 import '../../../widgets/shareBannerWidget.dart';
 
 class StockMarket extends StatefulWidget {
@@ -30,9 +32,14 @@ class _StockMarketState extends State<StockMarket> {
     return shareList;
   }
 
+  int _numberSharesToPurchase = 0;
+  TextEditingController _numberSharesToPurchaseController =
+      TextEditingController();
+
   Future<bool> _purchaseShare(
       UserSharesService userSharesService, String symbol) async {
-    return await userSharesService.addUserShares(symbol, 1);
+    return await userSharesService.addUserShares(
+        symbol, _numberSharesToPurchase);
   }
 
   Widget build(BuildContext context) {
@@ -59,17 +66,85 @@ class _StockMarketState extends State<StockMarket> {
                       shareName: share.getShareName(),
                       shareSymbol: share.getShareSymbol(),
                       icon: Icons.add,
-                      onPressed: () async => {
-                            if (!await _purchaseShare(
-                                inheritedServices.userSharesService,
-                                share.getShareSymbol()))
-                              {
-                                setState(() {
-                                  share.setNumberOfShare(
-                                      share.getNumberOfShare() - 1);
-                                })
-                              }
-                          })
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                alignment: Alignment.center,
+                                title: Text('Confirm',
+                                    textAlign: TextAlign.center),
+                                content: SingleChildScrollView(
+                                  child: Column(children: [
+                                    Container(height: screenHeight * 0.02),
+                                    Text(
+                                      'Please enter the number of shares you want to purchase',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Container(height: screenHeight * 0.05),
+                                    NumberFieldWidget(
+                                      controller:
+                                          _numberSharesToPurchaseController,
+                                      validator: (value) {
+                                        if (value == '' ||
+                                            value == null ||
+                                            int.parse(value) <= 0) {
+                                          return 'Please enter a value greater than 0';
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        setState(() {
+                                          if (value != null) {
+                                            _numberSharesToPurchase =
+                                                int.parse(value);
+                                          }
+                                        });
+                                      },
+                                      label: 'Number of shares',
+                                    ),
+                                  ]),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('Cancel'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(true);
+                                    },
+                                  ),
+                                  TextButton(
+                                      child: const Text('Confirm'),
+                                      onPressed: () async {
+                                        if (_numberSharesToPurchaseController
+                                                    .text !=
+                                                '' &&
+                                            int.parse(
+                                                    _numberSharesToPurchaseController
+                                                        .text) >
+                                                0) {
+                                          setState(() {
+                                            _numberSharesToPurchase = int.parse(
+                                                _numberSharesToPurchaseController
+                                                    .text);
+                                          });
+                                          bool isFeasible =
+                                              await _purchaseShare(
+                                                  inheritedServices
+                                                      .userSharesService,
+                                                  share.getShareSymbol());
+                                          if (!isFeasible) {
+                                            setState(() {
+                                              share.setNumberOfShare(
+                                                  share.getNumberOfShare() - 1);
+                                            });
+                                          }
+                                          Navigator.of(context).pop(true);
+                                        }
+                                      })
+                                ],
+                              );
+                            });
+                      })
                 ],
                 Container(height: screenHeight * 0.05),
               ],
