@@ -34,7 +34,6 @@ class _PurchasedSharesState extends State<PurchasedShares> {
   }
 
   int _numberSharesToPurchase = 0;
-  GlobalKey<FormState> _numberSharesToPurchaseForm = GlobalKey<FormState>();
   TextEditingController _numberSharesToPurchaseController =
       TextEditingController();
 
@@ -83,47 +82,27 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                                         'Please enter the number of shares you want to purchase',
                                         textAlign: TextAlign.center),
                                     Container(height: screenHeight * 0.05),
-                                    FormWidget(
-                                        key: _numberSharesToPurchaseForm,
-                                        buttonLabel: 'confirm',
-                                        fields: [
-                                          NumberFieldWidget(
-                                            controller:
-                                                _numberSharesToPurchaseController,
-                                            validator: (value) {
-                                              if (value == '' ||
-                                                  value == null ||
-                                                  int.parse(value) <= 0) {
-                                                return 'Please enter a value greater than 0';
-                                              }
-                                              return null;
-                                            },
-                                            onSaved: (value) {
-                                              setState(() {
-                                                if (value != null) {
-                                                  _numberSharesToPurchase =
-                                                      int.parse(value);
-                                                }
-                                              });
-                                            },
-                                            label: 'Number of shares',
-                                          ),
-                                        ],
-                                        onPressed: () {
-                                          if (_numberSharesToPurchaseForm
-                                              .currentState!
-                                              .validate()) {
-                                            _sellShare(
-                                                inheritedServices
-                                                    .userSharesService,
-                                                share.getShareSymbol());
-                                            setState(() {
-                                              share.setNumberOfShare(
-                                                  share.getNumberOfShare() - 1);
-                                            });
-                                            Navigator.of(context).pop(true);
+                                    NumberFieldWidget(
+                                      controller:
+                                          _numberSharesToPurchaseController,
+                                      validator: (value) {
+                                        if (value == '' ||
+                                            value == null ||
+                                            int.parse(value) <= 0) {
+                                          return 'Please enter a value greater than 0';
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        setState(() {
+                                          if (value != null) {
+                                            _numberSharesToPurchase =
+                                                int.parse(value);
                                           }
-                                        }),
+                                        });
+                                      },
+                                      label: 'Number of shares',
+                                    ),
                                   ]),
                                 ),
                                 actions: [
@@ -133,6 +112,32 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                                       Navigator.of(context).pop(true);
                                     },
                                   ),
+                                  TextButton(
+                                      child: const Text('Confirm'),
+                                      onPressed: () {
+                                        if (_numberSharesToPurchaseController
+                                                    .text !=
+                                                '' &&
+                                            int.parse(
+                                                    _numberSharesToPurchaseController
+                                                        .text) >
+                                                0) {
+                                          setState(() {
+                                            _numberSharesToPurchase = int.parse(
+                                                _numberSharesToPurchaseController
+                                                    .text);
+                                          });
+                                          _sellShare(
+                                              inheritedServices
+                                                  .userSharesService,
+                                              share.getShareSymbol());
+                                          setState(() {
+                                            share.setNumberOfShare(
+                                                share.getNumberOfShare() - 1);
+                                          });
+                                          Navigator.of(context).pop(true);
+                                        }
+                                      })
                                 ],
                               );
                             });

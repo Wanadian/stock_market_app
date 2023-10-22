@@ -33,7 +33,6 @@ class _StockMarketState extends State<StockMarket> {
   }
 
   int _numberSharesToPurchase = 0;
-  GlobalKey<FormState> _numberSharesToPurchaseForm = GlobalKey<FormState>();
   TextEditingController _numberSharesToPurchaseController =
       TextEditingController();
 
@@ -83,51 +82,27 @@ class _StockMarketState extends State<StockMarket> {
                                       textAlign: TextAlign.center,
                                     ),
                                     Container(height: screenHeight * 0.05),
-                                    FormWidget(
-                                        key: _numberSharesToPurchaseForm,
-                                        buttonLabel: 'confirm',
-                                        fields: [
-                                          NumberFieldWidget(
-                                            controller:
-                                                _numberSharesToPurchaseController,
-                                            validator: (value) {
-                                              if (value == '' ||
-                                                  value == null ||
-                                                  int.parse(value) <= 0) {
-                                                return 'Please enter a value greater than 0';
-                                              }
-                                              return null;
-                                            },
-                                            onSaved: (value) {
-                                              setState(() {
-                                                if (value != null) {
-                                                  _numberSharesToPurchase =
-                                                      int.parse(value);
-                                                }
-                                              });
-                                            },
-                                            label: 'Number of shares',
-                                          ),
-                                        ],
-                                        onPressed: () async {
-                                          if (_numberSharesToPurchaseForm
-                                              .currentState!
-                                              .validate()) {
-                                            bool isFeasible =
-                                                await _purchaseShare(
-                                                    inheritedServices
-                                                        .userSharesService,
-                                                    share.getShareSymbol());
-                                            if (!isFeasible) {
-                                              setState(() {
-                                                share.setNumberOfShare(
-                                                    share.getNumberOfShare() -
-                                                        1);
-                                              });
-                                            }
-                                            Navigator.of(context).pop(true);
+                                    NumberFieldWidget(
+                                      controller:
+                                          _numberSharesToPurchaseController,
+                                      validator: (value) {
+                                        if (value == '' ||
+                                            value == null ||
+                                            int.parse(value) <= 0) {
+                                          return 'Please enter a value greater than 0';
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        setState(() {
+                                          if (value != null) {
+                                            _numberSharesToPurchase =
+                                                int.parse(value);
                                           }
-                                        }),
+                                        });
+                                      },
+                                      label: 'Number of shares',
+                                    ),
                                   ]),
                                 ),
                                 actions: [
@@ -137,6 +112,35 @@ class _StockMarketState extends State<StockMarket> {
                                       Navigator.of(context).pop(true);
                                     },
                                   ),
+                                  TextButton(
+                                      child: const Text('Confirm'),
+                                      onPressed: () async {
+                                        if (_numberSharesToPurchaseController
+                                                    .text !=
+                                                '' &&
+                                            int.parse(
+                                                    _numberSharesToPurchaseController
+                                                        .text) >
+                                                0) {
+                                          setState(() {
+                                            _numberSharesToPurchase = int.parse(
+                                                _numberSharesToPurchaseController
+                                                    .text);
+                                          });
+                                          bool isFeasible =
+                                              await _purchaseShare(
+                                                  inheritedServices
+                                                      .userSharesService,
+                                                  share.getShareSymbol());
+                                          if (!isFeasible) {
+                                            setState(() {
+                                              share.setNumberOfShare(
+                                                  share.getNumberOfShare() - 1);
+                                            });
+                                          }
+                                          Navigator.of(context).pop(true);
+                                        }
+                                      })
                                 ],
                               );
                             });
