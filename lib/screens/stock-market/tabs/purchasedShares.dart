@@ -35,7 +35,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
   }
 
   Future<String> _getWalletEstimation (UserSharesService userSharesService) async {
-    return await userSharesService.getUserSharesBalanceEstimation();
+    return await userSharesService.getUserSharesBalanceEstimationAsString();
   }
 
   int _numberSharesToPurchase = 0;
