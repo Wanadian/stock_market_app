@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market_app/widgets/form/fields/numberFieldWidget.dart';
+import 'package:stock_market_app/widgets/form/formWidget.dart';
 
 import '../../../context/inheritedServices.dart';
 import '../../../dto/shareDto.dart';
@@ -31,8 +33,13 @@ class _PurchasedSharesState extends State<PurchasedShares> {
     return shareList;
   }
 
+  int _numberSharesToPurchase = 0;
+  GlobalKey<FormState> _numberSharesToPurchaseForm = GlobalKey<FormState>();
+  TextEditingController _numberSharesToPurchaseController =
+      TextEditingController();
+
   _sellShare(UserSharesService userSharesService, String symbol) async {
-    await userSharesService.removeUserShares(symbol, 1);
+    await userSharesService.removeUserShares(symbol, _numberSharesToPurchase);
   }
 
   Widget build(BuildContext context) {
@@ -61,14 +68,75 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                       shareName: share.getShareName(),
                       shareSymbol: share.getShareSymbol(),
                       icon: Icons.remove,
-                      onPressed: () async {
-                            await _sellShare(inheritedServices.userSharesService,
-                                share.getShareSymbol());
-                            setState(() {
-                              share.setNumberOfShare(
-                                  share.getNumberOfShare() - 1);
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                alignment: Alignment.center,
+                                title: Text('Confirm',
+                                    textAlign: TextAlign.center),
+                                content: SingleChildScrollView(
+                                  child: Column(children: [
+                                    Container(height: screenHeight * 0.02),
+                                    Text(
+                                        'Please enter the number of shares you want to purchase',
+                                        textAlign: TextAlign.center),
+                                    Container(height: screenHeight * 0.05),
+                                    FormWidget(
+                                        key: _numberSharesToPurchaseForm,
+                                        buttonLabel: 'confirm',
+                                        fields: [
+                                          NumberFieldWidget(
+                                            controller:
+                                                _numberSharesToPurchaseController,
+                                            validator: (value) {
+                                              if (value == '' ||
+                                                  value == null ||
+                                                  int.parse(value) <= 0) {
+                                                return 'Please enter a value greater than 0';
+                                              }
+                                              return null;
+                                            },
+                                            onSaved: (value) {
+                                              setState(() {
+                                                if (value != null) {
+                                                  _numberSharesToPurchase =
+                                                      int.parse(value);
+                                                }
+                                              });
+                                            },
+                                            label: 'Number of shares',
+                                          ),
+                                        ],
+                                        onPressed: () {
+                                          if (_numberSharesToPurchaseForm
+                                              .currentState!
+                                              .validate()) {
+                                            _sellShare(
+                                                inheritedServices
+                                                    .userSharesService,
+                                                share.getShareSymbol());
+                                            setState(() {
+                                              share.setNumberOfShare(
+                                                  share.getNumberOfShare() - 1);
+                                            });
+                                            Navigator.of(context).pop(true);
+                                          }
+                                        }),
+                                  ]),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('Cancel'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(true);
+                                    },
+                                  ),
+                                ],
+                              );
                             });
-                          })
+                      })
                 ],
                 Container(height: screenHeight * 0.05),
               ],

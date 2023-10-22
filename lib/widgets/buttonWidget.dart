@@ -69,9 +69,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
                       setState(() {
                         widget._isProcessing = true;
                       });
-                      await Future.delayed(const Duration(milliseconds: 500));
                       await widget._onPressed!();
-                      await Future.delayed(const Duration(milliseconds: 500));
                       setState(() {
                         widget._isProcessing = false;
                       });
