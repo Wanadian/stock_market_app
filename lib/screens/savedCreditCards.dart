@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stock_market_app/screens/deleteCreditCard.dart';
 import 'package:stock_market_app/screens/paymentMethod.dart';
 import 'package:stock_market_app/services/cardService.dart';
-import 'package:stock_market_app/widgets/form/fields/dropdownInputWidget.dart';
+import 'package:stock_market_app/widgets/form/fields/dropdownFieldWidget.dart';
 
 import '../context/inheritedServices.dart';
 import '../entities/cardEntity.dart';
@@ -72,7 +72,7 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
                   fields: [
                     Text('Your cards',
                         style: TextStyle(color: Colors.white, fontSize: 20)),
-                    DropdownInputWidget(
+                    DropdownFieldWidget(
                       items: cardList.data!,
                       label: 'Select a card',
                     )
