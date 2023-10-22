@@ -9,22 +9,24 @@ class ButtonWidget extends StatefulWidget {
   Alignment _alignment;
   bool _isProcessing = false;
 
-  ButtonWidget.textButton({Alignment alignment = Alignment.center,
-    required String? label,
-    required dynamic Function()? onPressed,
-    required double height,
-    required double width})
+  ButtonWidget.textButton(
+      {Alignment alignment = Alignment.center,
+      required String? label,
+      required dynamic Function()? onPressed,
+      required double height,
+      required double width})
       : _alignment = alignment,
         _width = width,
         _height = height,
         _onPressed = onPressed,
         _label = label;
 
-  ButtonWidget.iconButton({Alignment alignment = Alignment.center,
-    required IconData? icon,
-    required dynamic Function()? onPressed,
-    required double height,
-    required double width})
+  ButtonWidget.iconButton(
+      {Alignment alignment = Alignment.center,
+      required IconData? icon,
+      required dynamic Function()? onPressed,
+      required double height,
+      required double width})
       : _alignment = alignment,
         _width = width,
         _height = height,
@@ -52,23 +54,32 @@ class _ButtonWidgetState extends State<ButtonWidget> {
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 shadowColor: Colors.black,
-                backgroundColor: widget._onPressed != null || widget._isProcessing ? Colors.white : Colors.grey,
+                backgroundColor:
+                    !widget._isProcessing
+                        ? Colors.white
+                        : Colors.white10,
                 foregroundColor: Colors.black,
-                disabledBackgroundColor: Colors.white12,
+                disabledBackgroundColor: Colors.white10,
                 disabledForegroundColor: Colors.black,
                 minimumSize: Size(0, 0),
                 fixedSize: Size(widget._width, widget._height)),
-            onPressed: () {
-              if (!widget._isProcessing) {
-                setState(() {
-                  widget._isProcessing = true;
-                });
-                widget._onPressed!();
-                setState(() {
-                  widget._isProcessing = false;
-                });
-              }
-              },
-            child: widget._icon != null ? Icon(widget._icon) : Text(widget._label!)));
+            onPressed: widget._onPressed != null
+                ? () async{
+                    if (!widget._isProcessing) {
+                      setState(() {
+                        widget._isProcessing = true;
+                      });
+                      await Future.delayed(const Duration(milliseconds: 500));
+                      await widget._onPressed!();
+                      await Future.delayed(const Duration(milliseconds: 500));
+                      setState(() {
+                        widget._isProcessing = false;
+                      });
+                    }
+                  }
+                : null,
+            child: widget._icon != null
+                ? Icon(widget._icon)
+                : Text(widget._label!)));
   }
 }

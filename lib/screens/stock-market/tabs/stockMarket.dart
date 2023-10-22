@@ -59,17 +59,17 @@ class _StockMarketState extends State<StockMarket> {
                       shareName: share.getShareName(),
                       shareSymbol: share.getShareSymbol(),
                       icon: Icons.add,
-                      onPressed: () async => {
-                            if (!await _purchaseShare(
-                                inheritedServices.userSharesService,
-                                share.getShareSymbol()))
-                              {
-                                setState(() {
-                                  share.setNumberOfShare(
-                                      share.getNumberOfShare() - 1);
-                                })
-                              }
-                          })
+                      onPressed: () async {
+                        bool isFeasible = await _purchaseShare(
+                            inheritedServices.userSharesService,
+                            share.getShareSymbol());
+                        if (!isFeasible) {
+                          setState(() {
+                            share
+                                .setNumberOfShare(share.getNumberOfShare() - 1);
+                          });
+                        }
+                      })
                 ],
                 Container(height: screenHeight * 0.05),
               ],
