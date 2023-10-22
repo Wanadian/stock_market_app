@@ -69,7 +69,7 @@ class _NewCreditCardState extends State<NewCreditCard> {
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
@@ -166,7 +166,7 @@ class _NewCreditCardState extends State<NewCreditCard> {
             onPressed: () {
               _creditAccount(inheritedServices.walletService);
               _saveCardIfNew(inheritedServices.cardService);
-              Navigator.push(
+              Navigator.pushReplacement(
                   context, MaterialPageRoute(builder: (context) => Balance()));
             },
           ),

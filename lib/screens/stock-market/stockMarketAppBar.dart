@@ -43,7 +43,7 @@ class _StockMarketAppBarState extends State<StockMarketAppBar> {
                   leading: IconButton(
                     icon: Icon(Icons.arrow_back_ios_new_rounded),
                     onPressed: () {
-                      Navigator.push(context,
+                      Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => Balance()));
                     },
                   ),

@@ -58,7 +58,7 @@ class _DeleteCreditCardState extends State<DeleteCreditCard> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
@@ -69,7 +69,7 @@ class _DeleteCreditCardState extends State<DeleteCreditCard> {
               FormWidget(
                 key: _cardDetailsForm,
                 fields: [
-                  Text('Your cards',
+                  Text('Select a card',
                       style: TextStyle(color: Colors.white, fontSize: 20)),
                   DropdownFieldWidget(
                     items: cardList.data!,
@@ -84,7 +84,7 @@ class _DeleteCreditCardState extends State<DeleteCreditCard> {
                 onPressed: () {
                   if (_cardToDeleteLabel != '') {
                     _deleteCreditCard(inheritedServices.cardService);
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>

@@ -124,7 +124,7 @@ class _BalanceState extends State<Balance> {
                       label: Text('Add funds'),
                       icon: Icon(Icons.add),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ModifyBalance()));
@@ -138,7 +138,7 @@ class _BalanceState extends State<Balance> {
                       label: Text('Stock market'),
                       icon: Icon(Icons.attach_money),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => StockMarketAppBar()));

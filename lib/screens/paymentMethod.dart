@@ -33,7 +33,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     return cardList!.isEmpty
         ? null
         : () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
@@ -63,7 +63,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ModifyBalance()));
@@ -74,7 +74,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 ButtonWidget.textButton(
                     label: 'Add new card',
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>

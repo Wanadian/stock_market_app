@@ -59,7 +59,7 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
@@ -70,7 +70,7 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
                 FormWidget(
                   key: _cardDetailsForm,
                   fields: [
-                    Text('Your cards',
+                    Text('Select a card',
                         style: TextStyle(color: Colors.white, fontSize: 20)),
                     DropdownFieldWidget(
                       items: cardList.data!,
@@ -79,7 +79,7 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
                   ],
                   onPressed: () {
                     _creditAccount(inheritedServices.walletService);
-                    Navigator.push(context,
+                    Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => Balance()));
                   },
                 ),
@@ -98,7 +98,7 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
               label: Text('Delete card'),
               icon: Icon(Icons.delete),
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>

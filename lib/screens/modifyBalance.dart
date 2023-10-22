@@ -47,7 +47,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Balance()));
@@ -111,7 +111,7 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                           onPressed: () {
                             if (_amountFrom.currentState!.validate()) {
                               _amountFrom.currentState?.save();
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
