@@ -5,13 +5,16 @@ class DropdownInputWidget extends StatefulWidget {
     Key? key,
     String label = '',
     required List<dynamic> items,
+    Function(String? value)? onChange,
   })  : _key = key,
         _label = label,
-        _items = items;
+        _items = items,
+        _onChange = onChange;
 
   Key? _key;
   String _label;
   List<dynamic> _items;
+  Function(String? value)? _onChange;
 
   @override
   State<DropdownInputWidget> createState() => _DropdownInputWidgetState();
@@ -42,6 +45,7 @@ class _DropdownInputWidgetState extends State<DropdownInputWidget> {
             setState(() {
               _value = value;
             });
+            widget._onChange!(value);
           },
           style: TextStyle(color: Colors.black),
           isExpanded: true,
