@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/paymentMethod.dart';
 import 'package:stock_market_app/services/cardService.dart';
 import 'package:stock_market_app/widgets/form/fields/dropdownFieldWidget.dart';
@@ -87,7 +88,7 @@ class _DeleteCreditCardState extends State<DeleteCreditCard> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                PaymentMethod(amount: widget._amount)));
+                                ModifyBalance()));
                   }
                 },
               ),
