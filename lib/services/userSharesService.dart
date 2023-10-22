@@ -94,7 +94,7 @@ class UserSharesService {
   }
 
   // Returns the balance's estimation of the global user's shares (with all the symbols and shares)
-  Future<double> getUserSharesBalanceEstimation(Map<String, double> sharesPrices) async {
+  Future<double> _getUserSharesBalanceEstimation(Map<String, double> sharesPrices) async {
     double balance = 0;
 
     List<UserSharesEntity>? allUserShares =
@@ -107,5 +107,18 @@ class UserSharesService {
     }
 
     return balance;
+  }
+
+  // Returns the string value of the balance's estimation of the global user's shares (with all the symbols and shares)
+  Future<String> getUserSharesBalanceEstimationAsString() async {
+    double balance = 0;
+
+    Map<String, double>? sharesPrices = await shareService.getSharesPrices();
+
+    if (sharesPrices != null) {
+      balance = await this._getUserSharesBalanceEstimation(sharesPrices);
+    }
+
+    return balance.toStringAsFixed(2);
   }
 }
