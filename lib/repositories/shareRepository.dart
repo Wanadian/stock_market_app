@@ -119,8 +119,8 @@ class ShareRepository {
   }
 
   // Adds a share in the database
-  Future<void> addShare(ShareEntity share) {
-    return collection.add(share.toJson());
+  Future<DocumentReference<Object?>> addShare(ShareEntity share) async {
+    return await collection.add(share.toJson());
   }
 
   // Gets the latest refresh day from the database

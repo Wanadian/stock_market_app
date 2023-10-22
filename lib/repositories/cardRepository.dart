@@ -47,12 +47,12 @@ class CardRepository {
   }
 
   // Creates user's card in the database
-  Future<void> addCard(String label, String holderName, int number,
-      int safeCode, DateTime expirationDate) {
+  Future<DocumentReference<Object?>> addCard(String label, String holderName, int number,
+      int safeCode, DateTime expirationDate) async {
     try {
       CardEntity card =
           CardEntity(label, holderName, number, safeCode, expirationDate);
-      return collection.add(card.toJson());
+      return await collection.add(card.toJson());
     } catch (error) {
       throw CardError(error.toString());
     }
