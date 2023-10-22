@@ -9,11 +9,11 @@ import '../context/inheritedServices.dart';
 import '../entities/cardEntity.dart';
 
 class PaymentMethod extends StatefulWidget {
+  int _amount;
+
   PaymentMethod({Key? key, required int amount})
       : _amount = amount,
         super(key: key);
-
-  int _amount;
 
   @override
   State<PaymentMethod> createState() => _PaymentMethodState();
@@ -44,8 +44,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
+
     _cardList = _getAllCards(inheritedServices.cardService);
 
     return FutureBuilder<List<CardEntity>?>(

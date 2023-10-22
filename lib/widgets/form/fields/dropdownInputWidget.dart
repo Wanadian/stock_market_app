@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DropdownInputWidget extends StatefulWidget {
+  Key? _key;
+  String _label;
+  List<dynamic> _items;
+  Function(String? value)? _onChange;
+
   DropdownInputWidget({
     Key? key,
     String label = '',
@@ -11,11 +16,6 @@ class DropdownInputWidget extends StatefulWidget {
         _items = items,
         _onChange = onChange;
 
-  Key? _key;
-  String _label;
-  List<dynamic> _items;
-  Function(String? value)? _onChange;
-
   @override
   State<DropdownInputWidget> createState() => _DropdownInputWidgetState();
 }
@@ -24,9 +24,6 @@ class _DropdownInputWidgetState extends State<DropdownInputWidget> {
   dynamic _value;
 
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.0), color: Colors.white),

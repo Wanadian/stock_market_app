@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/paymentMethod.dart';
 import 'package:stock_market_app/services/cardService.dart';
 import 'package:stock_market_app/widgets/form/fields/dropdownInputWidget.dart';
 
 import '../context/inheritedServices.dart';
 import '../entities/cardEntity.dart';
-import '../services/walletService.dart';
 import '../widgets/form/formWidget.dart';
 
 class DeleteCreditCard extends StatefulWidget {
+  int _amount;
+
   DeleteCreditCard({Key? key, required int amount})
       : _amount = amount,
         super(key: key);
-
-  int _amount;
 
   @override
   State<DeleteCreditCard> createState() => _DeleteCreditCardState();
@@ -23,10 +21,9 @@ class DeleteCreditCard extends StatefulWidget {
 class _DeleteCreditCardState extends State<DeleteCreditCard> {
   Future<List<String>?>? _cardList;
   String _cardToDeleteLabel = '';
-
   GlobalKey<FormState> _cardDetailsForm = GlobalKey<FormState>();
 
-  _deleteCreditCard(CardService cardService) {
+  void _deleteCreditCard(CardService cardService) {
     cardService.deleteCard(_cardToDeleteLabel);
   }
 
@@ -40,10 +37,9 @@ class _DeleteCreditCardState extends State<DeleteCreditCard> {
   }
 
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
+
     _cardList = _getAllCards(inheritedServices.cardService);
 
     return FutureBuilder<List<String>?>(

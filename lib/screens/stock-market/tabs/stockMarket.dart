@@ -17,6 +17,11 @@ class StockMarket extends StatefulWidget {
 }
 
 class _StockMarketState extends State<StockMarket> {
+  int _numberSharesToPurchase = 0;
+  TextEditingController _numberSharesToPurchaseController =
+      TextEditingController();
+  Future<List<ShareDto>?>? _shareList;
+
   Future<List<ShareDto>?> _shareListRequest(
       ShareService shareService, SymbolService symbolService) async {
     List<ShareEntity>? shareListResponse = await shareService.getLatestShares();
@@ -31,10 +36,6 @@ class _StockMarketState extends State<StockMarket> {
     return shareList;
   }
 
-  int _numberSharesToPurchase = 0;
-  TextEditingController _numberSharesToPurchaseController =
-      TextEditingController();
-
   Future<bool> _purchaseShare(
       UserSharesService userSharesService, String symbol) async {
     return await userSharesService.addUserShares(
@@ -44,13 +45,13 @@ class _StockMarketState extends State<StockMarket> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
-    Future<List<ShareDto>?> shareList = _shareListRequest(
+
+    _shareList = _shareListRequest(
         inheritedServices.shareService, inheritedServices.symbolService);
 
     return FutureBuilder<List<ShareDto>?>(
-        future: shareList,
+        future: _shareList,
         builder: ((context, shareList) {
           if (shareList.hasData) {
             return Scaffold(
@@ -82,25 +83,9 @@ class _StockMarketState extends State<StockMarket> {
                                     ),
                                     Container(height: screenHeight * 0.05),
                                     NumberFieldWidget(
+                                      label: 'Number of shares',
                                       controller:
                                           _numberSharesToPurchaseController,
-                                      validator: (value) {
-                                        if (value == '' ||
-                                            value == null ||
-                                            int.parse(value) <= 0) {
-                                          return 'Please enter a value greater than 0';
-                                        }
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        setState(() {
-                                          if (value != null) {
-                                            _numberSharesToPurchase =
-                                                int.parse(value);
-                                          }
-                                        });
-                                      },
-                                      label: 'Number of shares',
                                     ),
                                   ]),
                                 ),

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatefulWidget {
+  Key? _key;
+  TextEditingController? _controller;
+  FormFieldValidator<String>? _validator;
+  FormFieldSetter<String>? _onSaved;
+  String _value;
+  String _label;
+
   TextFieldWidget({
     Key? key,
-    required TextEditingController controller,
-    required FormFieldValidator<String> validator,
-    required FormFieldSetter<String> onSaved,
+    TextEditingController? controller,
+    FormFieldValidator<String>? validator,
+    FormFieldSetter<String>? onSaved,
     String value = '',
     String label = '',
   })  : _controller = controller,
@@ -14,13 +21,6 @@ class TextFieldWidget extends StatefulWidget {
         _value = value,
         _label = label,
         _key = key;
-
-  Key? _key;
-  TextEditingController _controller;
-  FormFieldValidator<String> _validator;
-  FormFieldSetter<String> _onSaved;
-  String _value;
-  String _label;
 
   @override
   State<TextFieldWidget> createState() => _TextFieldWidget();

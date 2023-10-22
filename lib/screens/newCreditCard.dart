@@ -12,11 +12,11 @@ import '../widgets/form/formWidget.dart';
 import 'balance.dart';
 
 class NewCreditCard extends StatefulWidget {
+  int _amount;
+
   NewCreditCard({Key? key, required int amount})
       : _amount = amount,
         super(key: key);
-
-  int _amount;
 
   @override
   State<NewCreditCard> createState() => _NewCreditCardState();
@@ -28,19 +28,17 @@ class _NewCreditCardState extends State<NewCreditCard> {
   int _cardNumber = -1;
   int _cardSafeCode = -1;
   DateTime _cardExpirationDate = DateTime.now();
-
   GlobalKey<FormState> _cardDetailsForm = GlobalKey<FormState>();
-
   TextEditingController _cardLabelController = TextEditingController();
   TextEditingController _cardHolderNameController = TextEditingController();
   TextEditingController _cardNumberController = TextEditingController();
   TextEditingController _cardSafeCodeController = TextEditingController();
 
-  _creditAccount(WalletService walletService) async {
+  void _creditAccount(WalletService walletService) async {
     await walletService.creditWalletBalanceWithInt(widget._amount);
   }
 
-  _saveCardIfNew(CardService cardService) async {
+  void _saveCardIfNew(CardService cardService) async {
     bool exists = false;
     List<CardEntity>? cardList = await cardService.getAllCards();
     for (CardEntity card in cardList!) {
@@ -55,9 +53,7 @@ class _NewCreditCardState extends State<NewCreditCard> {
   }
 
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
 
     return Scaffold(
@@ -76,7 +72,8 @@ class _NewCreditCardState extends State<NewCreditCard> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PaymentMethod(amount: widget._amount)));
+                            builder: (context) =>
+                                PaymentMethod(amount: widget._amount)));
                   })),
           Container(height: screenHeight * 0.05),
           Text('New card', style: TextStyle(color: Colors.white, fontSize: 20)),
@@ -88,7 +85,7 @@ class _NewCreditCardState extends State<NewCreditCard> {
                 controller: _cardLabelController,
                 validator: (value) {
                   if (value == '' || value == null) {
-                    return "Please enter the card holder's name";
+                    return 'Please enter a name for your card';
                   }
                   return null;
                 },
@@ -162,8 +159,8 @@ class _NewCreditCardState extends State<NewCreditCard> {
             onPressed: () {
               _creditAccount(inheritedServices.walletService);
               _saveCardIfNew(inheritedServices.cardService);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Balance()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Balance()));
             },
           ),
         ])));

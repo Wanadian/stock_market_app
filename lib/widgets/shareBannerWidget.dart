@@ -43,8 +43,8 @@ class _ShareBannerWidgetState extends State<ShareBannerWidget> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
+
     _shareValueVariation = _getVariation(inheritedServices.shareService);
 
     return FutureBuilder<double?>(

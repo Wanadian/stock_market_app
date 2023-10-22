@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
 class FormWidget extends StatefulWidget {
+  GlobalKey<FormState> _key;
+  List<Widget> _fields = [];
+  Function() _onPressed;
+  String _buttonLabel;
+
   FormWidget(
       {required GlobalKey<FormState> key,
       required List<Widget> fields,
@@ -11,11 +16,6 @@ class FormWidget extends StatefulWidget {
         _onPressed = onPressed,
         _buttonLabel = buttonLabel,
         _key = key;
-
-  GlobalKey<FormState> _key;
-  List<Widget> _fields = [];
-  Function() _onPressed;
-  String _buttonLabel;
 
   @override
   State<FormWidget> createState() => _FormWidgetState();

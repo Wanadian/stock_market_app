@@ -11,11 +11,11 @@ import '../widgets/form/formWidget.dart';
 import 'balance.dart';
 
 class SavedCreditCards extends StatefulWidget {
+  int _amount;
+
   SavedCreditCards({Key? key, required int amount})
       : _amount = amount,
         super(key: key);
-
-  int _amount;
 
   @override
   State<SavedCreditCards> createState() => _SavedCreditCardsState();
@@ -23,10 +23,9 @@ class SavedCreditCards extends StatefulWidget {
 
 class _SavedCreditCardsState extends State<SavedCreditCards> {
   Future<List<String>?>? _cardList;
-
   GlobalKey<FormState> _cardDetailsForm = GlobalKey<FormState>();
 
-  _creditAccount(WalletService walletService) async {
+  void _creditAccount(WalletService walletService) async {
     await walletService.creditWalletBalanceWithInt(widget._amount);
   }
 
@@ -40,10 +39,9 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
   }
 
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
+
     _cardList = _getAllCards(inheritedServices.cardService);
 
     return FutureBuilder<List<String>?>(
@@ -81,10 +79,8 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
                   ],
                   onPressed: () {
                     _creditAccount(inheritedServices.walletService);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Balance()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Balance()));
                   },
                 ),
               ] else if (cardList.hasError) ...[
@@ -102,8 +98,11 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
               label: Text('Delete card'),
               icon: Icon(Icons.delete),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DeleteCreditCard(amount: widget._amount)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            DeleteCreditCard(amount: widget._amount)));
               },
             ),
           );

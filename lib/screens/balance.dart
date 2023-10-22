@@ -16,18 +16,19 @@ class Balance extends StatefulWidget {
 class _BalanceState extends State<Balance> {
   bool _isSafeOpen = false;
   double _gapHeight = 0;
+  Future<String?>? _balance;
 
   Future<String?> _getBalanceRequest(WalletService walletService) async {
     return await walletService.getWalletBalanceAsString();
   }
 
-  void setIsSafeOpenToOpposite(bool isSafeOpen) {
+  void _setIsSafeOpenToOpposite(bool isSafeOpen) {
     setState(() {
       _isSafeOpen = !isSafeOpen;
     });
   }
 
-  void setGapHeight(double gapHeight) {
+  void _setGapHeight(double gapHeight) {
     setState(() {
       _isSafeOpen ? _gapHeight = 0 : _gapHeight = gapHeight;
     });
@@ -46,10 +47,9 @@ class _BalanceState extends State<Balance> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
-    Future<String?> _balance =
-        _getBalanceRequest(inheritedServices.walletService);
+
+    _balance = _getBalanceRequest(inheritedServices.walletService);
 
     return FutureBuilder<String?>(
         future: _balance,
@@ -86,14 +86,15 @@ class _BalanceState extends State<Balance> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     icon: _isSafeOpen
-                        ? Image.asset(_getMoneyImage(double.parse(balance.data!)),
+                        ? Image.asset(
+                            _getMoneyImage(double.parse(balance.data!)),
                             width: screenWidth * 0.5)
                         : Image.asset('assets/wallet.png',
                             width: screenWidth * 0.5),
                     iconSize: 300,
                     onPressed: () {
-                      setGapHeight(screenHeight * 0.03);
-                      setIsSafeOpenToOpposite(_isSafeOpen);
+                      _setGapHeight(screenHeight * 0.03);
+                      _setIsSafeOpenToOpposite(_isSafeOpen);
                     },
                   )
                 ] else if (balance.hasError) ...[
@@ -140,8 +141,7 @@ class _BalanceState extends State<Balance> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    StockMarketAppBar()));
+                                builder: (context) => StockMarketAppBar()));
                       },
                     )
                   ]));
