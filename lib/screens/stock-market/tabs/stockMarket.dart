@@ -7,7 +7,6 @@ import '../../../services/shareService.dart';
 import '../../../services/symbolService.dart';
 import '../../../services/userSharesService.dart';
 import '../../../widgets/form/fields/numberFieldWidget.dart';
-import '../../../widgets/form/formWidget.dart';
 import '../../../widgets/shareBannerWidget.dart';
 
 class StockMarket extends StatefulWidget {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/entities/cardEntity.dart';
-import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/paymentMethod.dart';
 import 'package:stock_market_app/services/cardService.dart';
 
@@ -10,6 +9,7 @@ import '../widgets/form/fields/dateFieldWidget.dart';
 import '../widgets/form/fields/numberFieldWidget.dart';
 import '../widgets/form/fields/textFieldWidget.dart';
 import '../widgets/form/formWidget.dart';
+import 'balance.dart';
 
 class NewCreditCard extends StatefulWidget {
   NewCreditCard({Key? key, required int amount})
@@ -163,7 +163,7 @@ class _NewCreditCardState extends State<NewCreditCard> {
               _creditAccount(inheritedServices.walletService);
               _saveCardIfNew(inheritedServices.cardService);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ModifyBalance()));
+                  MaterialPageRoute(builder: (context) => Balance()));
             },
           ),
         ])));

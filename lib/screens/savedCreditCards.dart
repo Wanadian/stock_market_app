@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/screens/deleteCreditCard.dart';
-import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/paymentMethod.dart';
 import 'package:stock_market_app/services/cardService.dart';
 import 'package:stock_market_app/widgets/form/fields/dropdownInputWidget.dart';
@@ -9,6 +8,7 @@ import '../context/inheritedServices.dart';
 import '../entities/cardEntity.dart';
 import '../services/walletService.dart';
 import '../widgets/form/formWidget.dart';
+import 'balance.dart';
 
 class SavedCreditCards extends StatefulWidget {
   SavedCreditCards({Key? key, required int amount})
@@ -84,7 +84,7 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ModifyBalance()));
+                            builder: (context) => Balance()));
                   },
                 ),
               ] else if (cardList.hasError) ...[
