@@ -56,10 +56,10 @@ class UserSharesRepository {
   }
 
   // Creates user's shares by symbol in the database
-  Future<void> addUserShares(String symbol, int nbShares) {
+  Future<DocumentReference<Object?>> addUserShares(String symbol, int nbShares) async {
     try {
       UserSharesEntity userShares = UserSharesEntity(symbol, nbShares);
-      return collection.add(userShares.toJson());
+      return await collection.add(userShares.toJson());
     } catch (error) {
       throw UserSharesError(error.toString());
     }

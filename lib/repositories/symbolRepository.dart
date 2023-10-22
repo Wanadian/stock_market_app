@@ -66,7 +66,7 @@ class SymbolRepository {
   }
 
   // Adds a symbol in the database
-  Future<void> addSymbol(SymbolEntity symbol) {
-    return collection.add(symbol.toJson());
+  Future<DocumentReference<Object?>> addSymbol(SymbolEntity symbol) async {
+    return await collection.add(symbol.toJson());
   }
 }

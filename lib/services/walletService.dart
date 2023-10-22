@@ -40,11 +40,10 @@ class WalletService {
     WalletEntity? wallet = await walletRepository.getWallet();
 
     if (wallet != null && wallet.id != null) {
-      double newBalance = wallet.balance - sumToDebit;
+      double newBalance = double.parse((wallet.balance - sumToDebit).toStringAsFixed(2));
 
       if(newBalance >= 0) {
-        await walletRepository.updateWalletBalance(
-            double.parse((wallet.balance - sumToDebit).toStringAsPrecision(2)), wallet.id ?? '');
+        await walletRepository.updateWalletBalance(newBalance, wallet.id ?? '');
       } else {
         throw WalletError('Wallet balance can\'t be negative ');
       }
