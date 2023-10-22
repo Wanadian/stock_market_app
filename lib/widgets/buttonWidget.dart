@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
 
-class ButtonWidget extends StatelessWidget {
+class ButtonWidget extends StatefulWidget {
   String? _label;
   IconData? _icon;
   Function()? _onPressed;
   double _height;
   double _width;
   Alignment _alignment;
+  bool _isProcessing = false;
 
-  ButtonWidget.textButton(
-      {Alignment alignment = Alignment.center,
-      required String? label,
-      required dynamic Function()? onPressed,
-      required double height,
-      required double width})
+  ButtonWidget.textButton({Alignment alignment = Alignment.center,
+    required String? label,
+    required dynamic Function()? onPressed,
+    required double height,
+    required double width})
       : _alignment = alignment,
         _width = width,
         _height = height,
         _onPressed = onPressed,
         _label = label;
 
-  ButtonWidget.iconButton(
-      {Alignment alignment = Alignment.center,
-      required IconData? icon,
-      required dynamic Function()? onPressed,
-      required double height,
-      required double width})
+  ButtonWidget.iconButton({Alignment alignment = Alignment.center,
+    required IconData? icon,
+    required dynamic Function()? onPressed,
+    required double height,
+    required double width})
       : _alignment = alignment,
         _width = width,
         _height = height,
@@ -33,9 +32,14 @@ class ButtonWidget extends StatelessWidget {
         _icon = icon;
 
   @override
+  State<ButtonWidget> createState() => _ButtonWidgetState();
+}
+
+class _ButtonWidgetState extends State<ButtonWidget> {
+  @override
   Widget build(BuildContext context) {
-    if ((_icon == null && _label == null) ||
-        (_icon != null && _label != null)) {
+    if ((widget._icon == null && widget._label == null) ||
+        (widget._icon != null && widget._label != null)) {
       return Builder(builder: (BuildContext context) {
         throw Exception(
             "Error: 'icon' and 'label' can not be null at the same time, nor can they both contain a value that is not null");
@@ -43,18 +47,28 @@ class ButtonWidget extends StatelessWidget {
     }
 
     return Align(
-        alignment: _alignment,
+        alignment: widget._alignment,
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 shadowColor: Colors.black,
-                backgroundColor: Colors.white,
+                backgroundColor: widget._onPressed != null || widget._isProcessing ? Colors.white : Colors.grey,
                 foregroundColor: Colors.black,
                 disabledBackgroundColor: Colors.white12,
                 disabledForegroundColor: Colors.black,
                 minimumSize: Size(0, 0),
-                fixedSize: Size(_width, _height)),
-            onPressed: _onPressed,
-            child: _icon != null ? Icon(_icon) : Text(_label!)));
+                fixedSize: Size(widget._width, widget._height)),
+            onPressed: () {
+              if (!widget._isProcessing) {
+                setState(() {
+                  widget._isProcessing = true;
+                });
+                widget._onPressed!();
+                setState(() {
+                  widget._isProcessing = false;
+                });
+              }
+              },
+            child: widget._icon != null ? Icon(widget._icon) : Text(widget._label!)));
   }
 }

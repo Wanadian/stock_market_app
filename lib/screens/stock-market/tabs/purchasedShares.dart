@@ -61,13 +61,13 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                       shareName: share.getShareName(),
                       shareSymbol: share.getShareSymbol(),
                       icon: Icons.remove,
-                      onPressed: () => {
-                            _sellShare(inheritedServices.userSharesService,
-                                share.getShareSymbol()),
+                      onPressed: () async {
+                            await _sellShare(inheritedServices.userSharesService,
+                                share.getShareSymbol());
                             setState(() {
                               share.setNumberOfShare(
                                   share.getNumberOfShare() - 1);
-                            })
+                            });
                           })
                 ],
                 Container(height: screenHeight * 0.05),
