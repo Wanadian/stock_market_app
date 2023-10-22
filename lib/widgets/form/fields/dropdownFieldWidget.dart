@@ -27,7 +27,7 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.0), color: Colors.white),
-        padding: EdgeInsets.only(left: 5.0, right: 5.0),
+        padding: EdgeInsets.only(left: 10.0, right: 10.0),
         child: DropdownButton<String>(
           key: widget._key,
           hint: Text(widget._label),
