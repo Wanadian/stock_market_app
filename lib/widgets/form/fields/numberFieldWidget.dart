@@ -36,9 +36,11 @@ class _NumberFieldWidget extends State<NumberFieldWidget> {
     return TextFormField(
       key: widget._key,
       onChanged: (value) {
-        setState(() {
-          widget._value = int.parse(value);
-        });
+        if(value != '') {
+          setState(() {
+            widget._value = int.parse(value);
+          });
+        }
       },
       controller: widget._controller,
       validator: widget._validator,
