@@ -1,3 +1,4 @@
+import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/widgets/form/fields/numberFieldWidget.dart';
 import 'package:stock_market_app/widgets/form/formWidget.dart';
@@ -33,6 +34,10 @@ class _PurchasedSharesState extends State<PurchasedShares> {
     return shareList;
   }
 
+  Future<String> _getWalletEstimation (UserSharesService userSharesService) async {
+    return await userSharesService.getUserSharesBalanceEstimationAsString();
+  }
+
   int _numberSharesToPurchase = 0;
   TextEditingController _numberSharesToPurchaseController =
       TextEditingController();
@@ -46,21 +51,55 @@ class _PurchasedSharesState extends State<PurchasedShares> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     var inheritedServices = InheritedServices.of(context);
-    Future<List<ShareDto>?> shareList = _shareListRequest(
+    Future<List<ShareDto>?> _shareList = _shareListRequest(
         inheritedServices.userSharesService,
         inheritedServices.shareService,
         inheritedServices.symbolService);
 
-    return FutureBuilder<List<ShareDto>?>(
-        future: shareList,
-        builder: ((context, shareList) {
-          if (shareList.hasData) {
+    Future<String> _walletEstimation = _getWalletEstimation(inheritedServices.userSharesService);
+
+    return FutureBuilder(
+        future: Future.wait([_shareList, _walletEstimation]),
+        builder: ((context, snapshot) {
+          if (snapshot.hasData) {
             return Scaffold(
                 body: SingleChildScrollView(
                     child: Column(
               children: [
-                for (ShareDto share in shareList.data!) ...[
-                  Container(height: screenHeight * 0.01),
+                for (ShareDto share in snapshot.data![0] as Iterable) ...[
+                  Container(
+                      margin: EdgeInsets.only(bottom: screenHeight * 0.01),
+                      decoration:
+                          BoxDecoration(color: Colors.white, boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 3,
+                          offset: Offset(0, 0.5),
+                        ),
+                      ]),
+                      child: Column(children: [
+                        Container(height: screenHeight * 0.01),
+                        Text('Estimated value of your shares',
+                            textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 15),),
+                        Container(
+                            constraints: BoxConstraints(
+                                minWidth: 0, maxWidth: screenWidth * 0.7),
+                            child: AnimatedDigitWidget(
+                              duration: Duration(seconds: 1),
+                              value: double.parse(snapshot.data![1] as String),
+                              enableSeparator: true,
+                              fractionDigits: 2,
+                              suffix: ' \$',
+                              textStyle: TextStyle(
+                                  overflow: TextOverflow.clip,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            )),
+                        Container(height: screenHeight * 0.01),
+                      ])),
                   ShareBannerWidget(
                       shareValue: share.getShareValue(),
                       numberOfShares: share.getNumberOfShare(),
@@ -146,7 +185,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                 Container(height: screenHeight * 0.05),
               ],
             )));
-          } else if (shareList.hasError) {
+          } else if (snapshot.hasError) {
             return Scaffold(
                 body: Column(children: [
               Container(
