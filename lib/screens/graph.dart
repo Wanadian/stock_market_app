@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:stock_market_app/dto/shareHistoryDataDto.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../context/inheritedServices.dart';
-import '../services/shareService.dart';
-import '../widgets/form/fields/dateFieldWidget.dart';
+import 'package:stock_market_app/dto/shareHistoryDataDto.dart';
+import 'package:stock_market_app/context/inheritedServices.dart';
+import 'package:stock_market_app/services/shareService.dart';
+import 'package:stock_market_app/widgets/form/fields/dateFieldWidget.dart';
 
+//ignore: must_be_immutable
 class Graph extends StatefulWidget {
   String _symbol;
 

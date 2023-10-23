@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/paymentMethod.dart';
 import 'package:stock_market_app/services/cardService.dart';
 import 'package:stock_market_app/widgets/form/fields/dropdownFieldWidget.dart';
+import 'package:stock_market_app/context/inheritedServices.dart';
+import 'package:stock_market_app/entities/cardEntity.dart';
+import 'package:stock_market_app/widgets/form/formWidget.dart';
 
-import '../context/inheritedServices.dart';
-import '../entities/cardEntity.dart';
-import '../widgets/form/formWidget.dart';
-
+//ignore: must_be_immutable
 class DeleteCreditCard extends StatefulWidget {
   int _amount;
 

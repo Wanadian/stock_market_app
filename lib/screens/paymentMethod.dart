@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/newCreditCard.dart';
 import 'package:stock_market_app/screens/savedCreditCards.dart';
 import 'package:stock_market_app/services/cardService.dart';
 import 'package:stock_market_app/widgets/buttonWidget.dart';
+import 'package:stock_market_app/context/inheritedServices.dart';
+import 'package:stock_market_app/entities/cardEntity.dart';
 
-import '../context/inheritedServices.dart';
-import '../entities/cardEntity.dart';
-
+//ignore: must_be_immutable
 class PaymentMethod extends StatefulWidget {
   int _amount;
 

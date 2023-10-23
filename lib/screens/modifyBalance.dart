@@ -1,12 +1,12 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_market_app/screens/paymentMethod.dart';
 
-import '../context/inheritedServices.dart';
-import '../services/walletService.dart';
-import '../widgets/form/fields/numberFieldWidget.dart';
-import '../widgets/form/formWidget.dart';
-import 'balance.dart';
+import 'package:stock_market_app/screens/paymentMethod.dart';
+import 'package:stock_market_app/context/inheritedServices.dart';
+import 'package:stock_market_app/services/walletService.dart';
+import 'package:stock_market_app/widgets/form/fields/numberFieldWidget.dart';
+import 'package:stock_market_app/widgets/form/formWidget.dart';
+import 'package:stock_market_app/screens/balance.dart';
 
 class ModifyBalance extends StatefulWidget {
   const ModifyBalance({Key? key}) : super(key: key);

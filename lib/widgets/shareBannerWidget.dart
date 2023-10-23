@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:stock_market_app/services/shareService.dart';
-
 import 'package:stock_market_app/widgets/buttonWidget.dart';
+import 'package:stock_market_app/context/inheritedServices.dart';
+import 'package:stock_market_app/screens/graph.dart';
 
-import '../context/inheritedServices.dart';
-import '../screens/graph.dart';
-
+//ignore: must_be_immutable
 class ShareBannerWidget extends StatefulWidget {
   double _shareValue;
   int _numberOfShares;

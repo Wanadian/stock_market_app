@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:stock_market_app/errors/symbolError.dart';
 import 'package:stock_market_app/entities/symbolEntity.dart';
 

@@ -1,11 +1,11 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
+
 import 'package:stock_market_app/screens/balance.dart';
 import 'package:stock_market_app/screens/stock-market/tabs/purchasedShares.dart';
 import 'package:stock_market_app/screens/stock-market/tabs/stockMarket.dart';
-
-import '../../context/inheritedServices.dart';
-import '../../services/walletService.dart';
+import 'package:stock_market_app/context/inheritedServices.dart';
+import 'package:stock_market_app/services/walletService.dart';
 
 class StockMarketAppBar extends StatefulWidget {
   StockMarketAppBar({Key? key}) : super(key: key);

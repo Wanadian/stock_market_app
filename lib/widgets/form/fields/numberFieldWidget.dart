@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+//ignore: must_be_immutable
 class NumberFieldWidget extends StatefulWidget {
   Key? _key;
   TextEditingController? _controller;

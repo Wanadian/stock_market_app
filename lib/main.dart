@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:stock_market_app/context/rootWidget.dart';
 import 'package:stock_market_app/screens/splashScreen.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:stock_market_app/firebase_options.dart';
 
 Future<void> main() async {
   // Connection to the database

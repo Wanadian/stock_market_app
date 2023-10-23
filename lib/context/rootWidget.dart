@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+
 import 'package:stock_market_app/context/inheritedServices.dart';
 import 'package:stock_market_app/main.dart';
 import 'package:stock_market_app/services/cardService.dart';
@@ -7,7 +9,6 @@ import 'package:stock_market_app/services/shareService.dart';
 import 'package:stock_market_app/services/symbolService.dart';
 import 'package:stock_market_app/services/userSharesService.dart';
 import 'package:stock_market_app/services/walletService.dart';
-import 'package:intl/intl.dart';
 
 // This Widget is the parent widget, where we can store services and all useful information
 class RootWidget extends StatefulWidget {

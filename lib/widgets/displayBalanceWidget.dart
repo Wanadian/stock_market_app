@@ -1,6 +1,7 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 
+//ignore: must_be_immutable
 class DisplayBalanceWidget extends StatefulWidget {
   double _balance;
 
