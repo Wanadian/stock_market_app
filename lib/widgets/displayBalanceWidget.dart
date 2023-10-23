@@ -48,9 +48,9 @@ class _DisplayBalanceWidgetState extends State<DisplayBalanceWidget>
     super.initState();
 
     _standByAnimationController = AnimationController(
-        duration: (const Duration(milliseconds: 500)), vsync: this);
+        duration: (const Duration(milliseconds: 600)), vsync: this);
     _standByAnimation =
-        Tween<double>(begin: 0, end: 30).animate(_standByAnimationController)
+        Tween<double>(begin: 0, end: 25).animate(_standByAnimationController)
           ..addStatusListener((status) {
             if (!_isSafeOpen) {
               if (status == AnimationStatus.completed) {

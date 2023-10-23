@@ -1,4 +1,3 @@
-import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/stock-market/stockMarketAppBar.dart';
@@ -15,34 +14,10 @@ class Balance extends StatefulWidget {
 }
 
 class _BalanceState extends State<Balance> {
-  bool _isSafeOpen = false;
-  double _gapHeight = 0;
   Future<String?>? _balance;
 
   Future<String?> _getBalanceRequest(WalletService walletService) async {
     return await walletService.getWalletBalanceAsString();
-  }
-
-  void _setIsSafeOpenToOpposite(bool isSafeOpen) {
-    setState(() {
-      _isSafeOpen = !isSafeOpen;
-    });
-  }
-
-  void _setGapHeight(double gapHeight) {
-    setState(() {
-      _isSafeOpen ? _gapHeight = 0 : _gapHeight = gapHeight;
-    });
-  }
-
-  String _getMoneyImage(double amount) {
-    if (amount <= 1000) {
-      return 'assets/coins.png';
-    }
-    if (amount > 1000 && amount <= 10000) {
-      return 'assets/money.png';
-    }
-    return 'assets/money-bag.png';
   }
 
   Widget build(BuildContext context) {
