@@ -26,7 +26,7 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
   Future<List<String>?>? _cardList;
   GlobalKey<FormState> _cardDetailsForm = GlobalKey<FormState>();
 
-  void _creditAccount(WalletService walletService) async {
+  Future<void> _creditAccount(WalletService walletService) async {
     await walletService.creditWalletBalanceWithInt(widget._amount);
   }
 
@@ -78,8 +78,8 @@ class _SavedCreditCardsState extends State<SavedCreditCards> {
                       label: 'Select a card',
                     )
                   ],
-                  onPressed: () {
-                    _creditAccount(inheritedServices.walletService);
+                  onPressed: () async {
+                    await _creditAccount(inheritedServices.walletService);
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => Balance()));
                   },
