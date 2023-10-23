@@ -35,11 +35,11 @@ class _NewCreditCardState extends State<NewCreditCard> {
   TextEditingController _cardNumberController = TextEditingController();
   TextEditingController _cardSafeCodeController = TextEditingController();
 
-  void _creditAccount(WalletService walletService) async {
+  Future<void> _creditAccount(WalletService walletService) async {
     await walletService.creditWalletBalanceWithInt(widget._amount);
   }
 
-  void _saveCardIfNew(CardService cardService) async {
+  Future<void> _saveCardIfNew(CardService cardService) async {
     bool exists = false;
     List<CardEntity>? cardList = await cardService.getAllCards();
     for (CardEntity card in cardList!) {
@@ -164,9 +164,9 @@ class _NewCreditCardState extends State<NewCreditCard> {
                 errorLabel: 'The date has to be after the current one',
               ),
             ],
-            onPressed: () {
-              _creditAccount(inheritedServices.walletService);
-              _saveCardIfNew(inheritedServices.cardService);
+            onPressed: () async {
+              await _creditAccount(inheritedServices.walletService);
+              await _saveCardIfNew(inheritedServices.cardService);
               Navigator.pushReplacement(
                   context, MaterialPageRoute(builder: (context) => Balance()));
             },
