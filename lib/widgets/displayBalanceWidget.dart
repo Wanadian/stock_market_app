@@ -39,9 +39,9 @@ class _DisplayBalanceWidgetState extends State<DisplayBalanceWidget>
 
   @override
   void dispose() {
-    super.dispose();
     _animationController.dispose();
     _standByAnimationController.dispose();
+    super.dispose();
   }
 
   @override
