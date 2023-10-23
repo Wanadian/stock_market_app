@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/stock-market/stockMarketAppBar.dart';
 import 'package:stock_market_app/services/walletService.dart';
+import 'package:stock_market_app/widgets/displayBalanceWidget.dart';
 
 import '../context/inheritedServices.dart';
 
@@ -57,46 +58,8 @@ class _BalanceState extends State<Balance> {
           return Scaffold(
               body: Column(children: [
                 if (balance.hasData) ...[
-                  if (_isSafeOpen) ...[
-                    Container(height: screenHeight * 0.3),
-                    AnimatedDigitWidget(
-                      duration: Duration(seconds: 1),
-                      value: double.parse(balance.data!),
-                      enableSeparator: true,
-                      fractionDigits: 2,
-                      suffix: ' \$',
-                      textStyle: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 23),
-                    )
-                  ] else ...[
-                    Container(height: screenHeight * 0.3),
-                    Text('Click to display your balance',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold))
-                  ],
-                  AnimatedContainer(
-                    height: _gapHeight,
-                    duration: Duration(milliseconds: 500),
-                  ),
-                  IconButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    icon: _isSafeOpen
-                        ? Image.asset(
-                            _getMoneyImage(double.parse(balance.data!)),
-                            width: screenWidth * 0.5)
-                        : Image.asset('assets/wallet.png',
-                            width: screenWidth * 0.5),
-                    iconSize: 300,
-                    onPressed: () {
-                      _setGapHeight(screenHeight * 0.03);
-                      _setIsSafeOpenToOpposite(_isSafeOpen);
-                    },
-                  )
+                  Container(height: screenHeight * 0.3),
+                  DisplayBalanceWidget(balance: double.parse(balance.data!))
                 ] else if (balance.hasError) ...[
                   Container(
                     height: screenHeight * 0.45,
