@@ -1,5 +1,6 @@
 // This class is used to call the database
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:stock_market_app/entities/cardEntity.dart';
 import 'package:stock_market_app/errors/cardError.dart';
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
+//ignore: must_be_immutable
 class DateFieldWidget extends StatefulWidget {
   Key? _key;
   Function(DateTime date) _onChange;

@@ -1,14 +1,14 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_market_app/widgets/form/fields/numberFieldWidget.dart';
 
-import '../../../context/inheritedServices.dart';
-import '../../../dto/shareDto.dart';
-import '../../../entities/userSharesEntity.dart';
-import '../../../services/shareService.dart';
-import '../../../services/symbolService.dart';
-import '../../../services/userSharesService.dart';
-import '../../../widgets/shareBannerWidget.dart';
+import 'package:stock_market_app/widgets/form/fields/numberFieldWidget.dart';
+import 'package:stock_market_app/context/inheritedServices.dart';
+import 'package:stock_market_app/dto/shareDto.dart';
+import 'package:stock_market_app/entities/userSharesEntity.dart';
+import 'package:stock_market_app/services/shareService.dart';
+import 'package:stock_market_app/services/symbolService.dart';
+import 'package:stock_market_app/services/userSharesService.dart';
+import 'package:stock_market_app/widgets/shareBannerWidget.dart';
 
 class PurchasedShares extends StatefulWidget {
   const PurchasedShares({Key? key}) : super(key: key);

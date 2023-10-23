@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:stock_market_app/widgets/buttonWidget.dart';
 
+//ignore: must_be_immutable
 class FormWidget extends StatefulWidget {
   GlobalKey<FormState> _key;
   List<Widget> _fields = [];

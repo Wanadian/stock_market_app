@@ -1,6 +1,7 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 
+//ignore: must_be_immutable
 class DisplayBalanceWidget extends StatefulWidget {
   double _balance;
 
@@ -38,9 +39,9 @@ class _DisplayBalanceWidgetState extends State<DisplayBalanceWidget>
 
   @override
   void dispose() {
-    super.dispose();
     _animationController.dispose();
     _standByAnimationController.dispose();
+    super.dispose();
   }
 
   @override

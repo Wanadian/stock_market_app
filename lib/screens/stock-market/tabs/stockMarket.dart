@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../context/inheritedServices.dart';
-import '../../../dto/shareDto.dart';
-import '../../../entities/shareEntity.dart';
-import '../../../services/shareService.dart';
-import '../../../services/symbolService.dart';
-import '../../../services/userSharesService.dart';
-import '../../../widgets/form/fields/numberFieldWidget.dart';
-import '../../../widgets/shareBannerWidget.dart';
+import 'package:stock_market_app/context/inheritedServices.dart';
+import 'package:stock_market_app/dto/shareDto.dart';
+import 'package:stock_market_app/entities/shareEntity.dart';
+import 'package:stock_market_app/services/shareService.dart';
+import 'package:stock_market_app/services/symbolService.dart';
+import 'package:stock_market_app/services/userSharesService.dart';
+import 'package:stock_market_app/widgets/form/fields/numberFieldWidget.dart';
+import 'package:stock_market_app/widgets/shareBannerWidget.dart';
 
 class StockMarket extends StatefulWidget {
   const StockMarket({Key? key}) : super(key: key);

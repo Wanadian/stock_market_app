@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:stock_market_app/services/shareService.dart';
 import 'package:stock_market_app/services/symbolService.dart';
 import 'package:stock_market_app/services/userSharesService.dart';

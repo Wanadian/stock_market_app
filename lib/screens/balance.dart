@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/stock-market/stockMarketAppBar.dart';
 import 'package:stock_market_app/services/walletService.dart';
 import 'package:stock_market_app/widgets/displayBalanceWidget.dart';
-
-import '../context/inheritedServices.dart';
+import 'package:stock_market_app/context/inheritedServices.dart';
 
 class Balance extends StatefulWidget {
   const Balance({Key? key}) : super(key: key);

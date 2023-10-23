@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:stock_market_app/screens/balance.dart';
 
 class SplashScreen extends StatefulWidget {
