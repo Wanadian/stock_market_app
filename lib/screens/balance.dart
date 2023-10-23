@@ -1,8 +1,8 @@
-import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/stock-market/stockMarketAppBar.dart';
 import 'package:stock_market_app/services/walletService.dart';
+import 'package:stock_market_app/widgets/displayBalanceWidget.dart';
 
 import '../context/inheritedServices.dart';
 
@@ -14,34 +14,10 @@ class Balance extends StatefulWidget {
 }
 
 class _BalanceState extends State<Balance> {
-  bool _isSafeOpen = false;
-  double _gapHeight = 0;
   Future<String?>? _balance;
 
   Future<String?> _getBalanceRequest(WalletService walletService) async {
     return await walletService.getWalletBalanceAsString();
-  }
-
-  void _setIsSafeOpenToOpposite(bool isSafeOpen) {
-    setState(() {
-      _isSafeOpen = !isSafeOpen;
-    });
-  }
-
-  void _setGapHeight(double gapHeight) {
-    setState(() {
-      _isSafeOpen ? _gapHeight = 0 : _gapHeight = gapHeight;
-    });
-  }
-
-  String _getMoneyImage(double amount) {
-    if (amount <= 1000) {
-      return 'assets/coins.png';
-    }
-    if (amount > 1000 && amount <= 10000) {
-      return 'assets/money.png';
-    }
-    return 'assets/money-bag.png';
   }
 
   Widget build(BuildContext context) {
@@ -57,46 +33,8 @@ class _BalanceState extends State<Balance> {
           return Scaffold(
               body: Column(children: [
                 if (balance.hasData) ...[
-                  if (_isSafeOpen) ...[
-                    Container(height: screenHeight * 0.3),
-                    AnimatedDigitWidget(
-                      duration: Duration(seconds: 1),
-                      value: double.parse(balance.data!),
-                      enableSeparator: true,
-                      fractionDigits: 2,
-                      suffix: ' \$',
-                      textStyle: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 23),
-                    )
-                  ] else ...[
-                    Container(height: screenHeight * 0.3),
-                    Text('Click to display your balance',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold))
-                  ],
-                  AnimatedContainer(
-                    height: _gapHeight,
-                    duration: Duration(milliseconds: 500),
-                  ),
-                  IconButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    icon: _isSafeOpen
-                        ? Image.asset(
-                            _getMoneyImage(double.parse(balance.data!)),
-                            width: screenWidth * 0.5)
-                        : Image.asset('assets/wallet.png',
-                            width: screenWidth * 0.5),
-                    iconSize: 300,
-                    onPressed: () {
-                      _setGapHeight(screenHeight * 0.03);
-                      _setIsSafeOpenToOpposite(_isSafeOpen);
-                    },
-                  )
+                  Container(height: screenHeight * 0.3),
+                  DisplayBalanceWidget(balance: double.parse(balance.data!))
                 ] else if (balance.hasError) ...[
                   Container(
                     height: screenHeight * 0.45,
