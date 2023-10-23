@@ -1,7 +1,6 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_market_app/widgets/form/fields/numberFieldWidget.dart';
-import 'package:stock_market_app/widgets/form/formWidget.dart';
 
 import '../../../context/inheritedServices.dart';
 import '../../../dto/shareDto.dart';
@@ -19,6 +18,10 @@ class PurchasedShares extends StatefulWidget {
 }
 
 class _PurchasedSharesState extends State<PurchasedShares> {
+  int _numberSharesToPurchase = 0;
+  TextEditingController _numberSharesToPurchaseController =
+      TextEditingController();
+
   Future<List<ShareDto>?> _shareListRequest(UserSharesService userSharesService,
       ShareService shareService, SymbolService symbolService) async {
     List<UserSharesEntity>? shareListResponse =
@@ -34,29 +37,26 @@ class _PurchasedSharesState extends State<PurchasedShares> {
     return shareList;
   }
 
-  Future<String> _getWalletEstimation (UserSharesService userSharesService) async {
+  Future<String> _getWalletEstimation(
+      UserSharesService userSharesService) async {
     return await userSharesService.getUserSharesBalanceEstimationAsString();
   }
 
-  int _numberSharesToPurchase = 0;
-  TextEditingController _numberSharesToPurchaseController =
-      TextEditingController();
-
-  _sellShare(UserSharesService userSharesService, String symbol) async {
+  void _sellShare(UserSharesService userSharesService, String symbol) async {
     await userSharesService.removeUserShares(symbol, _numberSharesToPurchase);
   }
 
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
+
     Future<List<ShareDto>?> _shareList = _shareListRequest(
         inheritedServices.userSharesService,
         inheritedServices.shareService,
         inheritedServices.symbolService);
-
-    Future<String> _walletEstimation = _getWalletEstimation(inheritedServices.userSharesService);
+    Future<String> _walletEstimation =
+        _getWalletEstimation(inheritedServices.userSharesService);
 
     return FutureBuilder(
         future: Future.wait([_shareList, _walletEstimation]),
@@ -80,9 +80,11 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                       ]),
                       child: Column(children: [
                         Container(height: screenHeight * 0.01),
-                        Text('Estimated value of your shares',
-                            textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 15),),
+                        Text(
+                          'Estimated value of your shares',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 15),
+                        ),
                         Container(
                             constraints: BoxConstraints(
                                 minWidth: 0, maxWidth: screenWidth * 0.7),
@@ -122,25 +124,9 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                                         textAlign: TextAlign.center),
                                     Container(height: screenHeight * 0.05),
                                     NumberFieldWidget(
+                                      label: 'Number of shares',
                                       controller:
                                           _numberSharesToPurchaseController,
-                                      validator: (value) {
-                                        if (value == '' ||
-                                            value == null ||
-                                            int.parse(value) <= 0) {
-                                          return 'Please enter a value greater than 0';
-                                        }
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        setState(() {
-                                          if (value != null) {
-                                            _numberSharesToPurchase =
-                                                int.parse(value);
-                                          }
-                                        });
-                                      },
-                                      label: 'Number of shares',
                                     ),
                                   ]),
                                 ),

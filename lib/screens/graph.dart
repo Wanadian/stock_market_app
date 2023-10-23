@@ -8,11 +8,11 @@ import '../services/shareService.dart';
 import '../widgets/form/fields/dateFieldWidget.dart';
 
 class Graph extends StatefulWidget {
+  String _symbol;
+
   Graph({Key? key, required String symbol})
       : _symbol = symbol,
         super(key: key);
-
-  String _symbol;
 
   @override
   State<Graph> createState() => _GraphState();
@@ -48,8 +48,8 @@ class _GraphState extends State<Graph> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
+
     _setShareHistory(_shareHistoryRequest(inheritedServices.shareService));
 
     return FutureBuilder<List<ShareHistoryDataDto>?>(
@@ -73,12 +73,20 @@ class _GraphState extends State<Graph> {
                               Navigator.pop(context);
                             })),
                     if (shareHistory.hasData) ...[
-                      Container(width: screenWidth * 0.45),
+                      Container(width: screenWidth * 0.17),
                       DateFieldWidget(
                         key: Key('request-beginning'),
                         onChange: (DateTime date) {
                           _setDate(date);
                         },
+                        validator: (DateTime date) {
+                          if(date.compareTo(DateTime.now()) <= 0){
+                            return true;
+                          }
+                          return false;
+                        },
+                        label: 'Select a date : ',
+                        errorLabel: 'Select a date before the current one',
                       )
                     ]
                   ]),
@@ -93,8 +101,7 @@ class _GraphState extends State<Graph> {
                                 plotAreaBorderColor: Colors.transparent,
                                 margin: EdgeInsets.all(0),
                                 title: ChartTitle(
-                                    text:
-                                        '    Share value history',
+                                    text: '    Share value history',
                                     textStyle: TextStyle(color: Colors.white)),
                                 primaryXAxis: CategoryAxis(
                                     majorTickLines: const MajorTickLines(
@@ -122,7 +129,7 @@ class _GraphState extends State<Graph> {
                                     String>>[
                                   LineSeries<ShareHistoryDataDto, String>(
                                       enableTooltip: true,
-                                      color: Colors.pink,
+                                      color: Colors.red,
                                       dataSource: shareHistory.data!,
                                       xValueMapper:
                                           (ShareHistoryDataDto share, _) =>
@@ -136,7 +143,17 @@ class _GraphState extends State<Graph> {
                                           textStyle:
                                               TextStyle(color: Colors.white)),
                                       animationDuration: 3000)
-                                ])))
+                                ]))),
+                    if (shareHistory.data![0].getValue() <= 0) ...[
+                      Container(height: screenHeight * 0.05),
+                      Container(
+                          width: screenWidth * 0.8,
+                          child: Text(
+                              "If values are equal to -1, it means that we couldn't retrieve the value data for that specific time",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.orange, fontSize: 15)))
+                    ]
                   ] else if (shareHistory.hasError) ...[
                     Container(height: screenHeight * 0.20),
                     Container(

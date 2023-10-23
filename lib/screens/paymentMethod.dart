@@ -9,11 +9,11 @@ import '../context/inheritedServices.dart';
 import '../entities/cardEntity.dart';
 
 class PaymentMethod extends StatefulWidget {
+  int _amount;
+
   PaymentMethod({Key? key, required int amount})
       : _amount = amount,
         super(key: key);
-
-  int _amount;
 
   @override
   State<PaymentMethod> createState() => _PaymentMethodState();
@@ -33,7 +33,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     return cardList!.isEmpty
         ? null
         : () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
@@ -44,8 +44,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
+
     _cardList = _getAllCards(inheritedServices.cardService);
 
     return FutureBuilder<List<CardEntity>?>(
@@ -63,7 +63,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ModifyBalance()));
@@ -74,7 +74,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 ButtonWidget.textButton(
                     label: 'Add new card',
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>

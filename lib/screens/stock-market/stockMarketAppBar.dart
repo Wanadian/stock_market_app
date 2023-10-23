@@ -8,7 +8,6 @@ import '../../context/inheritedServices.dart';
 import '../../services/walletService.dart';
 
 class StockMarketAppBar extends StatefulWidget {
-  @override
   StockMarketAppBar({Key? key}) : super(key: key);
 
   @override
@@ -16,6 +15,8 @@ class StockMarketAppBar extends StatefulWidget {
 }
 
 class _StockMarketAppBarState extends State<StockMarketAppBar> {
+  Future<String?>? _balance;
+
   Future<String?> _getBalanceRequest(WalletService walletService) async {
     return await walletService.getWalletBalanceAsString();
   }
@@ -23,11 +24,9 @@ class _StockMarketAppBarState extends State<StockMarketAppBar> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
-    Future<String?> _balance =
-        _getBalanceRequest(inheritedServices.walletService);
+
+    _balance = _getBalanceRequest(inheritedServices.walletService);
 
     return FutureBuilder<String?>(
         future: _balance,
@@ -44,7 +43,7 @@ class _StockMarketAppBarState extends State<StockMarketAppBar> {
                   leading: IconButton(
                     icon: Icon(Icons.arrow_back_ios_new_rounded),
                     onPressed: () {
-                      Navigator.push(context,
+                      Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => Balance()));
                     },
                   ),

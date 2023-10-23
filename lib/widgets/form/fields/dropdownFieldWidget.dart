@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
-class DropdownInputWidget extends StatefulWidget {
-  DropdownInputWidget({
+class DropdownFieldWidget extends StatefulWidget {
+  Key? _key;
+  String _label;
+  List<dynamic> _items;
+  Function(String? value)? _onChange;
+
+  DropdownFieldWidget({
     Key? key,
     String label = '',
     required List<dynamic> items,
@@ -11,26 +16,18 @@ class DropdownInputWidget extends StatefulWidget {
         _items = items,
         _onChange = onChange;
 
-  Key? _key;
-  String _label;
-  List<dynamic> _items;
-  Function(String? value)? _onChange;
-
   @override
-  State<DropdownInputWidget> createState() => _DropdownInputWidgetState();
+  State<DropdownFieldWidget> createState() => _DropdownFieldWidgetState();
 }
 
-class _DropdownInputWidgetState extends State<DropdownInputWidget> {
+class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
   dynamic _value;
 
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.0), color: Colors.white),
-        padding: EdgeInsets.only(left: 5.0, right: 5.0),
+        padding: EdgeInsets.only(left: 10.0, right: 10.0),
         child: DropdownButton<String>(
           key: widget._key,
           hint: Text(widget._label),
@@ -45,7 +42,7 @@ class _DropdownInputWidgetState extends State<DropdownInputWidget> {
             setState(() {
               _value = value;
             });
-            widget._onChange!(value);
+            widget._onChange != null ? widget._onChange!(value) : null;
           },
           style: TextStyle(color: Colors.black),
           isExpanded: true,

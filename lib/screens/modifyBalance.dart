@@ -1,6 +1,5 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:stock_market_app/screens/paymentMethod.dart';
 
 import '../context/inheritedServices.dart';
@@ -8,25 +7,6 @@ import '../services/walletService.dart';
 import '../widgets/form/fields/numberFieldWidget.dart';
 import '../widgets/form/formWidget.dart';
 import 'balance.dart';
-
-class PaymentDetails {
-  int valuePaid = -1;
-  String cardHolderName = '';
-  int cardNumber = -1;
-  int cardSafeCode = -1;
-  String cardExpirationDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
-  PaymentDetails(
-      {required this.valuePaid,
-      required this.cardHolderName,
-      required this.cardNumber,
-      required this.cardSafeCode,
-      required this.cardExpirationDate});
-
-  String returnDetailsInString() {
-    return ('{valuePaid: $valuePaid, cardHolderName: $cardHolderName, cardNumber: $cardNumber, cardSafeCode: $cardSafeCode, cardExpirationDate: $cardExpirationDate}');
-  }
-}
 
 class ModifyBalance extends StatefulWidget {
   const ModifyBalance({Key? key}) : super(key: key);
@@ -37,10 +17,9 @@ class ModifyBalance extends StatefulWidget {
 
 class _ModifyBalanceState extends State<ModifyBalance> {
   int _amount = -1;
-
   GlobalKey<FormState> _amountFrom = GlobalKey<FormState>();
-
   TextEditingController _amountController = TextEditingController();
+  Future<String?>? _balance;
 
   Future<String?> _getBalanceRequest(WalletService walletService) async {
     return await walletService.getWalletBalanceAsString();
@@ -49,10 +28,9 @@ class _ModifyBalanceState extends State<ModifyBalance> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     var inheritedServices = InheritedServices.of(context);
-    Future<String?> _balance =
-        _getBalanceRequest(inheritedServices.walletService);
+
+    _balance = _getBalanceRequest(inheritedServices.walletService);
 
     return FutureBuilder<String?>(
         future: _balance,
@@ -69,13 +47,13 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Balance()));
                         })),
-                Container(height: screenHeight * 0.15),
-                Text('Current balance',
+                Container(height: screenHeight * 0.12),
+                Text('Your balance',
                     style: TextStyle(color: Colors.white, fontSize: 20)),
                 Container(height: screenHeight * 0.03),
                 if (balance.hasData) ...[
@@ -85,7 +63,10 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                     enableSeparator: true,
                     fractionDigits: 1,
                     suffix: ' \$',
-                    textStyle: TextStyle(color: Colors.white, fontSize: 20),
+                    textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   )
                 ] else if (balance.hasError) ...[
                   Text("Something went wrong, we can't load your balance",
@@ -94,8 +75,8 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                 ] else ...[
                   const CircularProgressIndicator()
                 ],
-                Container(height: screenHeight * 0.05),
-                Text('How much do you want to add ?',
+                Container(height: screenHeight * 0.1),
+                Text('Amount to add ?',
                     style: TextStyle(color: Colors.white, fontSize: 20)),
                 Container(height: screenHeight * 0.05),
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -124,13 +105,13 @@ class _ModifyBalanceState extends State<ModifyBalance> {
                                   }
                                 });
                               },
-                              label: 'Value you want to credit',
+                              label: 'Value you want to add to your account',
                             ),
                           ],
                           onPressed: () {
                             if (_amountFrom.currentState!.validate()) {
                               _amountFrom.currentState?.save();
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>

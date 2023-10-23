@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class NumberFieldWidget extends StatefulWidget {
+  Key? _key;
+  TextEditingController? _controller;
+  FormFieldValidator<String>? _validator;
+  FormFieldSetter<String>? _onSaved;
+  int _value;
+  String _label;
+
   NumberFieldWidget({
     Key? key,
-    required TextEditingController controller,
-    required FormFieldValidator<String> validator,
-    required FormFieldSetter<String> onSaved,
+    TextEditingController? controller,
+    FormFieldValidator<String>? validator,
+    FormFieldSetter<String>? onSaved,
     int value = -1,
     String label = '',
   })  : _controller = controller,
@@ -15,13 +22,6 @@ class NumberFieldWidget extends StatefulWidget {
         _value = value,
         _label = label,
         _key = key;
-
-  Key? _key;
-  TextEditingController _controller;
-  FormFieldValidator<String> _validator;
-  FormFieldSetter<String> _onSaved;
-  int _value;
-  String _label;
 
   @override
   State<NumberFieldWidget> createState() => _NumberFieldWidget();
@@ -36,9 +36,11 @@ class _NumberFieldWidget extends State<NumberFieldWidget> {
     return TextFormField(
       key: widget._key,
       onChanged: (value) {
-        setState(() {
-          widget._value = int.parse(value);
-        });
+        if(value != '') {
+          setState(() {
+            widget._value = int.parse(value);
+          });
+        }
       },
       controller: widget._controller,
       validator: widget._validator,
