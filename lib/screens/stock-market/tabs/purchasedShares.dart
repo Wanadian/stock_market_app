@@ -42,7 +42,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
     return await userSharesService.getUserSharesBalanceEstimationAsString();
   }
 
-  void _sellShare(UserSharesService userSharesService, String symbol) async {
+  Future<void> _sellShare(UserSharesService userSharesService, String symbol) async {
     await userSharesService.removeUserShares(symbol, _numberSharesToPurchase);
   }
 
@@ -139,7 +139,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                                   ),
                                   TextButton(
                                       child: const Text('Confirm'),
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (_numberSharesToPurchaseController
                                                     .text !=
                                                 '' &&
@@ -152,7 +152,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                                                 _numberSharesToPurchaseController
                                                     .text);
                                           });
-                                          _sellShare(
+                                          await _sellShare(
                                               inheritedServices
                                                   .userSharesService,
                                               share.getShareSymbol());
