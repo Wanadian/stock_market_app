@@ -9,6 +9,7 @@ import 'package:stock_market_app/services/shareService.dart';
 import 'package:stock_market_app/services/symbolService.dart';
 import 'package:stock_market_app/services/userSharesService.dart';
 import 'package:stock_market_app/widgets/shareBannerWidget.dart';
+import 'package:stock_market_app/screens/stock-market/stockMarketAppBar.dart';
 
 class PurchasedShares extends StatefulWidget {
   const PurchasedShares({Key? key}) : super(key: key);
@@ -42,7 +43,8 @@ class _PurchasedSharesState extends State<PurchasedShares> {
     return await userSharesService.getUserSharesBalanceEstimationAsString();
   }
 
-  void _sellShare(UserSharesService userSharesService, String symbol) async {
+  Future<void> _sellShare(
+      UserSharesService userSharesService, String symbol) async {
     await userSharesService.removeUserShares(symbol, _numberSharesToPurchase);
   }
 
@@ -139,7 +141,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                                   ),
                                   TextButton(
                                       child: const Text('Confirm'),
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (_numberSharesToPurchaseController
                                                     .text !=
                                                 '' &&
@@ -152,7 +154,7 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                                                 _numberSharesToPurchaseController
                                                     .text);
                                           });
-                                          _sellShare(
+                                          await _sellShare(
                                               inheritedServices
                                                   .userSharesService,
                                               share.getShareSymbol());
@@ -160,7 +162,12 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                                             share.setNumberOfShare(
                                                 share.getNumberOfShare() - 1);
                                           });
-                                          Navigator.of(context).pop(true);
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StockMarketAppBar(
+                                                          index: 0)));
                                         }
                                       })
                                 ],
