@@ -80,11 +80,11 @@ Chaque service offre des fonctionnalités spécifiques pour gérer les données,
 ## Fonctionnalités côté Front
 
 Au niveau de l'interface, nous pourvons faire plusieurs choses :
-- acheter et vendre des actions
-- consulter notre portefeuille
-- voir les variations de valeur des actions
-- ajouter de l'argent sur le compte
-- gérer les cartes utilisées pour ajouter de l'argent
+- <u>Acheter et vendre des actions</u> : Via le bouton "Stock market" puis l'onglet "Market" (pour acheter des actions), ou "Purchased" (pour vendre des actions).
+- <u>Consulter notre portefeuille</u> : La liste des actions achetées est affichée sur l'onglet "Purchased" (et pour pouvoir les vendre).
+- <u>Voir les variations de valeur des actions</u> : Ces variations sont visibles en cliquant sur le bouton "Stock market" (des flèches montantes et descendantes sont présentes pour vsualiser les variations des prix).
+- <u>Ajouter de l'argent sur le compte</u> : Via le bouton "Add funds", un montant peut être saisi (en nombre entier), puis une carte peut être enregistrée ou sélectionnée via une liste déroulante.
+- <u>Gérer les cartes utilisées pour ajouter de l'argent</u> : Les cartes ajoutées peuvent être supprimée facilement lors de l'ajout d'argent.
 
 ### Axes d'amélioration
 
