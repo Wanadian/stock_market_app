@@ -68,42 +68,42 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                 body: SingleChildScrollView(
                     child: Column(
               children: [
+                Container(
+                    margin: EdgeInsets.only(bottom: screenHeight * 0.01),
+                    decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 3,
+                        offset: Offset(0, 0.5),
+                      ),
+                    ]),
+                    child: Column(children: [
+                      Container(height: screenHeight * 0.01),
+                      Text(
+                        'Estimated value of your shares',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Container(
+                          constraints: BoxConstraints(
+                              minWidth: 0, maxWidth: screenWidth * 0.7),
+                          child: AnimatedDigitWidget(
+                            duration: Duration(seconds: 1),
+                            value: double.parse(snapshot.data![1] as String),
+                            enableSeparator: true,
+                            fractionDigits: 2,
+                            suffix: ' \$',
+                            textStyle: TextStyle(
+                                overflow: TextOverflow.clip,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          )),
+                    ])),
+                Container(height: screenHeight * 0.01),
                 for (ShareDto share in snapshot.data![0] as Iterable) ...[
-                  Container(
-                      margin: EdgeInsets.only(bottom: screenHeight * 0.01),
-                      decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 0.5),
-                        ),
-                      ]),
-                      child: Column(children: [
-                        Container(height: screenHeight * 0.01),
-                        Text(
-                          'Estimated value of your shares',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        Container(
-                            constraints: BoxConstraints(
-                                minWidth: 0, maxWidth: screenWidth * 0.7),
-                            child: AnimatedDigitWidget(
-                              duration: Duration(seconds: 1),
-                              value: double.parse(snapshot.data![1] as String),
-                              enableSeparator: true,
-                              fractionDigits: 2,
-                              suffix: ' \$',
-                              textStyle: TextStyle(
-                                  overflow: TextOverflow.clip,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            )),
-                        Container(height: screenHeight * 0.01),
-                      ])),
+                  Container(height: screenHeight * 0.01),
                   ShareBannerWidget(
                       shareValue: share.getShareValue(),
                       numberOfShares: share.getNumberOfShare(),
