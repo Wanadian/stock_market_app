@@ -79,7 +79,12 @@ Chaque service offre des fonctionnalités spécifiques pour gérer les données,
 
 ## Fonctionnalités côté Front
 
-<b>// TODO : William --> fonctionnalités dispo + choix des widgets + choix des animations</b>
+Au niveau de l'interface, nous pourvons faire plusieurs choses :
+- acheter et vendre des actions
+- consulter notre portefeuille
+- voir les variations de valeur des actions
+- ajouter de l'argent sur le compte
+- gérer les cartes utilisées pour ajouter de l'argent
 
 ### Axes d'amélioration
 
