@@ -100,8 +100,8 @@ class _PurchasedSharesState extends State<PurchasedShares> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20),
                           )),
+                      Container(height: screenHeight * 0.01),
                     ])),
-                Container(height: screenHeight * 0.01),
                 for (ShareDto share in snapshot.data![0] as Iterable) ...[
                   Container(height: screenHeight * 0.01),
                   ShareBannerWidget(
