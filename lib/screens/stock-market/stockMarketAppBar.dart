@@ -8,13 +8,18 @@ import 'package:stock_market_app/context/inheritedServices.dart';
 import 'package:stock_market_app/services/walletService.dart';
 
 class StockMarketAppBar extends StatefulWidget {
-  StockMarketAppBar({Key? key}) : super(key: key);
+  int _index;
+
+  StockMarketAppBar({Key? key, int index = 0})
+      : _index = index,
+        super(key: key);
 
   @override
   State<StockMarketAppBar> createState() => _StockMarketAppBarState();
 }
 
-class _StockMarketAppBarState extends State<StockMarketAppBar> {
+class _StockMarketAppBarState extends State<StockMarketAppBar>
+    with SingleTickerProviderStateMixin {
   Future<String?>? _balance;
 
   Future<String?> _getBalanceRequest(WalletService walletService) async {
@@ -23,7 +28,10 @@ class _StockMarketAppBarState extends State<StockMarketAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     var inheritedServices = InheritedServices.of(context);
 
     _balance = _getBalanceRequest(inheritedServices.walletService);
@@ -34,6 +42,7 @@ class _StockMarketAppBarState extends State<StockMarketAppBar> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: DefaultTabController(
+              initialIndex: widget._index == 0 || widget._index == 1 ? widget._index : 0,
               length: 2,
               child: Scaffold(
                 appBar: AppBar(
@@ -47,7 +56,7 @@ class _StockMarketAppBarState extends State<StockMarketAppBar> {
                           MaterialPageRoute(builder: (context) => Balance()));
                     },
                   ),
-                  bottom: const TabBar(
+                  bottom: TabBar(
                     tabs: [Tab(text: 'Purchased'), Tab(text: 'Market')],
                   ),
                   title: Column(children: [
@@ -67,16 +76,18 @@ class _StockMarketAppBarState extends State<StockMarketAppBar> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 17),
                           ))
-                    ] else if (balance.hasError) ...[
-                      Text('Something went wrong',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.red, fontSize: 15))
-                    ] else ...[
-                      const CircularProgressIndicator()
-                    ]
+                    ] else
+                      if (balance.hasError) ...[
+                        Text('Something went wrong',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.red, fontSize: 15))
+                      ] else
+                        ...[
+                          const CircularProgressIndicator()
+                        ]
                   ]),
                 ),
-                body: const TabBarView(
+                body: TabBarView(
                   children: [PurchasedShares(), StockMarket()],
                 ),
               ),

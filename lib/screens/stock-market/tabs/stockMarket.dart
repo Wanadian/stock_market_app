@@ -8,6 +8,7 @@ import 'package:stock_market_app/services/symbolService.dart';
 import 'package:stock_market_app/services/userSharesService.dart';
 import 'package:stock_market_app/widgets/form/fields/numberFieldWidget.dart';
 import 'package:stock_market_app/widgets/shareBannerWidget.dart';
+import 'package:stock_market_app/screens/stock-market/stockMarketAppBar.dart';
 
 class StockMarket extends StatefulWidget {
   const StockMarket({Key? key}) : super(key: key);
@@ -122,7 +123,12 @@ class _StockMarketState extends State<StockMarket> {
                                                   share.getNumberOfShare() - 1);
                                             });
                                           }
-                                          Navigator.of(context).pop(true);
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StockMarketAppBar(
+                                                          index: 1)));
                                         }
                                       })
                                 ],
