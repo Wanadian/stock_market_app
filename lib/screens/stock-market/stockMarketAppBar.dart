@@ -7,6 +7,7 @@ import 'package:stock_market_app/screens/stock-market/tabs/stockMarket.dart';
 import 'package:stock_market_app/context/inheritedServices.dart';
 import 'package:stock_market_app/services/walletService.dart';
 
+//ignore: must_be_immutable
 class StockMarketAppBar extends StatefulWidget {
   int _index;
 
