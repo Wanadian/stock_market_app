@@ -1,3 +1,4 @@
+// This class is used to map a shareEntity object into DTO object with the useful information
 class ShareDto {
   double _shareValue;
   int _numberOfShares;
