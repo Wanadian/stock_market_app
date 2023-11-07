@@ -29,7 +29,7 @@ class _BalanceState extends State<Balance> {
     double screenHeight = MediaQuery.of(context).size.height;
     var inheritedServices = InheritedServices.of(context);
 
-    _balance = _getBalanceRequest(inheritedServices.walletService);
+    _balance = _getBalanceRequest(inheritedServices.walletService, inheritedServices.userSharesService);
 
     return FutureBuilder<String?>(
         future: _balance,
