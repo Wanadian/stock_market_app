@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:stock_market_app/screens/modifyBalance.dart';
 import 'package:stock_market_app/screens/stock-market/stockMarketAppBar.dart';
+import 'package:stock_market_app/services/userSharesService.dart';
 import 'package:stock_market_app/services/walletService.dart';
 import 'package:stock_market_app/widgets/displayBalanceWidget.dart';
 import 'package:stock_market_app/context/inheritedServices.dart';
@@ -16,8 +17,11 @@ class Balance extends StatefulWidget {
 class _BalanceState extends State<Balance> {
   Future<String?>? _balance;
 
-  Future<String?> _getBalanceRequest(WalletService walletService) async {
-    return await walletService.getWalletBalanceAsString();
+  Future<String?> _getBalanceRequest(WalletService walletService, UserSharesService userSharesService) async {
+    String? balance = await walletService.getWalletBalanceAsString();
+    String sharesValue = await userSharesService.getUserSharesBalanceEstimationAsString();
+    double value = double.parse(balance!) + double.parse(sharesValue);
+    return value.toString();
   }
 
   Widget build(BuildContext context) {
